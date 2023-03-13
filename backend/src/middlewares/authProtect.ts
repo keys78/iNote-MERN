@@ -27,6 +27,7 @@ export const protect: RequestHandler = async (req, res, next) => {
         
         } else {
             // throw createHttpError(401, 'Not authorized to access this routei');
+            // throw createHttpError(401, 'Not authorized to access this routei');
         }
 
         next();
