@@ -7,6 +7,7 @@ import Google_logo from '@/components/assets/svg/Google_logo';
 import { signupUser } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 import Button from '@/components/Button';
 
 export type SignupData = {
@@ -32,7 +33,7 @@ const Signup = () => {
       .required("email is required"),
     password: yup
       .string()
-      // .min(8, "Password must be at least at 6 characters")
+      .min(8, "Password must be at least at 6 characters")
       .required("password is required"),
   });
 
@@ -49,9 +50,8 @@ const Signup = () => {
 
   return (
     <section className="max-w-[400px] w-full mx-auto my-5">
+      <div className='mx-[16px]'>
       <Logo />
-
-
       <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Create your account</h1>
       <article className=" pb-8 text-center">
         Please note that the sign-up process requires email verification.
@@ -152,12 +152,10 @@ const Signup = () => {
                 <Google_logo />
                 <span>Sign in with Google</span>
               </div>
-
-
             </form>
           )}
         </Formik>
-
+      </div>
       </div>
     </section>
   )

@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, } from "@/network/hooks";
-import { loginUser, signupUser } from "@/features/auth/authSlice";
+import { loginUser } from "@/features/auth/authSlice";
+import Logo from "@/components/Logo";
+import Link from 'next/link';
+import Google_logo from '@/components/assets/svg/Google_logo';
+
 
 export type LoginData = {
     email: string;
@@ -22,7 +26,7 @@ const Login = () => {
             .required("Email is required"),
         password: yup
             .string()
-            // .min(8, "Password must be at least at 6 characters")
+            .min(8, "Password must be at least at 6 characters")
             .required("Password is required"),
     });
 
@@ -38,73 +42,93 @@ const Login = () => {
 
 
     return (
-        <div>
-            <Formik
-                validationSchema={LoginValidation}
-                initialValues={{
-                    email: "",
-                    password: ""
-                }}
+        <section className="max-w-[400px] w-full mx-auto my-5">
+            <div className='mx-[16px]'>
+                <Logo />
+                <h1 className='pt-6 pb-8 font-bold text-xl text-center'>Welcome back</h1>
 
-                onSubmit={async (
-                    values: LoginData,
-                    { resetForm }: FormikHelpers<LoginData>
-                ) => {
-                    const data = { ...values, };
-                    dispatch(loginUser(data));
-                    resetForm();
-                }}
-            >
-                {(props) => (
-                    <form onSubmit={props.handleSubmit}>
-                        <div className="flex flex-col flex-wrap w-full md:gap-6 gap-3 px-0 md:flex-row">
+                <div>
+                    <Formik
+                        validationSchema={LoginValidation}
+                        initialValues={{
+                            email: "",
+                            password: ""
+                        }}
 
-                            <div className="input-container">
-                                <label className='opacity-50 pl-2' htmlFor="email">Email</label>
-                                <input
-                                    className="input-class"
-                                    type="text"
-                                    value={props.values.email}
-                                    onBlur={props.handleBlur("email")}
-                                    onChange={props.handleChange("email")}
-                                />
-                                <span className={"text-red-500 text-sm translate-x-2 animate-pulse transition-all"}>
-                                    {props.touched.email && props.errors.email}
-                                </span>
-                            </div>
-                            <label className='opacity-50 pl-2' htmlFor="password">Password</label>
-                            <div className='password-input'>
-                                <div>
+                        onSubmit={async (
+                            values: LoginData,
+                            { resetForm }: FormikHelpers<LoginData>
+                        ) => {
+                            const data = { ...values, };
+                            dispatch(loginUser(data));
+                            // resetForm();
+                        }}
+                    >
+                        {(props) => (
+                            <form onSubmit={props.handleSubmit}>
+
+                                <div className="input-container">
+                                    <label className='opacity-50 pl-2' htmlFor="email">Email</label>
                                     <input
-                                        className="input-class-p"
-                                        type={inputType}
-                                        value={props.values.password}
-                                        onBlur={props.handleBlur("password")}
-                                        onChange={props.handleChange("password")}
-                                        autoComplete={'off'}
+                                        className="input-class"
+                                        type="text"
+                                        value={props.values.email}
+                                        onBlur={props.handleBlur("email")}
+                                        onChange={props.handleChange("email")}
                                     />
-
+                                    <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
+                                        {props.touched.email && props.errors.email}
+                                    </span>
                                 </div>
-                                <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
-                            </div>
-                            <span className={"text-red-500 text-sm -ml-2 translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
-                                {props.touched.password && props.errors.password}
-                            </span>
-                        </div>
 
-                        <div className="my-2 lg:block flex justify-center items-center">
-                            <button
-                                type='submit'
-                                className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
-                            >
-                                Log in
-                            </button>
-                        </div>
-                    </form>
-                )}
-            </Formik>
+                                <label className='opacity-50 pl-2' htmlFor="password">Password</label>
+                                <div className='password-input'>
+                                    <div>
+                                        <input
+                                            className="input-class-p"
+                                            type={inputType}
+                                            value={props.values.password}
+                                            onBlur={props.handleBlur("password")}
+                                            onChange={props.handleChange("password")}
+                                            autoComplete={'off'}
+                                        />
 
-        </div>
+                                    </div>
+                                    <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
+                                </div>
+                                <span className={"text-red-500 text-xs -ml-2 translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                                    {props.touched.password && props.errors.password}
+                                </span>
+
+                                <div className="my-2 lg:block flex justify-center items-center">
+                                    <button
+                                        type='submit'
+                                        className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
+                                    >
+                                        Log in
+                                    </button>
+                                </div>
+
+                                <div className='text-center pt-4'>
+                                    Don&apos;t have an account? &nbsp;
+                                    <Link href={'/signup'}><span className='text-[#635FC7]'>Sign up</span></Link>
+                                </div>
+
+                                <div className='divide text-center'>
+                                    <hr />
+                                    <span>OR</span>
+                                </div>
+
+                                <div className='flex items-center justify-center border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                                    <Google_logo />
+                                    <span>Continue with Google</span>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </div>
+            </div>
+        </section>
     )
 }
 
