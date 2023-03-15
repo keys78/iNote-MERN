@@ -31,7 +31,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
 
 
 /* auth forms */
-.input-container { height: 50px; position: relative; width: 100%; margin-bottom: 60px;}
+.input-container { height: 50px; position: relative; width: 100%; margin-bottom: 50px;}
 .input-class { background-color: transparent; border-radius: 5px; border: 0; box-sizing: border-box; border:1px solid #a19fe2; height: 100%; outline: 0; padding: 4px 20px 0; width: 100%;}
 .input-class:focus { border: 1px solid #635FC7;}
 
@@ -39,6 +39,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
 .password-input > input { background-color: transparent; border-radius: 5px; border: 0; box-sizing: border-box; border:1px solid #a19fe2; height: 100%; outline: 0; padding: 4px 20px 0; width: 100%; }
 .password-input > .input-class:focus { border: 1px solid #635FC7;}
 .input-class-p { background-color: transparent; height: 100%; border: 0; outline: 0; padding:0; width: 100%; height: 45px; width: 320px; }
+
+.divide { margin: 20px 0;}
+.divide > hr { margin-bottom: -12px;}
+.divide > span { background: #fff !important; padding:0 20px;}
 
 
 @layer base {

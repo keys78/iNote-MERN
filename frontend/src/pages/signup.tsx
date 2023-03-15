@@ -1,10 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, } from "@/network/hooks";
-import { AppDispatch } from "../network/store";
+import Google_logo from '@/components/assets/svg/Google_logo';
 import { signupUser } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
+import Link from 'next/link';
 import Button from '@/components/Button';
 
 export type SignupData = {
@@ -49,9 +51,11 @@ const Signup = () => {
     <section className="max-w-[400px] w-full mx-auto my-5">
       <Logo />
 
-      <article className="pt-10 pb-10 text-center">
-        Kindly be informed that the process of signing up necessitates email verification. Rest assured that your
-        email address will solely be utilized for verifying your identity, as a measure of ensuring security.
+
+      <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Create your account</h1>
+      <article className=" pb-8 text-center">
+        Please note that the sign-up process requires email verification.
+        Your email address will only be used to verify your identity in order to ensure security.
       </article>
 
       <div>
@@ -81,27 +85,25 @@ const Signup = () => {
                   <input
                     className="input-class"
                     type="text"
-                    placeholder="enter username"
                     value={props.values.username}
                     onBlur={props.handleBlur("username")}
                     onChange={props.handleChange("username")}
                   />
-                  <span className={"text-red-500 text-sm translate-x-2 animate-pulse transition-all"}>
+                  <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
                     {props.touched.username && props.errors.username}
                   </span>
                 </div>
 
                 <div className="input-container">
-                <label className='opacity-50 pl-2' htmlFor="email">Email</label>
+                  <label className='opacity-50 pl-2' htmlFor="email">Email</label>
                   <input
                     className="input-class"
                     type="text"
-                    placeholder="enter email"
                     value={props.values.email}
                     onBlur={props.handleBlur("email")}
                     onChange={props.handleChange("email")}
                   />
-                  <span className={"text-red-500 text-sm translate-x-2 animate-pulse transition-all"}>
+                  <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
                     {props.touched.email && props.errors.email}
                   </span>
                 </div>
@@ -112,7 +114,6 @@ const Signup = () => {
                     <input
                       className="input-class-p"
                       type={inputType}
-                      placeholder="enter password"
                       value={props.values.password}
                       onBlur={props.handleBlur("password")}
                       onChange={props.handleChange("password")}
@@ -122,14 +123,13 @@ const Signup = () => {
                   </div>
                   <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
                 </div>
-                <span className={"text-red-500 text-sm -ml-2 translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                <span className={"text-red-500 text-xs -ml-2 translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                   {props.touched.password && props.errors.password}
                 </span>
 
               </div>
 
               <div className="my-2 lg:block flex justify-center items-center">
-
                 <button
                   type='submit'
                   className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
@@ -137,6 +137,23 @@ const Signup = () => {
                   Sign in
                 </button>
               </div>
+
+              <div className='text-center pt-4'>
+                Already have an account? &nbsp;
+                <Link href={'/login'}><span className='text-[#635FC7]'>Log in</span></Link>
+              </div>
+
+              <div className='divide text-center'>
+                <hr />
+                <span>OR</span>
+              </div>
+
+              <div className='flex items-center justify-center border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                <Google_logo />
+                <span>Sign in with Google</span>
+              </div>
+
+
             </form>
           )}
         </Formik>

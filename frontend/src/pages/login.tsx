@@ -60,10 +60,10 @@ const Login = () => {
                         <div className="flex flex-col flex-wrap w-full md:gap-6 gap-3 px-0 md:flex-row">
 
                             <div className="input-container">
+                                <label className='opacity-50 pl-2' htmlFor="email">Email</label>
                                 <input
                                     className="input-class"
                                     type="text"
-                                    placeholder="enter email"
                                     value={props.values.email}
                                     onBlur={props.handleBlur("email")}
                                     onChange={props.handleChange("email")}
@@ -72,12 +72,12 @@ const Login = () => {
                                     {props.touched.email && props.errors.email}
                                 </span>
                             </div>
+                            <label className='opacity-50 pl-2' htmlFor="password">Password</label>
                             <div className='password-input'>
                                 <div>
                                     <input
                                         className="input-class-p"
                                         type={inputType}
-                                        placeholder="enter password"
                                         value={props.values.password}
                                         onBlur={props.handleBlur("password")}
                                         onChange={props.handleChange("password")}
