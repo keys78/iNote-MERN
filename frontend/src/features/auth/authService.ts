@@ -1,4 +1,4 @@
-import { IUser } from '@/types'
+import { IUserLogin, IUserSignUp } from '@/types'
 import axios from 'axios'
 // const AUTH_API_URL = process.env.REACT_APP_AUTH_API_URL
 const AUTH_API_URL = "http://localhost:4000/"
@@ -26,8 +26,15 @@ const AUTH_API_URL = "http://localhost:4000/"
 
 
 
-const signup = async (userData: IUser) => {
+const signup = async (userData: IUserSignUp) => {
     const response = await axios.post(`${AUTH_API_URL + 'auth/signup'}`, userData)
+
+    console.log('response', response.data.message)
+    return response.data.message
+}
+
+const login = async (userData: IUserLogin) => {
+    const response = await axios.post(`${AUTH_API_URL + 'auth/login'}`, userData)
 
     console.log('response', response.data.message)
     return response.data.message
@@ -69,7 +76,7 @@ const logout = () => {
 
 const authService = {
     signup,
-    // login,
+    login,
     logout,
 }
 export default authService

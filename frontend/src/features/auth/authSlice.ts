@@ -1,4 +1,4 @@
-import { IUser } from '@/types'
+import { IUser, IUserLogin, IUserSignUp } from '@/types'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
 
@@ -17,10 +17,10 @@ const initialState = {
     message: '',
 }
 
-
+// signup user
 export const signupUser = createAsyncThunk(
     'auth/signup',
-    async (user: IUser, thunkAPI) => {
+    async (user: IUserSignUp, thunkAPI) => {
         try {
             return await authService.signup(user)
         } catch (error: any) {
@@ -35,26 +35,26 @@ export const signupUser = createAsyncThunk(
     }
 )
 
-
-
 // login user
-// export const login = createAsyncThunk(
-//   'auth/login',
-//   async (user, thunkAPI, {}) => {
-//     try {
-//       return await authService.login(user)
-//     } catch (error) {
-//       const message =
-//         error.response.data.error ||
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message
-//       error.toString()
-//       return thunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
+export const loginUser = createAsyncThunk(
+    'auth/login',
+    async (user: IUserLogin, thunkAPI) => {
+        try {
+            return await authService.login(user)
+        } catch (error: any) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+
+
 
 export const logout = createAsyncThunk('auth/logout', () => {
     authService.logout()
@@ -89,21 +89,21 @@ export const authSlice = createSlice({
                 // state.message = action.payload
                 state.user = null
             })
-        //   .addCase(login.pending, (state) => {
-        //     state.isLoading = true
-        //   })
-        //   .addCase(login.fulfilled, (state, action) => {
-        //     state.isLoading = false
-        //     state.isSuccess = true
-        //     state.message = "login successful"
-        //     state.user = action.payload
-        //   })
-        //   .addCase(login.rejected, (state, action) => {
-        //     state.isLoading = false
-        //     state.isError = true
-        //     state.message = action.payload
-        //     state.user = null
-        //   })
+          .addCase(loginUser.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(loginUser.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.message = "login successful"
+            state.user = action.payload
+          })
+          .addCase(loginUser.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            // state.message = action.payload
+            state.user = null
+          })
     },
 })
 
