@@ -23,11 +23,11 @@ const Login = () => {
         email: yup
             .string()
             .email("Please provide a valid email address")
-            .required("Email is required"),
+            .required("email is required"),
         password: yup
             .string()
-            .min(8, "Password must be at least at 6 characters")
-            .required("Password is required"),
+            .min(8, "password must be at least at 6 characters")
+            .required("password is required"),
     });
 
     const handleToggle = () => {
@@ -96,10 +96,11 @@ const Login = () => {
                                     </div>
                                     <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
                                 </div>
-                                <span className={"text-red-500 text-xs -ml-2 translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                                <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                     {props.touched.password && props.errors.password}
                                 </span>
 
+                                <br />
                                 <div className="my-2 lg:block flex justify-center items-center">
                                     <button
                                         type='submit'
