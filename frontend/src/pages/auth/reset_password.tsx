@@ -2,15 +2,14 @@ import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, } from "@/network/hooks";
-import { loginUser } from "@/features/auth/authSlice";
+// import { confirmPasswordReset } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
-import Google_logo from '@/components/assets/svg/Google_logo';
 
 
-export type LoginData = {
-    email: string;
+export type ConfirmPasswordResetData = {
     password: string;
+    confirmPassword: string
 };
 
 const Login = () => {
@@ -20,14 +19,14 @@ const Login = () => {
 
 
     const LoginValidation = yup.object().shape({
-        email: yup
-            .string()
-            .email("Please provide a valid email address")
-            .required("email is required"),
         password: yup
             .string()
             .min(8, "password must be at least at 6 characters")
             .required("password is required"),
+        confirmPassword: yup.string()
+            .oneOf([yup.ref('password'), null as any], 'Passwords must match')
+            .nullable() // allow null as a valid value
+            .required('confirm password is required')
     });
 
     const handleToggle = () => {
@@ -45,41 +44,32 @@ const Login = () => {
         <section className="max-w-[400px] w-full mx-auto my-5">
             <div className='mx-[16px]'>
                 <Logo />
-                <h1 className='pt-6 pb-8 font-bold text-xl text-center'>Welcome back</h1>
+                <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Confirm password reset</h1>
+                <article className=" pb-8 text-center">
+                    Please enter your new password and confirm the password reset.
+                </article>
 
                 <div>
                     <Formik
                         validationSchema={LoginValidation}
                         initialValues={{
-                            email: "",
-                            password: ""
+                            password: "",
+                            confirmPassword: ""
                         }}
 
                         onSubmit={async (
-                            values: LoginData,
-                            { resetForm }: FormikHelpers<LoginData>
+                            values: ConfirmPasswordResetData,
+                            { resetForm }: FormikHelpers<ConfirmPasswordResetData>
                         ) => {
                             const data = { ...values, };
-                            dispatch(loginUser(data));
+                            alert(values)
+                            console.log(data)
+                            // dispatch(confirmPasswordReset(data));
                             // resetForm();
                         }}
                     >
                         {(props) => (
                             <form onSubmit={props.handleSubmit}>
-
-                                <div className="input-container">
-                                    <label className='opacity-50 pl-2' htmlFor="email">Email</label>
-                                    <input
-                                        className="input-class"
-                                        type="text"
-                                        value={props.values.email}
-                                        onBlur={props.handleBlur("email")}
-                                        onChange={props.handleChange("email")}
-                                    />
-                                    <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
-                                        {props.touched.email && props.errors.email}
-                                    </span>
-                                </div>
 
                                 <label className='opacity-50 pl-2' htmlFor="password">Password</label>
                                 <div className='password-input'>
@@ -101,29 +91,36 @@ const Login = () => {
                                 </span>
 
                                 <br />
+                                <label className='opacity-50 pl-2' htmlFor="confirm_password">Confrm Password</label>
+                                <div className='password-input'>
+                                    <div>
+                                        <input
+                                            className="input-class-p"
+                                            type={'password'}
+                                            value={props.values.confirmPassword}
+                                            onBlur={props.handleBlur("confirmPassword")}
+                                            onChange={props.handleChange("confirmPassword")}
+                                            autoComplete={'off'}
+                                        />
+
+                                    </div>
+                                    {/* <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span> */}
+                                </div>
+                                <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                                    {props.touched.confirmPassword && props.errors.confirmPassword}
+                                </span>
+
+                                <br />
                                 <div className="my-2 lg:block flex justify-center items-center">
                                     <button
                                         type='submit'
                                         className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                                     >
-                                        Log in
+                                        Confirm password reset
                                     </button>
                                 </div>
 
-                                <div className='text-center pt-4'>
-                                    Don&apos;t have an account? &nbsp;
-                                    <Link href={'/signup'}><span className='text-[#635FC7]'>Sign up</span></Link>
-                                </div>
 
-                                <div className='divide text-center'>
-                                    <hr />
-                                    <span>OR</span>
-                                </div>
-
-                                <div className='flex items-center justify-center border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
-                                    <Google_logo />
-                                    <span>Continue with Google</span>
-                                </div>
                             </form>
                         )}
                     </Formik>

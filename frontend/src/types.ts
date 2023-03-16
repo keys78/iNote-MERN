@@ -28,3 +28,16 @@ export interface IUserLogin {
     email: string;
     password: string;
 }
+
+export interface IUserForgotPassword {
+    email: string;
+}
+
+export interface IResetPassword {
+    email: string;
+}
+
+// user
+export interface IToken {
+    token: string;
+}

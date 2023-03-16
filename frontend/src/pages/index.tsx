@@ -17,10 +17,10 @@ export default function Home() {
           <div>
             <h3>Log in with your iNote account to continue</h3>
             <div className='flex items-center justify-center space-x-3 mt-3'>
-              <Link href={'/login'}>
+              <Link href={'/auth/login'}>
                 <Button text={'Log in'} />
               </Link>
-              <Link href={'/signup'}>
+              <Link href={'/auth/signup'}>
                 <Button text={'Sign up'} />
               </Link>
             </div>

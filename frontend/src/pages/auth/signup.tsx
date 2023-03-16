@@ -140,7 +140,7 @@ const Signup = () => {
 
                 <div className='text-center pt-4'>
                   Already have an account? &nbsp;
-                  <Link href={'/login'}><span className='text-[#635FC7]'>Log in</span></Link>
+                  <Link href={'/auth/login'}><span className='text-[#635FC7]'>Log in</span></Link>
                 </div>
 
                 <div className='divide text-center'>

@@ -1,4 +1,4 @@
-import { IUser, IUserLogin, IUserSignUp } from '@/types'
+import { IUser, IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
 
@@ -41,6 +41,24 @@ export const loginUser = createAsyncThunk(
     async (user: IUserLogin, thunkAPI) => {
         try {
             return await authService.login(user)
+        } catch (error: any) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+// login user
+export const requestPasswordReset = createAsyncThunk(
+    'auth/login',
+    async (user: IUserForgotPassword, thunkAPI) => {
+        try {
+            return await authService.requestPasswordReset(user)
         } catch (error: any) {
             const message =
                 (error.response &&

@@ -1,28 +1,7 @@
-import { IUserLogin, IUserSignUp } from '@/types'
+import { IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import axios from 'axios'
 // const AUTH_API_URL = process.env.REACT_APP_AUTH_API_URL
 const AUTH_API_URL = "http://localhost:4000/"
-
-
-
-// const getAllUsers = async () => {
-//     const config = {
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     }
-//     const response = await axios.get(`${AUTH_API_URL + 'users'}`, config)
-//     return response
-// }
-// const getUserById = async (id: any) => {
-//     const config = {
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     }
-//     const response = await axios.get(`${AUTH_API_URL + `users/${id}`}`, config)
-//     return response
-// }
 
 
 
@@ -35,6 +14,13 @@ const signup = async (userData: IUserSignUp) => {
 
 const login = async (userData: IUserLogin) => {
     const response = await axios.post(`${AUTH_API_URL + 'auth/login'}`, userData)
+
+    console.log('response', response.data.message)
+    return response.data.message
+}
+
+const requestPasswordReset = async (userData: IUserForgotPassword) => {
+    const response = await axios.post(`${AUTH_API_URL + 'auth/forgotpassword'}`, userData)
 
     console.log('response', response.data.message)
     return response.data.message
@@ -77,6 +63,7 @@ const logout = () => {
 const authService = {
     signup,
     login,
+    requestPasswordReset,
     logout,
 }
 export default authService
