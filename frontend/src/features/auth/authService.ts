@@ -13,10 +13,14 @@ const signup = async (userData: IUserSignUp) => {
 }
 
 const login = async (userData: IUserLogin) => {
-    const response = await axios.post(`${AUTH_API_URL + 'auth/login'}`, userData)
+    const { data } = await axios.post(`${AUTH_API_URL + 'auth/login'}`, userData)
 
-    console.log('response', response.data.message)
-    return response.data.message
+   
+    if (data.token) {
+        localStorage.setItem('authToken', JSON.stringify(data))
+    }
+    console.log('response', data.token)
+    return data
 }
 
 const requestPasswordReset = async (userData: IUserForgotPassword) => {

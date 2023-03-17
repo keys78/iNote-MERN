@@ -62,7 +62,8 @@ export const login: RequestHandler = async (req, res, next) => {
         const user = await UserModel.findOne({ email }).select("+password")
 
         if (!user) {
-            throw (createHttpError (401, 'Invalid Credentials'))
+            // throw (createHttpError (401, 'Invalid Credentials'))
+            return res.status(401).json({ error: 'Invalid email or password' });
         }
 
         const isMatch = await user.matchPasswords(password);

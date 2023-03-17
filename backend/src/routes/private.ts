@@ -4,8 +4,8 @@ import { protect } from "../middlewares/authProtect";
 
 const usersRouter = express.Router();
 
-usersRouter.get("/get-all-users", protect, PrivateController.getAllUsers);
-usersRouter.get("/get-user/:id", protect, PrivateController.getUser);
+usersRouter.get("/all-users", protect, PrivateController.getAllUsers);
+usersRouter.get("/user", protect, PrivateController.getUser);
 
 
 export default usersRouter;

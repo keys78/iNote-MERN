@@ -19,6 +19,8 @@ const getUser = async (token: IToken) => {
 
 
 
-export {
+const userService =  {
     getUser
 }
+
+export default userService

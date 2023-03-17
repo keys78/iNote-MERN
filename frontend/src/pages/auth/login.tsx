@@ -26,7 +26,7 @@ const Login = () => {
             .required("email is required"),
         password: yup
             .string()
-            .min(8, "password must be at least at 6 characters")
+            // .min(8, "password must be at least at 6 characters")
             .required("password is required"),
     });
 
@@ -123,7 +123,7 @@ const Login = () => {
                                     <span>OR</span>
                                 </div>
 
-                                <div className='flex items-center justify-center border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                                <div className='flex items-center justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
                                     <Google_logo />
                                     <span>Continue with Google</span>
                                 </div>

@@ -148,7 +148,7 @@ const Signup = () => {
                   <span>OR</span>
                 </div>
 
-                <div className='flex items-center justify-center border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                <div className='flex items-center justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
                   <Google_logo />
                   <span>Sign in with Google</span>
                 </div>
