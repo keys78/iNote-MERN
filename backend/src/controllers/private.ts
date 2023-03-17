@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { NextFunction, RequestHandler, Response } from "express";
+import { NextFunction, RequestHandler, Response, Request } from "express";
 import createHttpError from "http-errors";
 import { JwtPayload } from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -18,98 +18,33 @@ export const getAllUsers: RequestHandler = async (req, res, next) => {
 };
 
 
-// interface AuthRequest extends Request {
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//     user?: any;
-//   }
-  
-//   export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
-//     const { id } = req.user;
-
-//     try {
-//         if (!mongoose.isValidObjectId(id)) {
-//             throw (createHttpError(404, "invalid user id"))
-//         }
-
-//         const user = await UsersModel.findById(id)
-//         .populate({
-//             path: 'boards',
-//             select:
-//               'title text',
-//           })
-//           .populate({
-//             path: 'boards',
-//             populate: { path: 'notes', select:'title text' }
-//           })
-//           .exec();
-
-//         res.status(200).json(user);
-//     } catch (error) {
-//         next(error)
-//     }
-// };
-
-
-// interface AuthRequest extends Request {
-//     user?: JwtPayload;
-//   }
-  
-//   export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (
-//     req: AuthRequest,
-//     res: Response<any>,
-//     next: NextFunction
-//   ) => {
-//     const { id } = req.user!;
-  
-//     try {
-//       if (!mongoose.isValidObjectId(id)) {
-//         throw createHttpError(404, "invalid user id");
-//       }
-  
-//       const user = await UsersModel.findById(id)
-//         .populate({
-//           path: "boards",
-//           select: "title text",
-//         })
-//         .populate({
-//           path: "boards",
-//           populate: { path: "notes", select: "title text" },
-//         })
-//         .exec();
-  
-//       res.status(200).json(user);
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
-
-
 
 interface AuthRequest extends Request {
     user?: {
-      id: string;
+        id: string;
     };
-  }
+}
 
-export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req: 'AuthRequest', res: Response<any>, next: NextFunction) => {
-    const { id } = req.user;
+
+export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
+    const id = req.user?.id;
 
     try {
         if (!mongoose.isValidObjectId(id)) {
-            throw (createHttpError(404, "invalid user id"))
+            throw createHttpError(404, "invalid user id");
         }
 
         const user = await UsersModel.findById(id)
-        .populate({
-            path: 'boards',
-            select:
-              'title text',
-          })
-          .populate({
-            path: 'boards',
-            populate: { path: 'notes', select:'title text' }
-          })
-          .exec();
+            .populate({
+                path: 'boards',
+                select:
+                    'title text',
+            })
+            .populate({
+                path: 'boards',
+                populate: { path: 'notes', select: 'title text' }
+            })
+            .exec();
 
         res.status(200).json(user);
     } catch (error) {

@@ -20,9 +20,9 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 
 
-app.use("/api/private", notesRoutes);
-app.use("/api/private", boardsRoutes );
-app.use("/api/private", usersRoutes );
+app.use("/private", notesRoutes);
+app.use("/private", boardsRoutes );
+app.use("/private", usersRoutes );
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));

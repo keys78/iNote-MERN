@@ -12,11 +12,13 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getUser())
-    }, [])
+    }, [dispatch])
 
 
   return (
-    <div>dashboard</div>
+    <div>
+      {JSON.stringify(user)}
+    </div>
   )
 }
 
