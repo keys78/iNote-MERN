@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
-import { useAppDispatch, } from "@/network/hooks";
+import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import { loginUser } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
+import { useRouter } from 'next/router';
 
 
 export type LoginData = {
@@ -17,6 +18,10 @@ const Login = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [inputType, setInputType] = useState<string>('password');
     const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const { isSuccess, isError } = useAppSelector((state) => state.auth);
+
 
 
     const LoginValidation = yup.object().shape({
@@ -60,8 +65,9 @@ const Login = () => {
                             { resetForm }: FormikHelpers<LoginData>
                         ) => {
                             const data = { ...values, };
-                            dispatch(loginUser(data));
-                            // resetForm();
+                            // dispatch(loginUser(data));
+                            // { isSuccess === true && router.push('/user/dashboard'); }
+                            resetForm();
                         }}
                     >
                         {(props) => (

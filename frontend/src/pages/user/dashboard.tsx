@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { getUser } from '../../features/private/user/userSlice'
 import { useAppDispatch, useAppSelector } from "@/network/hooks"
+import { withAuth } from '@/middlewares/middleware'
 
 
 const Dashboard = () => {
@@ -22,4 +23,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default withAuth(Dashboard);
