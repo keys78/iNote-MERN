@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import { loginUser } from "@/features/auth/authSlice";
+import { getUser } from '@/features/private/user/userSlice';
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
@@ -20,7 +21,16 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { isSuccess, isError } = useAppSelector((state) => state.auth);
+    const { isSuccess, isLoading, isError } = useAppSelector((state) => state.auth);
+    const user: any = useAppSelector((state) => state.user);
+    console.log(user)
+  
+  
+  
+    useEffect(() => {
+      dispatch(getUser())
+    }, [dispatch])
+    
 
 
 
@@ -65,10 +75,16 @@ const Login = () => {
                             { resetForm }: FormikHelpers<LoginData>
                         ) => {
                             const data = { ...values, };
-                            // dispatch(loginUser(data));
+                            dispatch(loginUser(data));
                             // { isSuccess === true && router.push('/user/dashboard'); }
                             resetForm();
+                            // {isSuccess &&  router.push('/user/dashboard')}
+                            if(isSuccess && user) {
+                                router.push('/user/dashboard')
+                            }
                         }}
+
+                        
                     >
                         {(props) => (
                             <form onSubmit={props.handleSubmit}>
@@ -100,7 +116,7 @@ const Login = () => {
                                         />
 
                                     </div>
-                                    <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
+                                    <div className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</div>
                                 </div>
                                 <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                     {props.touched.password && props.errors.password}

@@ -2,6 +2,7 @@ import mongoose, {  model, Schema, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import _ from "lodash"
+import BlacklistToken from "./blacklistToken";
 
 
 interface User extends mongoose.Document {
@@ -55,15 +56,28 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
+// userSchema.methods.getSignedToken = function () {
+//     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+// }
+
 userSchema.methods.getSignedToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
-}
+    const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+    
+    // Add token to blacklist
+    const blacklistToken = new BlacklistToken({
+      token,
+      user: this._id,
+      expiresAt: new Date(Date.now() + parseInt(process.env.JWT_EXPIRE) * 1000),
+    });
+    blacklistToken.save();
+  
+    return token;
+  };
 
 userSchema.methods.matchPasswords = async function (password: string) {
     return await bcrypt.compare(password, this.password);
 }
-
-// type User = InferSchemaType<typeof userSchema>;
-
 
 export default model<User>("User", userSchema)

@@ -17,7 +17,7 @@ const login = async (userData: IUserLogin) => {
 
    
     if (data.token) {
-        localStorage.setItem('authToken', JSON.stringify(data))
+        localStorage.setItem('authToken', JSON.stringify(data.token))
     }
     console.log('response', data.token)
     return data

@@ -1,7 +1,7 @@
 import { Auth } from '@/features/auth/authSlice';
 import { IToken, IUser } from '@/types';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import userService from './userService';
+import userService from './boardService';
 
 
 const storedToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
@@ -33,7 +33,7 @@ const initialState: IUserState = {
 export const getUser = createAsyncThunk<User, void>(
   'user',
   async (_, thunkAPI) => {
-    const token: IToken = token2 || (thunkAPI.getState() as { auth: Auth }).auth.token;
+    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
       return await userService.getUser(token)
     } catch (error: any) {
@@ -52,7 +52,7 @@ export const getUser = createAsyncThunk<User, void>(
 
 
 export const privateSlice = createSlice({
-  name: 'user',
+  name: 'board',
   initialState,
   reducers: {
     resetUser: (state) => initialState,

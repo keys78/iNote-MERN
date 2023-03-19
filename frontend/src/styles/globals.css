@@ -49,3 +49,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
     @apply max-w-[1920px] mx-auto
   }
 }
+
+.sponsors { overflow: hidden; border:1px solid rgb(195, 195, 195); width: 100%; position: relative;}
+.label-box { position: absolute; left: 0; top: 0; text-align: center; display: flex; align-items: center; justify-content: center; background: #000; color: #fff; height: 100%; padding: 20px 40px; } 
+.marquee-content { animation: scrolling 30s linear infinite running; display: flex; align-items: center; }
+.marquee-content:hover { animation-play-state: paused }
+.sponsors > div > div { display: block; animation: scrolling 100s linear infinite;  width: 100%; white-space: nowrap; margin: 10px 30px;}
+@-webkit-keyframes scrolling { 0% { -webkit-transform: translateX(0); transform: translateX(0); } 50% { -webkit-transform: translatex(-30%); transform: translatex(-30%); } 100% { -webkit-transform: translatex(100%); transform: translatex(100%); }}

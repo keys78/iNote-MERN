@@ -14,7 +14,7 @@ type User = {
     email: string
 };
 
-type Auth = {
+export type Auth = {
     token: string | null,
     user: User | null,
     isError: boolean,
@@ -29,7 +29,7 @@ const initialState: Auth = {
     token: '',
     user: null,
     isError: false,
-    isSuccess: false,
+    isSuccess: true,
     isLoading: false,
     message: '',
 };
@@ -114,12 +114,14 @@ export const authSlice = createSlice({
             .addCase(signupUser.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = false
+                state.isError = false
                 state.token = action.payload
                 state.message = action.payload
             })
             .addCase(signupUser.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
+                state.isSuccess = false
                 state.message = action.payload || "Something went wrong";
                 state.user = null
             })
@@ -129,8 +131,8 @@ export const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
+                state.isError = false
                 state.message = action.payload
-                state.user = action.payload
                 state.token = action.payload.token
             })
             .addCase(loginUser.rejected, (state, action) => {

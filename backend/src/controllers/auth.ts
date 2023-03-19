@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import UserModel from "../models/user";
-
+import BlacklistToken from "../models/blacklistToken";
+import jwt, { JwtPayload }  from 'jsonwebtoken';
 
 interface createUser {
     username?: string,
@@ -110,7 +111,36 @@ export const login: RequestHandler = async (req, res, next) => {
 };
 
 
-const sendToken = (user, statusCode, res) => {
-    const token = user.getSignedToken();
-    res.status(statusCode).json({ success: true, data: user.username, token })
-}
+// const sendToken = async (user, statusCode, res) => {
+//     const token = user.getSignedToken();
+//     const blacklistToken = new BlacklistToken({
+//         token,
+//         user: user._id,
+//         expiresAt: new Date(decoded.exp * 1000),
+//       });
+
+//       await blacklistToken.save();
+
+//     res.status(statusCode).json({ success: true, data: user.username, token })
+// }const jwt = require('jsonwebtoken');
+
+// const sendToken = async (user, statusCode, res) => {
+//   const token = user.getSignedToken();
+//   const decoded = jwt.decode(token);
+//   const blacklistToken = new BlacklistToken({
+//     token,
+//     user: user._id,
+//     expiresAt: new Date(decoded.exp * 1000),
+//   });
+
+//   await blacklistToken.save();
+
+//   res.status(statusCode).json({ success: true, data: user.username, token });
+// };
+
+
+const sendToken = async (user, statusCode, res) => {
+  const token = user.getSignedToken();
+  res.status(statusCode).json({ success: true, data: user.username, token });
+};
+

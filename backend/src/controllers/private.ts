@@ -52,6 +52,8 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
     }
 }
 
+// const updateUser
+
 
 
 
