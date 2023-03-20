@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <section className='flex items-center justify-center h-[100vh]'>
-        {/* <div className='text-center'>
+        <div className='text-center'>
           <Logo />
           <h1 className='pt-4 pb-3'>Welcome to iNote</h1>
           <div>
@@ -25,59 +25,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </div> */}
-        <footer className='sponsors '>
-          <span className='label-box'>
-            LIVE MARKET
-          </span>
-          <div className='marquee-content flex items-center'>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-            <div>
-              <span>MAIZE (SMAZ)</span><br />
-              <span>#30,834.59</span>
-            </div>
-          </div>
-
-        </footer>
+        </div>
       </section>
     </>
   )

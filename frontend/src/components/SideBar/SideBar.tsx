@@ -1,7 +1,7 @@
 // import Modal from '@components/Modal';
 // import MobileBoardMenu from '@components/Modal/MobileBoardMenu';
 import React, { useState } from 'react'
-import { useWindowSize } from 'usehooks-ts';
+// import { useWindowSize } from 'usehooks-ts';
 import BoardNamesTag from './BoardNamesTag'
 import SideBardToggle from './HideSideBar'
 import ToggleThemeSwitch from './ToggleThemeSwitch'
@@ -13,12 +13,12 @@ interface props {
 
 const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
 
-    const { width } = useWindowSize();
+    // const { width } = useWindowSize();
     const [showMobileNav, setShowMobileNav] = useState<boolean>(true)
 
     return (
         <>
-            {width <= 768 ? (
+            {/* {width <= 768 ? (
                 // <Modal setShowModal={setShowMobileNav} showModal={showMobileNav}>
                 //     <MobileBoardMenu />
                 // </Modal>
@@ -35,7 +35,7 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
                     </div>
                 </section>
             )
-            }
+            } */}
         </>
     )
 }
