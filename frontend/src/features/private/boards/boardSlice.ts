@@ -50,7 +50,6 @@ import { Auth } from '@/features/auth/authSlice';
 
 
 
-
 // export const privateSlice = createSlice({
 //   name: 'board',
 //   initialState,
