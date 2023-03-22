@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+input:-webkit-autofill, 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: inherit !important;
+  -webkit-box-shadow: 0 0 0px 1000px #FFFFFF inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+*{box-sizing: border-box; padding: 0; margin: 0;}
+body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+.active-nav { color: #fff; background: #635FC7; cursor:none;}
+.active-nav:hover { background: #635FC7 !important;}
+
+.gen-btn-class { background: #635FC7 !important; color: #fff !important; position: relative; overflow: hidden; transition: 0.4s;}
+.gen-btn-class:after{ content: ''; position: absolute; top: -50%; right: -50%; bottom: -50%; left: -110%; background: linear-gradient(to bottom, rgba(229, 172, 142, 0), rgba(255,255,255,0.5) 50%, rgba(229, 172, 142, 0)); transform: rotateZ(60deg) translate(-5em, 7.5em);}
+.gen-btn-class:hover::after, button:focus::after { animation: gen-btn-class 1s forwards;}
+@keyframes gen-btn-class { 100% { transform: rotateZ(60deg) translate(1em, -9em); left: 100%; }}
+
+
+/* auth forms */
+.input-container { height: 50px; position: relative; width: 100%; margin-bottom: 50px;}
+.input-class { background-color: transparent; border-radius: 5px; border: 0; box-sizing: border-box; border:1px solid #a19fe2; height: 100%; outline: 0; padding: 4px 20px 0; width: 100%;}
+.input-class:focus { border: 1px solid #635FC7;}
+.password-input { position: relative; border: 1px solid red; display: flex; align-items: center; justify-content: space-between; border-radius: 5px; border: 0; box-sizing: border-box;  border: 1px solid #635FC7; height: 50px; width: 100%; padding:0 20px ;}
+.password-input > input { background-color: transparent; border-radius: 5px; border: 0; box-sizing: border-box; border:1px solid #a19fe2; height: 100%; outline: 0; padding: 4px 20px 0; width: 100%; }
+.password-input > .input-class:focus { border: 1px solid #635FC7;}
+.input-class-p { background-color: transparent; height: 100%; border: 0; outline: 0; padding:0; width: 100%; height: 45px; width: 220px; }
+
+.divide { margin: 20px 0;}
+.divide > hr { margin-bottom: -12px;}
+.divide > span { background: #fff !important; padding:0 20px;}
+
+
+@layer base {
+  body {
+    @apply max-w-[1920px] mx-auto
+  }
+}
