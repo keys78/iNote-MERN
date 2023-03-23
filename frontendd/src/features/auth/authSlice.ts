@@ -1,12 +1,8 @@
 import { IUser, IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify';
 import authService from './authService'
 
-
-
-// Perform localStorage action
-const user = "any"
-// const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('authToken'))
 
 
 type User = {
@@ -44,9 +40,10 @@ export const signupUser = createAsyncThunk(
             const message =
                 (error.response &&
                     error.response.data &&
-                    error.response.data.message) ||
+                    error.response.data.error) ||
                 error.message ||
                 error.toString()
+            toast.error(message)
             return thunkAPI.rejectWithValue(message)
         }
     }
@@ -62,9 +59,10 @@ export const loginUser = createAsyncThunk(
             const message =
                 (error.response &&
                     error.response.data &&
-                    error.response.data.message) ||
+                    error.response.data.error) ||
                 error.message ||
                 error.toString()
+                toast.error(message)
             return thunkAPI.rejectWithValue(message)
         }
     }

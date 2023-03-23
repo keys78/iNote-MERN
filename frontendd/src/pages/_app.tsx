@@ -1,26 +1,34 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes';
 import { Provider } from 'react-redux'
 import { store } from '../network/store'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import type { ReactElement, ReactNode } from 'react'
+import type { NextPage } from 'next'
+import type { AppProps } from 'next/app'
 
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
 
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
 
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
+  return getLayout(
     <>
-    <ToastContainer />
-    <ThemeProvider attribute='class'>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <ToastContainer />
+        <ThemeProvider attribute='class'>
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
       </Provider>
-    </ThemeProvider>
     </>
   )
 }
-
-export default MyApp
 

@@ -1,5 +1,6 @@
 import { IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 // const AUTH_API_URL = process.env.REACT_APP_AUTH_API_URL
 const AUTH_API_URL = "http://localhost:4000/"
 
@@ -8,8 +9,9 @@ const AUTH_API_URL = "http://localhost:4000/"
 const signup = async (userData: IUserSignUp) => {
     const response = await axios.post(`${AUTH_API_URL + 'auth/signup'}`, userData)
 
-    console.log('response', response.data.message)
-    return response.data.message
+    toast.success(response.data.message as string, { autoClose: false });
+    console.log(response)
+    return response
 }
 
 const login = async (userData: IUserLogin) => {
@@ -29,35 +31,6 @@ const requestPasswordReset = async (userData: IUserForgotPassword) => {
     console.log('response', response.data.message)
     return response.data.message
 }
-
-// const login = async (userData) => {
-//     const { data } = await axios.post(`${AUTH_API_URL + 'login'}`, userData)
-
-//     if (data.verified === false) {
-//         return data.message
-//     }
-
-//     if (data.token) {
-//         localStorage.setItem('authToken', JSON.stringify(data))
-//     }
-//     return data
-// }
-
-// const resendOTP = async (id, userData) => {
-//     const { data } = await axios.post(`${AUTH_API_URL + `resend-otp/${id}`}`, userData)
-
-//     return data
-// }
-
-
-// const verify2FA = async (id, userData) => {
-//     const { data } = await axios.post(`${AUTH_API_URL + `verify2FA/${id}`}`, userData)
-
-//     if (data.success === true) {
-//         localStorage.setItem('authToken', JSON.stringify(data.token))
-//     }
-//     return data
-// }
 
 
 const logout = () => {

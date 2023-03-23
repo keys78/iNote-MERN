@@ -38,11 +38,11 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
             .populate({
                 path: 'boards',
                 select:
-                    'title text',
+                    'title',
             })
             .populate({
                 path: 'boards',
-                populate: { path: 'notes', select: 'title text' }
+                populate: { path: 'columns', select: 'title' }
             })
             .exec();
 

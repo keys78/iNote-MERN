@@ -1,16 +1,14 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Button from '@/components/Button'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+// const inter = Inter({ subsets: ['latin'] })
+import type { NextPageWithLayout } from './_app'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+const Page: NextPageWithLayout = () => {
   return (
     <>
-      <section className='flex items-center justify-center h-[100vh]'>
+      <div className='flex items-center justify-center h-[100vh]'>
         <div className='text-center'>
           <Logo />
           <h1 className='pt-4 pb-3'>Welcome to iNote</h1>
@@ -26,7 +24,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </>
   )
 }
+
+
+export default Page

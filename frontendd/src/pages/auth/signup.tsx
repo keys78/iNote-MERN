@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
-import { useAppDispatch, } from "@/network/hooks";
+import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import Google_logo from '@/components/assets/svg/Google_logo';
 import { signupUser } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
@@ -21,6 +21,10 @@ const Signup = () => {
   const [inputType, setInputType] = useState<string>('password');
   const dispatch = useAppDispatch();
 
+  const { isError }  = useAppSelector((state) => state.auth);
+ 
+
+
 
   const SignUpValidation = yup.object().shape({
     username: yup
@@ -33,7 +37,7 @@ const Signup = () => {
       .required("email is required"),
     password: yup
       .string()
-      .min(8, "Password must be at least at 6 characters")
+      // .min(8, "Password must be at least at 6 characters")
       .required("password is required"),
   });
 
@@ -74,10 +78,13 @@ const Signup = () => {
               const data = { ...values, };
               dispatch(signupUser(data));
               // resetForm();
+             
+
             }}
+            
           >
             {(props) => (
-              <form onSubmit={props.handleSubmit}>
+                <form onSubmit={props.handleSubmit}>
                 <div className="">
 
                   <div className="input-container">

@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import { loginUser } from "@/features/auth/authSlice";
-import { getUser } from '@/features/private/user/userSlice';
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
@@ -24,13 +23,7 @@ const Login = () => {
     const { isSuccess, isLoading, isError } = useAppSelector((state) => state.auth);
     const user: any = useAppSelector((state) => state.user);
     console.log(user)
-  
-  
-  
-    useEffect(() => {
-      dispatch(getUser())
-    }, [dispatch])
-    
+
 
 
 
@@ -57,7 +50,7 @@ const Login = () => {
 
 
     return (
-        <section className="max-w-[400px] w-full mx-auto my-5">
+        <div className="max-w-[400px] w-full mx-auto my-5">
             <div className='mx-[16px]'>
                 <Logo />
                 <h1 className='pt-6 pb-8 font-bold text-xl text-center'>Welcome back</h1>
@@ -76,15 +69,13 @@ const Login = () => {
                         ) => {
                             const data = { ...values, };
                             dispatch(loginUser(data));
-                            // { isSuccess === true && router.push('/user/dashboard'); }
                             resetForm();
-                            // {isSuccess &&  router.push('/user/dashboard')}
-                            if(isSuccess && user) {
+                            if (user) {
                                 router.push('/user/dashboard')
                             }
                         }}
 
-                        
+
                     >
                         {(props) => (
                             <form onSubmit={props.handleSubmit}>
@@ -154,7 +145,7 @@ const Login = () => {
                     </Formik>
                 </div>
             </div>
-        </section>
+        </div>
     )
 }
 

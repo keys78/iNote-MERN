@@ -51,10 +51,10 @@ export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknow
         const newNote = await NoteModel.create({
             title: title,
             text: text,
-            board: "640e17e77a55d6340df43ff1"
+            column: "640e17e77a55d6340df43ff1"
         });
 
-        await BoardModel.updateOne({ _id: newNote.board }, { $push: { notes: newNote._id } });
+        // await BoardModel.updateOne({ _id: newNote.column }, { $push: { notes: newNote._id } });
 
         res.status(201).json(newNote);
     } catch (error) {
@@ -69,13 +69,13 @@ interface UpdateNoteParams {
 
 interface UpdateNoteBody {
     title: string,
-    text: string
+    description: string
 }
 
 export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown> = async (req, res, next) => {
     const noteId = req.params.noteId;
     const newTitle = req.body.title;
-    const newText = req.body.text;
+    const newText = req.body.description;
 
     try {
 
@@ -94,7 +94,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
         }
 
         note.title = newTitle;
-        note.text = newText;
+        note.description = newText;
 
         const updatedNote = await note.save();
 

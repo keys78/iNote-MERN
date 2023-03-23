@@ -21,32 +21,6 @@ export const getAllBoards: RequestHandler = async (req, res, next) => {
     }
 };
 
-// export const getSingleBoard: RequestHandler = async (req, res, next) => {
-//     const boardId = req.params.boardId;
-
-//     try {
-
-//         if (!mongoose.isValidObjectId(boardId)) {
-//             throw createHttpError(400, "invalid board id")
-//         }
-
-//         const board = await BoardModel.findById(boardId)
-//             .populate({
-//                 path: 'notes',
-//                 select:
-//                     'title',
-//             })
-//             .exec();
-
-//         if (!board) {
-//             throw createHttpError(404, "board not found");
-//         }
-
-//         res.status(200).json(board);
-//     } catch (error) {
-//         next(error);
-//     }
-// };
 
 interface AuthRequest extends Request {
     user?: {
@@ -74,7 +48,7 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
       }
   
       // Check if the user is authorized to access the board
-      if (board.user.toString() !== userId) { 
+      if (board.userId.toString() !== userId) { 
         throw createHttpError(403, "unauthorized to access board");
       }
   
@@ -87,12 +61,15 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
 
 
 
-interface CreateNoteBody {
-    title?: string,
-    user?: string
-}
+// interface CreateNoteBody {
+//     title?: string,
+//     user?: string
+// }
 
-export const createBoard: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+// export const createBoard: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
+    const userId = req.user?.id;
     const { title } = req.body
 
     try {
@@ -101,10 +78,10 @@ export const createBoard: RequestHandler<unknown, unknown, CreateNoteBody, unkno
         }
         const newBoard = await BoardModel.create({
             title: title,
-            user: "640b6ce27d42feb7036c7dce"
+            userId: userId
         });
 
-        await UserModel.updateOne({ _id: newBoard.user }, { $push: { boards: newBoard._id } });
+        await UserModel.updateOne({ _id: newBoard.userId }, { $push: { boards: newBoard._id } });
 
         res.status(201).json(newBoard);
     } catch (error) {

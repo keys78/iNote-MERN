@@ -4,7 +4,7 @@
 // import DeleteWarningModal from '@components/Modal/DeleteWarningModal';
 // import UpdateBoardModal from '@components/Modal/UpdateBoardModal';
 // import UpdateTaskModal from '@components/Modal/UpdateTaskModal';
-// import { useOnClickOutside } from 'usehooks-ts'
+// import useOnClickOutside from './../../hooks/useOnClickOutside'
 // import { Task } from '@src/types';
 // import { taskCompleted } from '@reduxjs/toolkit/dist/listenerMiddleware/exceptions';
 

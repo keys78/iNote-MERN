@@ -27,11 +27,11 @@ const Header = () => {
     <>
       <header className='flex items-center justify-between h-[85px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2 w-[100vw]'>
         <div className="w-[360px] p-8 box-border transition-all ease border-r border-r-lightGreyLine dark:border-r-darkGreyLine">
-          <div className=''>iNote</div>
+          <div className='text-2xl font-bold'>iNote</div>
         </div>
         
         <div className='flex items-center justify-between w-[100%] px-6'>
-          <h1>{'board name'}</h1>
+          <h1>{'no boards found'}</h1>
           <div className='flex items-center space-x-4'>
             <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
           </div>

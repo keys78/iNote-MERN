@@ -1,11 +1,11 @@
 import { IToken } from '@/types'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 const PRIVATE_API_URL = 'http://localhost:4000/private/' //local
 
 
-// Get user
-const getBoard = async (token: IToken, id:any) => {
+// Get board
+const getBoard = async (id:any, token: IToken) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -16,10 +16,23 @@ const getBoard = async (token: IToken, id:any) => {
   return data
 }
 
+// create board
+const createNewBoard = async (boardData: unknown, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const {data} = await axios.post(PRIVATE_API_URL + `create-board`, boardData, config)
+  return data
+}
+
 
 
 const userService =  {
-    getBoard
+    getBoard,
+    createNewBoard
 }
 
 export default userService
