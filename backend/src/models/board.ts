@@ -9,9 +9,9 @@ const boardSchema = new Schema({
     },
     title: { type: String, required: true },
     columns: [
-        { type: Schema.Types.ObjectId, ref: 'Note' }
+        { type: Schema.Types.ObjectId, ref: 'Column' }
     ],
-}, {timestamps: true});
+}, );
 
 type Board =  InferSchemaType<typeof boardSchema>;
 

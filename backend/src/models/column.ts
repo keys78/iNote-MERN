@@ -8,6 +8,9 @@ const columnSchema = new Schema({
         required: true
     },
     title: { type: String, required: true },
+    notes: [
+        { type: Schema.Types.ObjectId, ref: 'Note' }
+    ],
 });
 
 type Column =  InferSchemaType<typeof columnSchema>;

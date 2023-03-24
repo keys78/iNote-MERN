@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors"
 import createHttpError, { isHttpError } from "http-errors";
 import notesRoutes from "./routes/notes";
+import columnsRoutes from "./routes/columns";
 import boardsRoutes from "./routes/boards";
 import usersRoutes from "./routes/private";
 import authRoutes from "./routes/auth";
@@ -18,11 +19,8 @@ app.use(express.json());
 
 // authentication 
 app.use('/auth', authRoutes);
+app.use("/private", usersRoutes, boardsRoutes, columnsRoutes, notesRoutes );
 
-
-app.use("/private", notesRoutes);
-app.use("/private", boardsRoutes );
-app.use("/private", usersRoutes );
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));

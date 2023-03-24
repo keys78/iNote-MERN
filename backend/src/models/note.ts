@@ -8,7 +8,7 @@ const noteSchema = new Schema({
         required: true
     },
     title: { type: String, required: true },
-    description: { type: String },
+    description: { type: String, required: true },
 }, {timestamps: true});
 
 type Note =  InferSchemaType<typeof noteSchema>;

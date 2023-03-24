@@ -28,6 +28,7 @@ interface AuthRequest extends Request {
     };
 }
 
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;
@@ -38,17 +39,22 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
         throw createHttpError(400, "invalid board id");
       }
   
-      const board = await BoardModel.findById(boardId).populate({
-        path: "notes",
-        select: "title",
-      });
+      const board = await BoardModel.findById(boardId)
+        .populate({
+          path: "columns",
+          select: "title",
+          populate: {
+            path: "notes",
+            select: "title description",
+          },
+        });
   
       if (!board) {
         throw createHttpError(404, "board not found");
       }
   
       // Check if the user is authorized to access the board
-      if (board.userId.toString() !== userId) { 
+      if (board.userId.toString() !== userId) {
         throw createHttpError(403, "unauthorized to access board");
       }
   
