@@ -40,10 +40,6 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
                 select:
                     'title',
             })
-            .populate({
-                path: 'boards',
-                populate: { path: 'columns', select: 'title' }
-            })
             .exec();
 
         res.status(200).json(user);

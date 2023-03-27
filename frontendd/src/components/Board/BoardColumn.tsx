@@ -12,13 +12,6 @@ const BoardColumn = ({ board }: IProps) => {
     const { user } = useAppSelector(state => state.user)
 
 
-    // const boards = useAppSelector((state: RootState) => state.boards.boards)
-    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    // const boardNameTag = boards[currentBoard] && boards[currentBoard].name
-    // const boardColumnsx = boards?.find(element => element.name === boardNameTag);
-
-
-
     const showBoards = (board?.columns)?.map((column: any, i:number) =>
         <div key={i} className='column w-[280px] shrink-0'>
             <h3 className="text-[13px] tracking-widest font-bold text-mediumGrey uppercase mb-6">

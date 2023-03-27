@@ -7,7 +7,7 @@ router.get("/get-all-notes", NotesController.getNotes);
 
 router.get("/get-note/:noteId", NotesController.getNote);
 
-router.post("/create-note/:columnId", NotesController.createNote);
+router.post("/create-note/:boardId", NotesController.createNote);
 
 router.patch("/update-note/:noteId", NotesController.updateNote);
 

@@ -6,8 +6,7 @@ import NoBoard from "./NoBoard";
 import { useEffect } from "react";
 import { getUser } from "@/features/private/user/userSlice";
 import { useRouter } from "next/router";
-import Task from "../Board/";
-
+import Task from "./Task";
 
 interface props {
   isSidebar: boolean,
@@ -22,9 +21,9 @@ const Board = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getUser())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getUser())
+  // }, [dispatch])
 
   const boards = user?.boards
 
@@ -39,7 +38,7 @@ const Board = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
     <>
       <ShowSidebar setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
       <div className="bg-lightGrey w-full dark:bg-veryDarkGrey">
-        {boards?.length !==0 ? <Task /> : <NoBoard />}
+        {boards?.length !==0 ? <Task task={boards} /> : <NoBoard />}
       </div>
     </>
   )

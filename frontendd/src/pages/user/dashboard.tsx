@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getUser())
-  }, [dispatch, user])
+  }, [dispatch])
 
 
 

@@ -37,9 +37,9 @@ const Header = () => {
             <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
           </div>
         </div>
-        <UpdateBoardModal setShowUpdateBoardModal={function (value: React.SetStateAction<boolean>): void {
+        {/* <UpdateBoardModal setShowUpdateBoardModal={function (value: React.SetStateAction<boolean>): void {
           throw new Error('Function not implemented.')
-        } } />
+        } } /> */}
       </header>
     </>
   )

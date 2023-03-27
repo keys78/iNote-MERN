@@ -1,10 +1,18 @@
-import React, { useState } from 'react'
+import { getUser } from '@/features/private/user/userSlice'
+import { useAppDispatch } from '@/network/hooks'
+import React, { useEffect, useState } from 'react'
 import Board from './Board'
 import Header from './Header'
 import SideBar from './SideBar'
 
 const Layout = ({ children }: any) => {
   const [isSidebar, setIsSidebar] = useState<boolean>(false)
+  const dispatch = useAppDispatch()
+
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
 
   return (
     <section className='w-full border-red-600 border-3'>

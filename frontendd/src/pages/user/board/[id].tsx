@@ -4,6 +4,7 @@ import Layout from '@/components/Layout';
 import { useAppDispatch, useAppSelector } from '@/network/hooks';
 import { getBoard } from '@/features/private/boards/boardSlice';
 import BoardColumn from '@/components/Board/BoardColumn';
+import Task from '@/components/Board/Task';
 
 const BoardDetails = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const BoardDetails = () => {
   return (
     <Layout>
       <div className='flex items-center justify-center'>
-        <BoardColumn board={board} />
+        <Task task={board?.notes}/>
       </div>
     </Layout>
   )
