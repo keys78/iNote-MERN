@@ -1,5 +1,12 @@
-import { InferSchemaType, model, Schema } from "mongoose";
+import { InferSchemaType, model, Schema, Document, Types } from "mongoose";
 
+
+interface Column extends Document {
+    title: string;
+    boardId: string;
+    notes:  Types.ObjectId['_id'];
+    remove: () => Promise<Column>;
+  }
 
 const columnSchema = new Schema({
     boardId: {
@@ -13,6 +20,12 @@ const columnSchema = new Schema({
     ],
 });
 
-type Column =  InferSchemaType<typeof columnSchema>;
+// type Column =  InferSchemaType<typeof columnSchema>;
 
 export default model<Column>("Column", columnSchema)
+
+
+
+
+
+

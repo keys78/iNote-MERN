@@ -12,6 +12,7 @@ router.post('/add-column/:boardId', protect, ColumnsController.addColumn);
 
 // router.patch('/update-board/:boardId', ColumnsController.updateBoard);
 
-// router.delete('/delete-board/:boardId', ColumnsController.deleteBoard);
+router.delete('/delete-column/:boardId', ColumnsController.deleteColumn);
+
 
 export default router;

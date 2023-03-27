@@ -1,19 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
+import { useAppDispatch, useAppSelector } from '@/network/hooks';
+import { getBoard } from '@/features/private/boards/boardSlice';
+import BoardColumn from '@/components/Board/BoardColumn';
 
 const BoardDetails = () => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const query = JSON.stringify(router.query.id);
+  const query = router.query.id;
+
+
+  const { board } = useAppSelector((state) => state.board);
+
+  useEffect(() => {
+    dispatch(getBoard({ id: query }))
+  }, [dispatch, query])
+
+
 
   return (
     <Layout>
-      <div>{query}</div>
-      <div className='flex items-center justify-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quia nihil autem odio obcaecati, beatae modi eveniet molestiae incidunt quibusdam rerum consequuntur
-        quas, enim ut aliquam placeat totam quo porro distinctio similique cumque illo molestias! Nihil adipisci ab, soluta veritatis quam perferendis
-        doloremque vero nam recusandae suscipit. Voluptatum adipisci autem mollitia eos molestias, tempore obcaecati id magnam deleniti inventore consectetur delectus sint beatae aperiam, animi sapiente veritatis
-        ipsa! Omnis, numquam esse eum alias distinctio cupiditate ipsam recusandae totam doloribus facere error exercitationem cum adipisci, repellendus cumque culpa
-        expedita harum perferendis quo pariatur nihil, quis iusto illo deserunt. Non, necessitatibus quidem!
+      <div className='flex items-center justify-center'>
+        <BoardColumn board={board} />
       </div>
     </Layout>
   )

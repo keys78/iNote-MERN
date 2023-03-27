@@ -29,10 +29,38 @@ const createNewBoard = async (boardData: unknown, token: IToken) => {
 }
 
 
+// add column
+const addNewColumn = async (id:any, columnData: unknown, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const {data} = await axios.post(PRIVATE_API_URL + `add-column/${id}`, columnData, config)
+  return data
+}
+
+// add column
+const deleteColumn = async (id:any, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const {data} = await axios.delete(PRIVATE_API_URL + `delete-column/${id}`, config)
+  return data
+}
+
+
+
 
 const userService =  {
     getBoard,
-    createNewBoard
+    createNewBoard,
+    addNewColumn,
+    deleteColumn
 }
 
 export default userService

@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import NoteModel from "../models/note";
 import BoardModel from "../models/board";
-import ColumnModel from '../models/column'
+// import ColumnModel from '../models/column'
 
 
 export const getNotes: RequestHandler = async (req, res, next) => {
@@ -52,10 +52,10 @@ export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (
         const newNote = await NoteModel.create({
             title: title,
             description: description,
-            columnId: req?.params.columnId
+            boardId: req?.params.boardId
         });
 
-        await ColumnModel.updateOne({ _id: newNote.columnId }, { $push: { notes: newNote._id } });
+        await BoardModel.updateOne({ _id: newNote.boardId }, { $push: { notes: newNote._id } });
 
         res.status(201).json(newNote);
     } catch (error) {

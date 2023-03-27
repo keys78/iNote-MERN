@@ -8,8 +8,8 @@ const boardSchema = new Schema({
         required: true
     },
     title: { type: String, required: true },
-    columns: [
-        { type: Schema.Types.ObjectId, ref: 'Column' }
+    notes: [
+        { type: Schema.Types.ObjectId, ref: 'Note' }
     ],
 }, );
 

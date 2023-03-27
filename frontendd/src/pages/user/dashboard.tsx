@@ -10,15 +10,15 @@ import Layout from '@/components/Layout'
 
 
 const Dashboard = () => {
-  // const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   // console.log(user)
 
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getUser())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch, user])
 
 
 

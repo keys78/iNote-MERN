@@ -4,7 +4,10 @@ import Button from "../shared/Button";
 import TextInput from "../shared/TextInput";
 // import { editBoard } from "features/board/boardSlice";
 import { useAppDispatch, useAppSelector } from '../../network/hooks';
-// import { RootState } from "app/store";
+import { addNewColumn } from "@/features/private/boards/boardSlice";
+import { useRouter } from "next/router";
+import { Key } from "react";
+import { getUser } from "@/features/private/user/userSlice";
 
 
 interface props {
@@ -13,8 +16,9 @@ interface props {
 
 const AddNewColumnModal = ({ setOpenModal }: props) => {
     const dispatch = useAppDispatch();
-    const currentBoard = []
-    const data = []
+    const router = useRouter();
+    const query = router.query.id;
+
 
     const validate = Yup.object({
         name: Yup.string().required("Can't be empty"),
@@ -26,22 +30,31 @@ const AddNewColumnModal = ({ setOpenModal }: props) => {
     return (
         <Formik
             initialValues={{
-                id: currentBoard,
-                name: data[currentBoard].name,
-                columns: [...data[currentBoard].columns, { name: '', tasks: [] }]
+                columns: [{ title: '' }],
             }}
-            // validationSchema={validate}
+            // onSubmit={(values, { setSubmitting, resetForm }) => {
+            //   setSubmitting(true)
+            //   const columnTitles = values.columns.map(({ title }) => title); // extract the title property from each column object
+            //   // make async call for each title
+            //   Promise.all(columnTitles.map(title => dispatch(addNewColumn({ id: query, columnData: { title } })))).then(() => {
+            //     setSubmitting(false)
+            //     resetForm()
+            //     setOpenModal(false)
+            //     dispatch(getUser())
+            //   })
+            // }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                setSubmitting(true)
-
-                //make async call
-                console.log('submit:', values);
-                dispatch(editBoard(values))
+                setSubmitting(true);
+                const columnTitles = values.columns.map(({ title }) => title);
+                // make async call
+                console.log('columnVal:', columnTitles);
+                dispatch(addNewColumn({ id: query, columnData: { titles: columnTitles } }))
                 setSubmitting(false)
                 resetForm()
                 setOpenModal(false)
-            }
-            }
+                dispatch(getUser())
+            }}
+
         >
             {({ values, isSubmitting, handleSubmit }) => (
                 <Form onSubmit={handleSubmit}>
@@ -49,23 +62,41 @@ const AddNewColumnModal = ({ setOpenModal }: props) => {
                         Add New Column
                     </label>
 
-                    <FieldArray name="columns"
-                        render={() => (
+                    <FieldArray
+                        name="columns"
+                        render={({ remove, push }) => (
                             <div>
-                                {values.columns.map((_, i) => (
+                                {values.columns.map((column, i) => (
                                     <div key={i} className="flex">
-                                        {(values.columns).length - 1 === i && <TextInput label='' name={`columns.${i}.name`} type="text" placeholder="e.g. Archived" />}
+                                        <TextInput
+                                            label=""
+                                            name={`columns.${i}.title`}
+                                            type="text"
+                                            placeholder="e.g. Archived"
+                                        />
+                                        {values.columns.length > 1 && (
+                                            <button type="button" onClick={() => remove(i)}>
+                                                X
+                                            </button>
+                                        )}
+                                        {values.columns.length - 1 === i && (
+                                            <button type="button" onClick={() => push({ title: '' })}>
+                                                +
+                                            </button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                         )}
                     />
+
                     <br />
 
                     <Button type="submit" disabled={isSubmitting} text={'+ Add New Column'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
                 </Form>
             )}
         </Formik>
+
     )
 }
 export default AddNewColumnModal

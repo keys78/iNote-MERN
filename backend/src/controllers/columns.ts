@@ -89,88 +89,107 @@ interface AuthRequest extends Request {
 //     user?: string
 // }
 
+// export const addColumn: RequestHandler<any, any, any, any> = async (req, res, next) => {
+//   const { title } = req.body
+
+//   try {
+//     if (!title) {
+//       throw createHttpError(400, "column title is required")
+//     }
+//     const newColumn = await ColumnModel.create({
+//       title: title,
+//       boardId: req?.params.boardId
+//     });
+
+//     await BoardModel.updateOne({ _id: newColumn.boardId }, { $push: { columns: newColumn._id } });
+
+//     res.status(201).json(newColumn);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+// export const addColumn: RequestHandler<any, any, any, any> = async (req, res, next) => {
+//   const { columnTitles } = req.body
+
+//   try {
+//     if (!columnTitles || !Array.isArray(columnTitles) || columnTitles.length === 0) {
+//       throw createHttpError(400, "column titles are required")
+//     }
+
+//     const newColumns = await Promise.all(columnTitles.map(async (title) => {
+//       const newColumn = await ColumnModel.create({
+//         title,
+//         boardId: req.params.boardId
+//       });
+
+//       return newColumn
+//     }))
+
+//     await BoardModel.updateOne({ _id: req.params.boardId }, { $push: { columns: { $each: newColumns.map(c => c._id) } } })
+
+//     res.status(201).json(newColumns);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 export const addColumn: RequestHandler<any, any, any, any> = async (req, res, next) => {
-  const { title } = req.body
+  const { titles } = req.body
 
   try {
-    if (!title) {
-      throw createHttpError(400, "column title is required")
+    if (!titles || titles.length === 0) {
+      throw createHttpError(400, "column titles are required")
     }
-    const newColumn = await ColumnModel.create({
-      title: title,
-      boardId: req?.params.boardId
-    });
 
-    await BoardModel.updateOne({ _id: newColumn.boardId }, { $push: { columns: newColumn._id } });
+    const newColumns = await Promise.all(titles.map(async (title) => {
+      const newColumn = await ColumnModel.create({
+        title: title,
+        boardId: req?.params.boardId
+      });
 
-    res.status(201).json(newColumn);
+      await BoardModel.updateOne({ _id: newColumn.boardId }, { $push: { columns: newColumn._id } });
+
+      return newColumn;
+    }));
+
+    res.status(201).json(newColumns);
   } catch (error) {
     next(error);
   }
 };
 
-// interface UpdateBoardParams {
-//     boardId: string
-// }
+// export const deleteColumn: RequestHandler<{ id: string }, any, any, any> = async (req, res, next) => {
+//   const { id } = req.params;
 
-// interface UpdateBoardBody {
-//     title: string,
-//     text: string
-// }
-
-// export const updateBoard: RequestHandler<UpdateBoardParams, unknown, UpdateBoardBody, unknown> = async (req, res, next) => {
-//     const boardId = req.params.boardId;
-//     const newTitle = req.body.title;
-
-//     try {
-
-//         if (!mongoose.isValidObjectId(boardId)) {
-//             throw createHttpError(400, "Invalid board id");
-//         }
-
-//         if (!newTitle) {
-//             throw createHttpError(400, "Board must have a title");
-//         }
-
-//         const board = await BoardModel.findById(boardId).exec();
-
-//         if (!board) {
-//             throw createHttpError(404, "Board not found");
-//         }
-
-//         board.title = newTitle;
-
-//         const updatedBoard = await board.save();
-
-//         res.status(200).json({ data: updatedBoard, message: "board updated successfully" });
-//     } catch (error) {
-//         next(error);
+//   try {
+//     const column = await ColumnModel.findById(id);
+//     if (!column) {
+//       throw createHttpError(404, 'Column not found');
 //     }
+
+//     await BoardModel.updateOne({ _id: column.boardId }, { $pull: { columns: column._id } });
+//     await column.remove();
+//     res.status(200).json({ message: 'Column deleted successfully' });
+//   } catch (error) {
+//     next(error);
+//   }
 // };
 
+export const deleteColumn: RequestHandler<{ id: string }> = async (req, res, next) => {
+  try {
+    const column = await ColumnModel.findById(req.params.id);
+    if (!column) {
+      throw createHttpError(404, "Column not found");
+    }
 
-// export const deleteBoard: RequestHandler = async (req, res, next) => {
-//     const boardId = req.params.boardId;
+    await column.remove(); // use the remove method on the returned document
 
-//     try {
-
-//         if (!mongoose.isValidObjectId(boardId)) {
-//             throw createHttpError(400, "Invalid board id");
-//         }
-
-//         const note = await BoardModel.findById(boardId).exec();
-
-//         if (!note) {
-//             throw createHttpError(404, "Board not found");
-//         }
-
-//         await BoardModel.findByIdAndDelete({ _id: boardId })
-//         await UserModel.updateOne({ _id: "640b6ce27d42feb7036c7dce" }, { $pull: { boards: boardId } });
-
-//         res.status(200).json({ message: "board deleted successfully" });
+    res.status(200).json({ message: "Column deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
-//     } catch (error) {
-//         next(error);
-//     }
-// };

@@ -17,7 +17,6 @@ interface props {
 const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
     const { user } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
-    console.log('hbulb', user)
 
     function logout() {
         localStorage.removeItem('authToken');

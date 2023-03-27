@@ -1,27 +1,24 @@
 import { Auth } from '@/features/auth/authSlice';
 import { IToken, IUser } from '@/types';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import userService from './boardService';
+import boardService from './boardService';
 
 
 const storedToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
 const token2 = storedToken ? JSON.parse(storedToken) : '';
 
-type User = {
-  username: string,
-  email: string
-};
 
-interface IUserState {
-  user: User | null,
+
+interface IBoard {
+  board: any,
   isError: boolean,
   isSuccess: boolean,
   isLoading: boolean,
   message: {} | string | null;
 }
 
-const initialState: IUserState = {
-  user: null,
+const initialState: IBoard = {
+  board: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -30,12 +27,51 @@ const initialState: IUserState = {
 
 
 // get board
-export const getBoard = createAsyncThunk<User, void>(
-  'user',
-  async (id, thunkAPI) => {
+export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined; }>(
+  'get-board',
+  async ({ id }, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      return await userService.getBoard(id, token)
+      return await boardService.getBoard(id, token)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.error) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+);
+
+
+
+// create board
+export const createNewBoard = createAsyncThunk<{}, void>(
+  'create-board',
+  async (boardData, thunkAPI) => {
+    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
+    try {
+      return await boardService.createNewBoard(boardData, token)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.error) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+// add new column
+export const addNewColumn = createAsyncThunk<{}, { id: string | string[] | undefined, columnData: any }>(
+  'create-board',
+  async ({id, columnData}, thunkAPI) => {
+    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
+    try {
+      return await boardService.addNewColumn(id, columnData, token)
     } catch (error: any) {
       const message =
         (error.response &&
@@ -48,13 +84,13 @@ export const getBoard = createAsyncThunk<User, void>(
   }
 )
 
-// create board
-export const createNewBoard = createAsyncThunk<User, void>(
-  'user',
-  async (boardData, thunkAPI) => {
+// delete column
+export const deleteColumn = createAsyncThunk<void, string>(
+  'columns/deleteColumn',
+  async (id, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      return await userService.createNewBoard(boardData, token)
+      await boardService.deleteColumn(id, token);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -65,7 +101,7 @@ export const createNewBoard = createAsyncThunk<User, void>(
       return thunkAPI.rejectWithValue(message)
     }
   }
-)
+);
 
 
 
@@ -83,7 +119,7 @@ export const privateSlice = createSlice({
       .addCase(getBoard.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.user = action.payload
+        state.board = action.payload
       })
       .addCase(getBoard.rejected, (state, action) => {
         state.isLoading = false
@@ -93,7 +129,6 @@ export const privateSlice = createSlice({
             state.message = action.payload as string
             return state
           }
-          // other cases...
         }
       })
 

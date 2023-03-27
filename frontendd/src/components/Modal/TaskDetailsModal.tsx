@@ -70,9 +70,26 @@
 
 import React from 'react'
 
-const TaskDetailsModal = () => {
+interface IProps {
+  task: any;
+  completedTaskCount: number
+  i: number
+  j: number
+  boardNameTag: string,
+  setShowDetails: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const TaskDetailsModal = ({ task }: IProps) => {
   return (
-    <div>TaskDetailsModal</div>
+    <>
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <h1 className="text-[18px] font-bold">{task.title}</h1>
+        {/* <EditButton setShowDetails={setShowDetails} task={task} type='' className={'-bottom-22 -left-44 border '} currentBoard='' /> */}
+      </div>
+      <p className="text-[13px] text-mediumGrey">
+        {task.description ? task.description : 'no description'}
+      </p>
+    </>
   )
 }
 

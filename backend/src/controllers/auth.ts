@@ -9,45 +9,95 @@ interface createUser {
     password?:string
 }
 
-export const signup: RequestHandler< unknown, unknown, createUser, unknown> = async ( req, res, next) => {
+// export const signup: RequestHandler< unknown, unknown, createUser, unknown> = async ( req, res, next) => {
+//     const { username, email, password } = req.body
+
+//     try {
+
+//         const isUserRegistered = await UserModel.findOne({ email })
+//         if (isUserRegistered) {
+//             throw createHttpError(401, "account already exist, try login")
+//         }
+
+//         const user = await UserModel.create({
+//             username: username,
+//             email: email,
+//             password: password
+//         });
+
+//         // const token = await new Token({
+//         //     userId: user._id,
+//         //     token: crypto.randomBytes(32).toString("hex"),
+//         // }).save();
+
+//         // const url = `${process.env.BASE_URL}user/${user.id}/verify/${token.token}`;
+
+
+//         // await sendEmail({
+//         //     to: user.email,
+//         //     subject: "Email Verification",
+//         //     text: confirmEmailMessage(url)
+//         // });
+
+//         res.json({
+//             success: true, message: `Hi ${user.username}, your signup was successful, Kindly confirm the verification email sent to you.`, status: 201
+//         })
+
+
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
+
+export const signup: RequestHandler<unknown, unknown, createUser, unknown> = async (req, res, next) => {
     const { username, email, password } = req.body
-
+  
     try {
-
-        const isUserRegistered = await UserModel.findOne({ email })
-        if (isUserRegistered) {
-            throw createHttpError(401, "account already exist, try login")
-        }
-
-        const user = await UserModel.create({
-            username: username,
-            email: email,
-            password: password
-        });
-
-        // const token = await new Token({
-        //     userId: user._id,
-        //     token: crypto.randomBytes(32).toString("hex"),
-        // }).save();
-
-        // const url = `${process.env.BASE_URL}user/${user.id}/verify/${token.token}`;
-
-
-        // await sendEmail({
-        //     to: user.email,
-        //     subject: "Email Verification",
-        //     text: confirmEmailMessage(url)
-        // });
-
-        res.json({
-            success: true, message: `Hi ${user.username}, your signup was successful, Kindly confirm the verification email sent to you.`, status: 201
-        })
-
-
+      if (!username) {
+        throw createHttpError(400, "username is required")
+      }
+      if (!email) {
+        throw createHttpError(400, "email is required")
+      }
+      if (!password) {
+        throw createHttpError(400, "password is required")
+      }
+  
+      const isUserRegistered = await UserModel.findOne({ email })
+      if (isUserRegistered) {
+        throw createHttpError(401, "account already exists, try logging in")
+      }
+  
+      const user = await UserModel.create({
+        username: username,
+        email: email,
+        password: password
+      })
+  
+      // const token = await new Token({
+      //     userId: user._id,
+      //     token: crypto.randomBytes(32).toString("hex"),
+      // }).save();
+  
+      // const url = `${process.env.BASE_URL}user/${user.id}/verify/${token.token}`;
+  
+      // await sendEmail({
+      //     to: user.email,
+      //     subject: "Email Verification",
+      //     text: confirmEmailMessage(url)
+      // });
+  
+      res.json({
+        success: true,
+        message: `Hi ${user.username}, your signup was successful, Kindly confirm the verification email sent to you.`,
+        status: 201
+      })
     } catch (error) {
-        next(error);
+      next(error)
     }
-};
+  }
+  
 
 
 

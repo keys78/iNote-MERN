@@ -33,37 +33,69 @@ interface AuthRequest extends Request {
 export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;
     const boardId = req.params.boardId;
-  
+
     try {
-      if (!mongoose.isValidObjectId(boardId)) {
-        throw createHttpError(400, "invalid board id");
-      }
-  
-      const board = await BoardModel.findById(boardId)
-        .populate({
-          path: "columns",
-          select: "title",
-          populate: {
-            path: "notes",
-            select: "title description",
-          },
-        });
-  
-      if (!board) {
-        throw createHttpError(404, "board not found");
-      }
-  
-      // Check if the user is authorized to access the board
-      if (board.userId.toString() !== userId) {
-        throw createHttpError(403, "unauthorized to access board");
-      }
-  
-      res.status(200).json(board);
+        if (!mongoose.isValidObjectId(boardId)) {
+            throw createHttpError(400, "invalid board id");
+        }
+
+        const board = await BoardModel.findById(boardId)
+            .populate({
+                path: "notes",
+                select: "title description",
+            });
+
+        if (!board) {
+            throw createHttpError(404, "board not found");
+        }
+
+        // Check if the user is authorized to access the board
+        if (board.userId.toString() !== userId) {
+            throw createHttpError(403, "unauthorized to access board");
+        }
+
+        res.status(200).json(board);
     } catch (error) {
-      next(error);
+        next(error);
     }
-  };
-  
+};
+
+
+// // eslint-disable-next-line @typescript-eslint/ban-types
+// export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+//     const userId = req.user?.id;
+//     const boardId = req.params.boardId;
+
+//     try {
+//       if (!mongoose.isValidObjectId(boardId)) {
+//         throw createHttpError(400, "invalid board id");
+//       }
+
+//       const board = await BoardModel.findById(boardId)
+//         .populate({
+//           path: "columns",
+//           select: "title",
+//           populate: {
+//             path: "notes",
+//             select: "title description",
+//           },
+//         });
+
+//       if (!board) {
+//         throw createHttpError(404, "board not found");
+//       }
+
+//       // Check if the user is authorized to access the board
+//       if (board.userId.toString() !== userId) {
+//         throw createHttpError(403, "unauthorized to access board");
+//       }
+
+//       res.status(200).json(board);
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+
 
 
 
@@ -74,7 +106,7 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
-// export const createBoard: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
+    // export const createBoard: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
     const userId = req.user?.id;
     const { title } = req.body
 

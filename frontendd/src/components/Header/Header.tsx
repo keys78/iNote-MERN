@@ -7,6 +7,7 @@ import { useTheme } from "next-themes"
 // import AddNewTaskModal from '@components/Modal/AddNewTaskModal'
 // import { RootState } from 'app/store'
 import { useAppSelector } from '../../network/hooks'
+import UpdateBoardModal from '../Modal/UpdateBoardModal'
 // import { useWindowSize } from 'usehooks-ts'
 
 
@@ -36,6 +37,9 @@ const Header = () => {
             <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
           </div>
         </div>
+        <UpdateBoardModal setShowUpdateBoardModal={function (value: React.SetStateAction<boolean>): void {
+          throw new Error('Function not implemented.')
+        } } />
       </header>
     </>
   )

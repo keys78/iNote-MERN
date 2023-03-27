@@ -4,28 +4,33 @@ import AddNewColumn from './AddNewColumn'
 import Task from './Task'
 import EmptyBoard from './EmptyBoard'
 
-const BoardColumn = () => {
+interface IProps {
+    board?: any
+}
+
+const BoardColumn = ({ board }: IProps) => {
     const { user } = useAppSelector(state => state.user)
 
 
-    const boards = useAppSelector((state: RootState) => state.boards.boards)
-    const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    const boardNameTag = boards[currentBoard] && boards[currentBoard].name
-    const boardColumnsx = boards?.find(element => element.name === boardNameTag);
+    // const boards = useAppSelector((state: RootState) => state.boards.boards)
+    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
+    // const boardNameTag = boards[currentBoard] && boards[currentBoard].name
+    // const boardColumnsx = boards?.find(element => element.name === boardNameTag);
 
 
 
-    const showBoards = (boardColumnsx?.columns)?.map((column, i) =>
+    const showBoards = (board?.columns)?.map((column: any, i:number) =>
         <div key={i} className='column w-[280px] shrink-0'>
             <h3 className="text-[13px] tracking-widest font-bold text-mediumGrey uppercase mb-6">
                 <span className="inline-block h-3 w-3 rounded-full mr-3"></span>
-                {column.name} ({column.tasks.length})
+                {column.title} 
+                ({column.notes.length})
             </h3>
             <ul className="scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll h-full pb-12 flex flex-col gap-5">
-                {(column.tasks).map((task: any, j: any) => (
+                {(column.notes).map((task: any, j: any) => (
                     task.status === column.name && (
                         <>
-                            <Task  data={task} i={i} j={j} boardNameTag={boardNameTag} column={column}/>
+                            <Task task={task} i={i} j={j} column={column} boardNameTag={'Waiting'}/>
                         </>
                     )))}
             </ul>

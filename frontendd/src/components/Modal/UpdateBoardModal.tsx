@@ -1,11 +1,10 @@
-import TextInput from '@components/shared/TextInput'
+import TextInput from '../shared/TextInput'
 import { Formik, FieldArray, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import React, { useState } from 'react'
-import Button from '@components/shared/Button'
-import { editBoard } from 'features/board/boardSlice'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { RootState } from 'app/store'
+import Button from '../shared/Button'
+// import {  } from '../../features/private/boards'
+import { useAppDispatch, useAppSelector } from '../../network/hooks'
 
 interface props {
     setShowUpdateBoardModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,8 +12,8 @@ interface props {
 
 
 const UpdateBoardModal = ({setShowUpdateBoardModal}: props) => {
-    const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    const data = useAppSelector((state: RootState) => state.boards.boards)
+    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
+    // const data = useAppSelector((state: RootState) => state.boards.boards)
 
     const dispatch = useAppDispatch()
     const validate = Yup.object({
@@ -32,9 +31,12 @@ const UpdateBoardModal = ({setShowUpdateBoardModal}: props) => {
             <h1 className="text-lg font-bold mb-6">Add New Board</h1>
             <Formik
                 initialValues={{
-                    id:currentBoard,
-                    name: data[currentBoard].name,
-                    columns:data[currentBoard].columns
+                    id:'',
+                    name: '',
+                    columns:'',
+                    // id:currentBoard,
+                    // name: data[currentBoard].name,
+                    // columns:data[currentBoard].columns
                 }}
                 validationSchema={validate}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -88,7 +90,7 @@ const UpdateBoardModal = ({setShowUpdateBoardModal}: props) => {
                         />
                         <br />
 
-                        <Button type="submit" disabled={isSubmitting} children={ 'Save Changes' } width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
+                        <Button type="submit" disabled={isSubmitting} text={ 'Save Changes' } width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                         
                     </Form>

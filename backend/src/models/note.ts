@@ -2,9 +2,9 @@ import { InferSchemaType, model, Schema } from "mongoose";
 
 
 const noteSchema = new Schema({
-    columnId: {
+    boardId: {
         type: Schema.Types.ObjectId,
-        ref: 'Column',
+        ref: 'Board',
         required: true
     },
     title: { type: String, required: true },
