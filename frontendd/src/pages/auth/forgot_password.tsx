@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
-import { useAppDispatch, } from "@/network/hooks";
+import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 // import { requestPasswordReset } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
+import Loader from '@/components/Loader';
 
 
 export type ForgotPasswordData = {
@@ -14,6 +15,8 @@ export type ForgotPasswordData = {
 
 const ForgotPassword = () => {
     const dispatch = useAppDispatch();
+    const { isLoading } = useAppSelector((state) => state.auth);
+
 
 
     const LoginValidation = yup.object().shape({
@@ -27,6 +30,7 @@ const ForgotPassword = () => {
 
     return (
         <section className="max-w-[400px] w-full mx-auto my-5">
+            {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />
                 <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Reset your password</h1>

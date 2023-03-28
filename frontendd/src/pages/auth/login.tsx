@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
 import { useRouter } from 'next/router';
+import Loader from '@/components/Loader';
 
 
 export type LoginData = {
@@ -51,6 +52,7 @@ const Login = () => {
 
     return (
         <div className="max-w-[400px] w-full mx-auto my-5">
+            {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />
                 <h1 className='pt-6 pb-8 font-bold text-xl text-center'>Welcome back</h1>

@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
-import { useAppDispatch, } from "@/network/hooks";
+import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 // import { confirmPasswordReset } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
+import Loader from '@/components/Loader';
 
 
 export type ConfirmPasswordResetData = {
@@ -15,6 +16,8 @@ export type ConfirmPasswordResetData = {
 const Login = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [inputType, setInputType] = useState<string>('password');
+    const { isLoading } = useAppSelector((state) => state.auth);
+
     const dispatch = useAppDispatch();
 
 
@@ -42,6 +45,7 @@ const Login = () => {
 
     return (
         <section className="max-w-[400px] w-full mx-auto my-5">
+            {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />
                 <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Confirm password reset</h1>

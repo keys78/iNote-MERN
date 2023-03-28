@@ -9,6 +9,7 @@ import Logo from "@/components/Logo";
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Button from '@/components/Button';
+import Loader from '@/components/Loader';
 
 export type SignupData = {
   username: string,
@@ -20,9 +21,8 @@ const Signup = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [inputType, setInputType] = useState<string>('password');
   const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.auth);
 
-  const { isError }  = useAppSelector((state) => state.auth);
- 
 
 
 
@@ -54,6 +54,7 @@ const Signup = () => {
 
   return (
     <section className="max-w-[400px] w-full mx-auto my-5">
+      {isLoading && <Loader />}
       <div className='mx-[16px]'>
         <Logo />
         <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Create your account</h1>
@@ -78,13 +79,13 @@ const Signup = () => {
               const data = { ...values, };
               dispatch(signupUser(data));
               // resetForm();
-             
+
 
             }}
-            
+
           >
             {(props) => (
-                <form onSubmit={props.handleSubmit}>
+              <form onSubmit={props.handleSubmit}>
                 <div className="">
 
                   <div className="input-container">

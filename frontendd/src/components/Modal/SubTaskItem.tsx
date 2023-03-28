@@ -1,12 +1,12 @@
-import { Subtask } from '@src/types';
+import { Subtask } from '../../types';
 
 interface IProps {
     subtask: Subtask,
     i: number,
-    onChangeSubtaskStatus: (val: boolean) => void
+    // onChangeSubtaskStatus: (val: boolean) => void
 }
 
-const SubTaskItem = ({ subtask, i, onChangeSubtaskStatus }: IProps) => {
+const SubTaskItem = ({ subtask, i }: IProps) => {
 
     return (
         <>
@@ -18,9 +18,9 @@ const SubTaskItem = ({ subtask, i, onChangeSubtaskStatus }: IProps) => {
                     type="checkbox"
                     checked={subtask.isCompleted}
                     className="mr-3 accent-mainPurple"
-                    onChange={() => { onChangeSubtaskStatus(!subtask.isCompleted) }}
+                    // onChange={() => { onChangeSubtaskStatus(!subtask.isCompleted) }}
                 />
-                <span className={`${subtask.isCompleted ? "opacity-50 line-through" : "opacity-100"} transition`}>{subtask.title}</span>
+                <span className={`${subtask.isCompleted ? "opacity-50 line-through" : "opacity-100"} transition`}>{subtask.description}</span>
             </label>
         </>
     )

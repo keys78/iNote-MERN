@@ -22,9 +22,7 @@ const BoardDetails = () => {
 
   return (
     <Layout>
-      <div className='flex items-center justify-center'>
-        <Task task={board?.notes}/>
-      </div>
+      <Task task={board?.notes} />
     </Layout>
   )
 }

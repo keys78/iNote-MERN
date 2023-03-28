@@ -14,7 +14,7 @@ interface IBoard {
   isError: boolean,
   isSuccess: boolean,
   isLoading: boolean,
-  message: {} | string | null;
+  message:any;
 }
 
 const initialState: IBoard = {
@@ -65,32 +65,14 @@ export const createNewBoard = createAsyncThunk<{}, void>(
     }
   }
 )
-// add new column
-export const addNewColumn = createAsyncThunk<{}, { id: string | string[] | undefined, columnData: any }>(
-  'create-board',
-  async ({id, columnData}, thunkAPI) => {
-    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
-    try {
-      return await boardService.addNewColumn(id, columnData, token)
-    } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.error) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
 
-// delete column
-export const deleteColumn = createAsyncThunk<void, string>(
-  'columns/deleteColumn',
+// delete board
+export const deleteBoard = createAsyncThunk<any, string>(
+  'delete-board',
   async (id, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      await boardService.deleteColumn(id, token);
+      await boardService.deleteBoard(id, token);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -131,7 +113,42 @@ export const privateSlice = createSlice({
           }
         }
       })
-
+      .addCase(deleteBoard.pending, (state) => {
+        state.isLoading = true
+      })
+      // .addCase(deleteBoard.fulfilled, (state, { payload, payload: { message } }) => {
+      //   state.isLoading = false
+      //   state.isSuccess = true
+      //   state.board = state?.board.filter((board: any) => board._id !== payload._id )
+      //   state.message = message ?? 'unable to delete board'
+      // })
+      
+      
+      .addCase(deleteBoard.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        if(Array.isArray(state.board)) {
+          state.board = state.board.filter((board: any) => board._id !== action?.payload?._id )
+        }
+        state.message = action?.payload?.message! || 'unable to delete board'
+      })
+      // .addCase(deleteBoard.fulfilled, (state, action) => {
+      //   state.isLoading = false
+      //   state.isSuccess = true
+      //   if (action.payload && action.payload._id) {
+      //     state.board = state.board.filter((board: any) => board._id !== action.payload._id )
+      //     state.message = action.payload.message || 'unable to delete board'
+      //   } else {
+      //     state.message = 'unable to delete board'
+      //   }
+      // })
+      
+      
+      .addCase(deleteBoard.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload|| 'unable to delete board'
+      })
   },
 })
 

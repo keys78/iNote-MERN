@@ -1,5 +1,5 @@
 import { InferSchemaType, model, Schema } from "mongoose";
-
+import _ from 'lodash'
 
 const boardSchema = new Schema({
     userId: {
@@ -11,8 +11,13 @@ const boardSchema = new Schema({
     notes: [
         { type: Schema.Types.ObjectId, ref: 'Note' }
     ],
-}, );
+},);
 
-type Board =  InferSchemaType<typeof boardSchema>;
+boardSchema.pre('save', function (next) {
+    this.title = _.capitalize(this.title)
+    next();
+});
+
+type Board = InferSchemaType<typeof boardSchema>;
 
 export default model<Board>("Board", boardSchema)

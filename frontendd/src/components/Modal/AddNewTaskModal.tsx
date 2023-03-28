@@ -1,14 +1,13 @@
-import TextInput from '@components/shared/TextInput'
+import TextInput from '../shared/TextInput'
 import { Formik, Field, FieldArray, Form } from 'formik'
 import * as Yup from 'yup'
 import React, { useEffect } from 'react'
-import Button from '@components/shared/Button'
-import StatustDropdown from '@components/shared/StatustDropdown'
-import TextArea from '@components/shared/TextArea'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { RootState } from 'app/store'
+import Button from '../shared/Button'
+// import StatustDropdown from '../shared/StatustDropdown'
+import TextArea from '../shared/TextArea'
+import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { useState } from 'react'
-import { addTask } from '../../../features/board/boardSlice'
+// import { addTask } from '../../../features/board/boardSlice'
 import Select from './Select'
 
 const AddNewTaskModal = () => {
@@ -22,12 +21,11 @@ const AddNewTaskModal = () => {
     })
 
 
-    const boards = useAppSelector((state: RootState) => state.boards.boards)
-    const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    const boardNameTag = boards[currentBoard] && boards[currentBoard].name
-    const boardColumnsx = boards?.find(element => element.name === boardNameTag)?.columns;
+    // const boards = useAppSelector((state: RootState) => state.boards.boards)
+    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
+    // const boardNameTag = boards[currentBoard] && boards[currentBoard].name
+    // const boardColumnsx = boards?.find(element => element.name === boardNameTag)?.columns;
 
-    console.log(boardColumnsx)
     const [status, setStatus] = useState('');
 
     return (
@@ -36,14 +34,16 @@ const AddNewTaskModal = () => {
             <Formik
                 initialValues={{
 
-                    task: {
-                        title: "",
-                        description: "",
-                        subtasks: [],
-                        status: '',
-                    },
-                    boardName: boardNameTag,
-                    columnName: ''
+                    // task: {
+                    //     title: "",
+                    //     description: "",
+                    //     subtasks: [],
+                    //     status: '',
+                    // }
+                    title: "",
+                    description: "",
+                    subtasks: [],
+                    status: '',
 
                 }}
 
@@ -52,8 +52,7 @@ const AddNewTaskModal = () => {
                     setSubmitting(true)
 
                     //make async call
-                    values.columnName = values.task.status
-                    dispatch(addTask(values))
+                    // dispatch(addTask(values))
                     console.log('submit:', values);
                     setSubmitting(false)
                     resetForm()
@@ -61,8 +60,8 @@ const AddNewTaskModal = () => {
             >
                 {({ values, isSubmitting, handleSubmit }) => (
                     <Form onSubmit={handleSubmit}>
-                        <TextInput label='Title' name={'task.title'} type="input" placeholder='eg: Take Coffee Break' />
-                        <TextArea label="Description" name={'task.description'} type="text" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." />
+                        <TextInput label='Title' name={'title'} type="input" placeholder='eg: Take Coffee Break' />
+                        <TextArea label="Description" name={'description'} type="text" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." />
 
                         <label className="body-md text-sm font-bold capitalize text-mediumGrey dark:text-white mt-6 block">
                             subtasks
@@ -71,7 +70,7 @@ const AddNewTaskModal = () => {
                         <FieldArray name="task.subtasks"
                             render={arrayHelpers => (
                                 <div>
-                                    {values.task.subtasks.map((_, i) => (
+                                    {values?.subtasks?.map((_, i) => (
                                         <div key={i} className="flex">
                                             <TextInput label='' name={`task.subtasks.${i}.title`} type="text" placeholder="e.g. Archived" />
 
@@ -92,7 +91,7 @@ const AddNewTaskModal = () => {
                                     <button
                                         type='button'
                                         onClick={() => arrayHelpers.push({ title: "", isCompleted: false })}
-                                        className={'bg-[#635FC71A] rounded-full w-full py-[7px] text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
+                                        className={'bg-[#635FC71A] rounded-full w-full py-[7px] mb-3 text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
                                     >
                                         {'+ Add New Subtask'}
                                     </button>
@@ -100,9 +99,10 @@ const AddNewTaskModal = () => {
                             )}
                         />
 
-                        <StatustDropdown boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br />
+                        {/* <StatustDropdown boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br /> */}
 
-                        <Button type="submit" disabled={isSubmitting} width={"w-full"} padding={'py-[7px]'} color={'text-white'} >Save Changes</Button>
+                        {/* <Button type="submit" disabled={isSubmitting} width={"w-full"} padding={'py-[7px]'} color={'text-white'} >Save Changes</Button> */}
+                        <Button text="Save Changes" type='submit' width={"w-full"} padding={'py-[7px]'} color={'text-white'}/>
                         <pre>{JSON.stringify(values, null, 2)}</pre>
                     </Form>
                 )}

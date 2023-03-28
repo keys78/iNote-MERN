@@ -1,5 +1,9 @@
 import { InferSchemaType, model, Schema } from "mongoose";
 
+const subTaskSchema = new Schema({
+    description: { type: String, required: true },
+    isCompleted: { type: Boolean, default: false }
+});
 
 const noteSchema = new Schema({
     boardId: {
@@ -9,8 +13,11 @@ const noteSchema = new Schema({
     },
     title: { type: String, required: true },
     description: { type: String, required: true },
-}, {timestamps: true});
+    status: { type: String, required: true },
+    subTasks: [subTaskSchema]
+}, { timestamps: true });
 
-type Note =  InferSchemaType<typeof noteSchema>;
 
-export default model<Note>("Note", noteSchema)
+type Note = InferSchemaType<typeof noteSchema>;
+
+export default model<Note>("Note", noteSchema);

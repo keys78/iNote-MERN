@@ -18,8 +18,10 @@ const Header = () => {
   const [isAddNewTask, setIsAddNewTask] = useState<boolean>(false)
   const { theme } = useTheme();
   // const { width } = useWindowSize()
-
+  const { board } = useAppSelector((state) => state.board);
   const { user } = useAppSelector(state => state.user)
+
+
   // const currentBoard = useAppSelector((state: RootState) => state?.currentBoard)
   // const boardTitle: any = data?.length && (data)[currentBoard.value].name
 
@@ -30,16 +32,30 @@ const Header = () => {
         <div className="w-[360px] p-8 box-border transition-all ease border-r border-r-lightGreyLine dark:border-r-darkGreyLine">
           <div className='text-2xl font-bold'>iNote</div>
         </div>
-        
+
         <div className='flex items-center justify-between w-[100%] px-6'>
-          <h1>{'no boards found'}</h1>
+          <h1>{board ? board?.title : 'No boards found'}</h1>
           <div className='flex items-center space-x-4'>
             <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
+            <EditButton
+              className={'-bottom-28 -left-44 border '}
+              type="Board" task={undefined} currentBoard={undefined} setShowDetails={function (value: React.SetStateAction<boolean>): void {
+                throw new Error('Function not implemented.')
+              }} />
           </div>
         </div>
-        {/* <UpdateBoardModal setShowUpdateBoardModal={function (value: React.SetStateAction<boolean>): void {
-          throw new Error('Function not implemented.')
-        } } /> */}
+
+        {/* <div className='flex items-center justify-between w-[100%] px-6 border border-red-500'>
+          <h2 className='font-sans text-lg font-bold'>{boardTitle ? boardTitle : "Create New Board"}</h2>
+          <div className='flex items-center space-x-4'>
+            <Button children={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
+            <EditButton currentBoard={boardTitle}
+              className={'-bottom-28 -left-44 border '}
+              type="Board"
+            />
+          </div>
+        </div> */}
+
       </header>
     </>
   )

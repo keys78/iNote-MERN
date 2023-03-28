@@ -28,30 +28,18 @@ const createNewBoard = async (boardData: unknown, token: IToken) => {
   return data
 }
 
-
-// add column
-const addNewColumn = async (id:any, columnData: unknown, token: IToken) => {
+// create board
+const deleteBoard = async (id: string, token: IToken) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   }
-  const {data} = await axios.post(PRIVATE_API_URL + `add-column/${id}`, columnData, config)
+  const {data} = await axios.delete(PRIVATE_API_URL + `delete-board/${id}`, config)
   return data
 }
 
-// add column
-const deleteColumn = async (id:any, token: IToken) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }
-  const {data} = await axios.delete(PRIVATE_API_URL + `delete-column/${id}`, config)
-  return data
-}
 
 
 
@@ -59,8 +47,7 @@ const deleteColumn = async (id:any, token: IToken) => {
 const userService =  {
     getBoard,
     createNewBoard,
-    addNewColumn,
-    deleteColumn
+    deleteBoard
+   
 }
-
 export default userService

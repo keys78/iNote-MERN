@@ -1,7 +1,7 @@
 import TextInput from '../shared/TextInput'
 import { Formik, FieldArray, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../shared/Button'
 import { createNewBoard } from '../../features/private/boards/boardSlice'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
@@ -17,8 +17,13 @@ interface IProps {
 
 
 const CreateNewBoard = ({ showModal, setShowModal}: IProps) => {
-
     const dispatch = useAppDispatch()
+
+
+    useEffect(() => {
+        dispatch(getUser())
+    }, [])
+
     const validate = Yup.object({
         title: Yup.string().required("Board title is required"),
         // columns: Yup.array().of(
@@ -43,7 +48,7 @@ const CreateNewBoard = ({ showModal, setShowModal}: IProps) => {
                     dispatch(createNewBoard(data))
                     setSubmitting(false)
                     resetForm()
-                    setShowModal(!showModal)
+                    setShowModal(false)
                     dispatch(getUser())
                 }}
             >

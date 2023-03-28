@@ -41,3 +41,13 @@ export interface IResetPassword {
 export interface IToken {
     token: string;
 }
+
+
+
+
+
+// subtask
+export interface Subtask {
+    description: string;
+    isCompleted: boolean;
+}

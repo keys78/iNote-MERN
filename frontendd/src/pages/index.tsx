@@ -4,10 +4,13 @@ import Link from 'next/link'
 import Logo from '@/components/Logo'
 // const inter = Inter({ subsets: ['latin'] })
 import type { NextPageWithLayout } from './_app'
+import { useAppSelector } from '@/network/hooks'
+import Loader from '@/components/Loader'
 
 const Page: NextPageWithLayout = () => {
   return (
     <>
+      <Loader />
       <div className='flex items-center justify-center h-[100vh]'>
         <div className='text-center'>
           <Logo />

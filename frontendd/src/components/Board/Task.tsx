@@ -9,8 +9,9 @@ interface IProps {
 }
 
 const Task = ({ task }: IProps) => {
-    const [showDetails, setShowDetails] = useState<boolean>(false)
+    // const [showDetails, setShowDetails] = useState<boolean>(false)
     const [status, setStatus] = useState('');
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const getGroupName = (status: any) => {
         switch (status) {
@@ -40,13 +41,25 @@ const Task = ({ task }: IProps) => {
 
 
 
+    const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
+
     const lists = groupByName && Object.keys(groupByName).map((key) => {
-        const items = groupByName[key].map((item: any, i: number) => (
-            <li onClick={() => setShowDetails(!showDetails)} key={i} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
-                <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
-                <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.description}</h4>
-            </li>
-        ));
+        const items = groupByName[key].map((item: any, i: number) => {
+            const showModal = showDetails[item._id];
+            return (
+                <>
+                    <li onClick={() => setShowDetails({ ...showDetails, [item._id]: true })} key={i} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
+                        <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
+                        <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.description}</h4>
+                    </li>
+                    {showModal && (
+                        <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
+                            <TaskDetailsModal item={item} />
+                        </Modal>
+                    )}
+                </>
+            );
+        });
         return (
             <div key={key} className='column w-[280px] shrink-0'>
                 <h3 className="text-[13px] tracking-widest font-bold text-mediumGrey uppercase mb-6">
@@ -65,14 +78,13 @@ const Task = ({ task }: IProps) => {
 
 
 
-
-
-
     return (
         <>
             {lists?.length ?
                 <div
-                    className='h-[calc(100vh-85px)] overflow-y-hidden scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent flex-1 p-4 gap-[20px] bg-lightGrey dark:bg-veryDarkGrey flex'>
+                    className='h-[calc(100vh-85px)] w-full overflow-y-hidden scrollbar-thin scrollbar-thumb-mainPurple 
+                    scrollbar-track-transparent flex-1 p-4 gap-[20px] bg-lightGrey dark:bg-veryDarkGrey flex'
+                >
                     {lists}
                 </div> :
                 <EmptyBoard />

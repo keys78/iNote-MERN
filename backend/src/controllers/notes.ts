@@ -38,21 +38,51 @@ export const getNote: RequestHandler = async (req, res, next) => {
 };
 
 interface CreateNoteBody {
-    title?: string,
-    description?: string
+    title: string;
+    description: string;
+    status: string,
+    subTasks?: { description: string }[];
 }
 
+
+// export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (req, res, next) => {
+//     const { title, description } = req.body
+
+//     try {
+//         if (!title) {
+//             throw createHttpError(400, "title is required")
+//         }
+//         const newNote = await NoteModel.create({
+//             title: title,
+//             description: description,
+//             boardId: req?.params.boardId
+//         });
+
+//         await BoardModel.updateOne({ _id: newNote.boardId }, { $push: { notes: newNote._id } });
+
+//         res.status(201).json(newNote);
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
 export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (req, res, next) => {
-    const { title, description } = req.body
+    const { title, description, status, subTasks } = req.body;
 
     try {
         if (!title) {
             throw createHttpError(400, "title is required")
         }
+        if (!status) {
+            throw createHttpError(400, "status is required")
+        }
+
         const newNote = await NoteModel.create({
             title: title,
             description: description,
-            boardId: req?.params.boardId
+            status: status,
+            boardId: req?.params.boardId,
+            subTasks: subTasks || []
         });
 
         await BoardModel.updateOne({ _id: newNote.boardId }, { $push: { notes: newNote._id } });

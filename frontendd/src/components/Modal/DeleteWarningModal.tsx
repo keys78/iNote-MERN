@@ -1,13 +1,12 @@
-import { deleteBoard, deleteTask } from '../../../features/board/boardSlice'
-import { useAppDispatch } from 'app/hooks'
-import { Task } from '@src/types'
-import { RootState } from 'app/store'
-import { useAppSelector } from 'app/hooks'
+import { deleteBoard } from '@/features/private/boards/boardSlice'
+import { useAppDispatch, useAppSelector } from '../../network/hooks'
+// import { Task } from '@src/types'
+// import { RootState } from 'app/store'
 
 
 interface deleteWarningProps {
     currentBoard: string
-    currentTask: Task
+    currentTask: any
     type: string
     setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
     setShowDetails: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,32 +14,32 @@ interface deleteWarningProps {
 }
 
 const DeleteWarningModal = ({ type, currentBoard, setShowDetails, currentTask, setShowMenu, setShowDeleteBoardModal }: deleteWarningProps) => {
-
-    const data = useAppSelector((state: RootState) => state.boards.boards)
-    const currentBoardx = useAppSelector((state: RootState) => state?.currentBoard)
-    const boardTitle: any = data?.length && (data)[ currentBoardx.value].name
-
+    const { board } = useAppSelector((state) => state.board);
     const dispatch = useAppDispatch();
+
+
+
     const deleteBoardAction = () => {
-        dispatch(deleteBoard(currentBoard))
+        dispatch(deleteBoard(board?._id))
         setShowDeleteBoardModal(false)
     }
 
     const deleteTaskAction = () => {
-        dispatch(deleteTask({taskTitle: currentTask.title, boardName: boardTitle, columnName: currentTask.status }))
+        // dispatch(deleteTask({taskTitle: currentTask.title, boardName: boardTitle, columnName: currentTask.status }))
         setShowDetails(false)
     }
 
     return (
         <div className="space-y-6 w-full mx-auto rounded-md bg-white dark:bg-darkGrey">
             <h1 className="text-mainRed font-bold text-[16px]">Delete this {type === "Board" ? 'board' : 'task'}?</h1>
-            {type === 'Board' ? <p className="text-[13px] text-black">Are you sure you want to delete the &apos;{currentBoard}&apos; board? This action will remove all columns and tasks and cannot be reversed.</p> :
+            {type === 'Board' ?
+                <p className="text-[13px] text-black">Are you sure you want to delete the &apos;{board?.title}&apos; board? This action will remove all columns and tasks and cannot be reversed.</p> :
                 <p className="text-[13px] text-black">Are you sure you want to delete the  &apos;{currentTask.title}&apos; task and its subtasks? This action cannot be reversed</p>
             }
             <div className="flex gap-4">
 
                 <button className="flex-1 bg-mainRed text-white text-[13px] rounded-full p-2 transition duration-200 hover:bg-mainRedHover"
-                    onClick={type === "Board"? deleteBoardAction : deleteTaskAction}
+                    onClick={type === "Board" ? deleteBoardAction : deleteTaskAction}
                 >
                     Delete
                 </button>
