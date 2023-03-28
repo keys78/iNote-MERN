@@ -4,14 +4,12 @@ import { protect } from '../middlewares/authProtect'
 
 const router = express.Router();
 
-router.get('/get-boards', BoardsController.getAllBoards);
-
 router.get('/get-board/:boardId', protect, BoardsController.getSingleBoard);
 
 router.post('/create-board', protect, BoardsController.createBoard);
 
-router.patch('/update-board/:boardId', BoardsController.updateBoard);
+router.patch('/edit-board/:boardId',protect, BoardsController.updateBoard);
 
-router.delete('/delete-board/:boardId', BoardsController.deleteBoard);
+router.delete('/delete-board/:boardId',protect, BoardsController.deleteBoard);
 
 export default router;

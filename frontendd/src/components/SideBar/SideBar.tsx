@@ -15,7 +15,7 @@ interface props {
 }
 
 const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state) => state.user);/*  */
     const dispatch = useAppDispatch();
 
     function logout() {

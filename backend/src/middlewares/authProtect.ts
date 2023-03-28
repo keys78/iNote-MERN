@@ -29,29 +29,10 @@ export const protect: RequestHandler = async (req: AuthRequest, res: Response, n
     return res.status(401).json({ error: 'Not authorized to access this routey' });
   }
 
-  // try {
-  //   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  //   console.log(decoded)
-
-  //   const user = await UserModel.findById((decoded as JwtPayload).id);
-
-
-  //   if (!user) {
-  //     throw createHttpError(401, 'No user found with this id');
-  //   }
-
-  //   req.user = user;
-
-
-  //   next();
-  // } catch (error) {
-  //   throw createHttpError(401, 'Not authorized to access this routeppuuu');
-  // }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('decodede', decoded)
-  
+      
     const user = await UserModel.findById((decoded as JwtPayload).id);
   
     if (!user) {

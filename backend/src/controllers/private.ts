@@ -37,8 +37,11 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
         const user = await UsersModel.findById(id)
             .populate({
                 path: 'boards',
-                select:
-                    'title',
+                select: 'title',
+                populate: {
+                    path: 'notes',
+                    select: 'title description status subTasks '
+                }
             })
             .exec();
 

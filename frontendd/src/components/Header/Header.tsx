@@ -8,6 +8,8 @@ import { useTheme } from "next-themes"
 // import { RootState } from 'app/store'
 import { useAppSelector } from '../../network/hooks'
 import UpdateBoardModal from '../Modal/UpdateBoardModal'
+import Modal from '../Modal'
+import AddNewTaskModal from '../Modal/AddNewTaskModal'
 // import { useWindowSize } from 'usehooks-ts'
 
 
@@ -45,17 +47,9 @@ const Header = () => {
           </div>
         </div>
 
-        {/* <div className='flex items-center justify-between w-[100%] px-6 border border-red-500'>
-          <h2 className='font-sans text-lg font-bold'>{boardTitle ? boardTitle : "Create New Board"}</h2>
-          <div className='flex items-center space-x-4'>
-            <Button children={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
-            <EditButton currentBoard={boardTitle}
-              className={'-bottom-28 -left-44 border '}
-              type="Board"
-            />
-          </div>
-        </div> */}
-
+        <Modal showModal={isAddNewTask} setShowModal={setIsAddNewTask}>
+          <AddNewTaskModal />
+        </Modal>
       </header>
     </>
   )

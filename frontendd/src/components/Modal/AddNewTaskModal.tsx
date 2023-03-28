@@ -7,11 +7,13 @@ import Button from '../shared/Button'
 import TextArea from '../shared/TextArea'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { useState } from 'react'
-// import { addTask } from '../../../features/board/boardSlice'
 import Select from './Select'
+import { addTask, getBoard } from '@/features/private/boards/boardSlice'
 
 const AddNewTaskModal = () => {
     const dispatch = useAppDispatch()
+    const { board } = useAppSelector((state) => state.board)
+
 
     const validate = Yup.object({
         name: Yup.string().required("required"),
@@ -40,10 +42,11 @@ const AddNewTaskModal = () => {
                     //     subtasks: [],
                     //     status: '',
                     // }
-                    title: "",
-                    description: "",
-                    subtasks: [],
+                    title: '',
+                    description: '',
                     status: '',
+                    subTasks: [],
+
 
                 }}
 
@@ -51,9 +54,9 @@ const AddNewTaskModal = () => {
                 onSubmit={(values, { setSubmitting, resetForm }) => {
                     setSubmitting(true)
 
-                    //make async call
-                    // dispatch(addTask(values))
                     console.log('submit:', values);
+                    dispatch(addTask({ boardId: board?._id, taskData: values }))
+                    dispatch(getBoard({ id: board?._id }))
                     setSubmitting(false)
                     resetForm()
                 }}
@@ -62,6 +65,7 @@ const AddNewTaskModal = () => {
                     <Form onSubmit={handleSubmit}>
                         <TextInput label='Title' name={'title'} type="input" placeholder='eg: Take Coffee Break' />
                         <TextArea label="Description" name={'description'} type="text" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." />
+                        <TextInput label="Status" name={'status'} type="text" placeholder="e.g. todo" />
 
                         <label className="body-md text-sm font-bold capitalize text-mediumGrey dark:text-white mt-6 block">
                             subtasks
@@ -70,7 +74,7 @@ const AddNewTaskModal = () => {
                         <FieldArray name="task.subtasks"
                             render={arrayHelpers => (
                                 <div>
-                                    {values?.subtasks?.map((_, i) => (
+                                    {values?.subTasks?.map((_, i) => (
                                         <div key={i} className="flex">
                                             <TextInput label='' name={`task.subtasks.${i}.title`} type="text" placeholder="e.g. Archived" />
 
@@ -90,7 +94,7 @@ const AddNewTaskModal = () => {
 
                                     <button
                                         type='button'
-                                        onClick={() => arrayHelpers.push({ title: "", isCompleted: false })}
+                                        onClick={() => arrayHelpers.push({ description: "" })}
                                         className={'bg-[#635FC71A] rounded-full w-full py-[7px] mb-3 text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
                                     >
                                         {'+ Add New Subtask'}
@@ -102,7 +106,7 @@ const AddNewTaskModal = () => {
                         {/* <StatustDropdown boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br /> */}
 
                         {/* <Button type="submit" disabled={isSubmitting} width={"w-full"} padding={'py-[7px]'} color={'text-white'} >Save Changes</Button> */}
-                        <Button text="Save Changes" type='submit' width={"w-full"} padding={'py-[7px]'} color={'text-white'}/>
+                        <Button text="Save Changes" type='submit' width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
                         <pre>{JSON.stringify(values, null, 2)}</pre>
                     </Form>
                 )}
@@ -112,3 +116,4 @@ const AddNewTaskModal = () => {
 }
 
 export default AddNewTaskModal;
+// isCompleted: false 
