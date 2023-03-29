@@ -56,7 +56,10 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
                 <DeleteWarningModal setShowDetails={setShowDetails} currentTask={task} type='Board' currentBoard={currentBoard} setShowMenu={setShowMenu} setShowDeleteBoardModal={setShowDeleteBoardModal} />
               </Modal>
             </>
-          </div> :
+          </div> 
+          
+          :
+
           // tasks CTA Modals
           <div ref={menuRef} className={`${className} flex flex-col items-start space-y-4 absolute body-lg rounded-lg p-4 w-48 shadow-main capitalize bg-white dark:bg-veryDarkGrey`}
           >
@@ -83,7 +86,6 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
         )
       }
     </div>
-
   )
 }
 

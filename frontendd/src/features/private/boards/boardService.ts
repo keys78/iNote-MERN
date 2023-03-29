@@ -67,6 +67,32 @@ const addTask = async (boardId: any, taskData: unknown, token: IToken) => {
   return data
 }
 
+// edit Task
+const editTask = async (nodeId: any, taskData: unknown, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const { data } = await axios.patch(PRIVATE_API_URL + `update-note/${nodeId}`, taskData, config)
+  toast.success(data?.message)
+  return data
+}
+
+// delete Task
+const deleteTask = async (boardId: any, noteId: any, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const { data } = await axios.delete(PRIVATE_API_URL + `deleteNote/${boardId}/${noteId}`, config)
+  toast.success(data?.message)
+  return data
+}
+
 
 
 
@@ -75,8 +101,10 @@ const userService = {
   createNewBoard,
   editBoard,
   deleteBoard,
-  
-  addTask
+
+  addTask,
+  editTask,
+  deleteTask
 
 }
 export default userService

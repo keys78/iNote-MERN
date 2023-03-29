@@ -99,14 +99,18 @@ interface UpdateNoteParams {
 }
 
 interface UpdateNoteBody {
-    title: string,
-    description: string
+    title: string;
+    description: string;
+    status: string,
+    subTasks: string[];
 }
 
 export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown> = async (req, res, next) => {
-    const noteId = req.params.noteId;
-    const newTitle = req.body.title;
-    const newText = req.body.description;
+    const noteId = req?.params.noteId;
+    const newTitle = req?.body.title;
+    const newText = req?.body.description;
+    const newStatus = req?.body.status;
+    const newSubTasks = req?.body.subTasks;
 
     try {
 
@@ -124,16 +128,19 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
             throw createHttpError(404, "Note not found");
         }
 
-        note.title = newTitle;
-        note.description = newText;
-
-        const updatedNote = await note.save();
+        // use spread syntax to update the note object
+        const updatedNote = await NoteModel.findByIdAndUpdate(
+            noteId,
+            { ...note.toObject(), title: newTitle, description: newText, status: newStatus, subTasks: newSubTasks },
+            { new: true }
+        ).exec();
 
         res.status(200).json({ data: updatedNote, message: "note updated successfully" });
     } catch (error) {
         next(error);
     }
 };
+
 
 
 

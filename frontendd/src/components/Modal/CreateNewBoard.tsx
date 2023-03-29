@@ -46,6 +46,7 @@ const CreateNewBoard = ({ showModal, setShowModal}: IProps) => {
 
                     const data = { ...values, };
                     dispatch(createNewBoard(data))
+                    dispatch(getUser())
                     setSubmitting(false)
                     resetForm()
                     setShowModal(false)

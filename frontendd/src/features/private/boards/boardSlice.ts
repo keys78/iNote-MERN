@@ -1,6 +1,7 @@
 import { Auth } from '@/features/auth/authSlice';
 import { IToken, IUser } from '@/types';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify';
 import boardService from './boardService';
 
 
@@ -26,6 +27,18 @@ const initialState: IBoard = {
 }
 
 
+function errorHandler(error: { response: { data: { error: any; }; }; message: any; toString: () => any; }, thunkAPI: { rejectWithValue: (arg0: any) => any; }) {
+  const message =
+    (error.response &&
+      error.response.data &&
+      error.response.data.error) ||
+    error.message ||
+    error.toString()
+  toast.error(message, { autoClose: 1000 });
+  return thunkAPI.rejectWithValue(message)
+}
+
+
 // get board
 export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined; }>(
   'get-board',
@@ -34,13 +47,7 @@ export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined
     try {
       return await boardService.getBoard(id, token)
     } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.error) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+      errorHandler(error, thunkAPI)
     }
   }
 );
@@ -48,33 +55,19 @@ export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined
 
 
 // create board
-export const createNewBoard = createAsyncThunk<{}, void>(
+export const createNewBoard = createAsyncThunk<{}, any>(
   'create-board',
   async (boardData, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
       return await boardService.createNewBoard(boardData, token)
     } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.error) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+      errorHandler(error, thunkAPI)
     }
   }
 )
 
-function errorHandler(error: { response: { data: { error: any; }; }; message: any; toString: () => any; }, thunkAPI: { rejectWithValue: (arg0: any) => any; }) {
-  const message =
-    (error.response &&
-      error.response.data &&
-      error.response.data.error) ||
-    error.message ||
-    error.toString()
-  return thunkAPI.rejectWithValue(message)
-}
+
 
 // edit board
 export const editBoard = createAsyncThunk<{}, any>(
@@ -97,13 +90,7 @@ export const deleteBoard = createAsyncThunk<any, string>(
     try {
       await boardService.deleteBoard(id, token);
     } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.error) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+      errorHandler(error, thunkAPI)
     }
   }
 );
@@ -119,6 +106,33 @@ export const addTask = createAsyncThunk<{}, any>(
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
       return await boardService.addTask(boardId, taskData, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
+// edit task
+export const editTask = createAsyncThunk<{}, any>(
+  'edit-task',
+  async ({ noteId, taskData }, thunkAPI) => {
+    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
+    try {
+      return await boardService.editTask(noteId, taskData, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
+
+// add task
+export const deleteTask = createAsyncThunk<any, any>(
+  'delete-task',
+  async ({ boardId, noteId }, thunkAPI) => {
+    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
+    try {
+      return await boardService.deleteTask(boardId, noteId, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }
@@ -188,7 +202,7 @@ export const privateSlice = createSlice({
         if (Array.isArray(state.board)) {
           state.board = state.board.filter((board: any) => board._id !== action?.payload?._id)
         }
-        state.message = action?.payload?.message || 'unable to delete board'
+        state.message = action?.payload?.message || 'board deleted'
       })
       .addCase(deleteBoard.rejected, (state, action) => {
         state.isLoading = false
@@ -214,6 +228,23 @@ export const privateSlice = createSlice({
             return state
           }
         }
+      })
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoading = true
+      })
+
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        if (Array.isArray(state.board)) {
+          state.board = state.board.filter((board: any) => board._id !== action?.payload?._id)
+        }
+        state.message = action?.payload?.message || 'task deleted'
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload || 'unable to delete task'
       })
   },
 })

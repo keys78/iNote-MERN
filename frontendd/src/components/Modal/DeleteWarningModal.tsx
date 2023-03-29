@@ -1,4 +1,4 @@
-import { deleteBoard } from '@/features/private/boards/boardSlice'
+import { deleteBoard, deleteTask, getBoard } from '@/features/private/boards/boardSlice'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
 // import { Task } from '@src/types'
 // import { RootState } from 'app/store'
@@ -18,14 +18,15 @@ const DeleteWarningModal = ({ type, currentBoard, setShowDetails, currentTask, s
     const dispatch = useAppDispatch();
 
 
-
     const deleteBoardAction = () => {
         dispatch(deleteBoard(board?._id))
+        dispatch(getBoard(board?._id))
         setShowDeleteBoardModal(false)
     }
 
     const deleteTaskAction = () => {
-        // dispatch(deleteTask({taskTitle: currentTask.title, boardName: boardTitle, columnName: currentTask.status }))
+        dispatch(deleteTask({ boardId: board?._id, noteId: currentTask?._id }))
+        dispatch(getBoard(board?._id))
         setShowDetails(false)
     }
 
@@ -34,7 +35,7 @@ const DeleteWarningModal = ({ type, currentBoard, setShowDetails, currentTask, s
             <h1 className="text-mainRed font-bold text-[16px]">Delete this {type === "Board" ? 'board' : 'task'}?</h1>
             {type === 'Board' ?
                 <p className="text-[13px] text-black">Are you sure you want to delete the &apos;{board?.title}&apos; board? This action will remove all columns and tasks and cannot be reversed.</p> :
-                <p className="text-[13px] text-black">Are you sure you want to delete the  &apos;{currentTask.title}&apos; task and its subtasks? This action cannot be reversed</p>
+                <p className="text-[13px] text-black">Are you sure you want to delete the  &apos;{currentTask?.title}&apos; task and its subtasks? This action cannot be reversed</p>
             }
             <div className="flex gap-4">
 

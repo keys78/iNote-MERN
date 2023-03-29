@@ -1,14 +1,11 @@
 import TextInput from '../shared/TextInput'
 import { Formik, FieldArray, Form } from 'formik'
 import * as Yup from 'yup'
-import React, { useEffect } from 'react'
 import Button from '../shared/Button'
-import StatustDropdown from '../../components/shared/StatusDropdown'
 import TextArea from '../shared/TextArea'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
-import { useState } from 'react'
-// import { addTask, editTask } from '../../../features/board/boardSlice'
-import Select from './Select'
+import { editTask, getBoard } from '@/features/private/boards/boardSlice'
+import StatusDropdown from '../../components/shared/StatusDropdown'
 // import { Task } from '@src/types'
 
 interface Props {
@@ -17,28 +14,22 @@ interface Props {
     setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) => {
+const AddNewTaskModal = ({ task, setShowUpdateBoardModal, setShowMenu }: Props) => {
     const dispatch = useAppDispatch()
+    const { board } = useAppSelector((state) => state.board)
+
+    const arr = board?.notes?.map((val: any) => val.status)
+    const status = [...new Set(arr)];
 
     const validate = Yup.object({
-        name: Yup.string().required("required"),
-        subtasks: Yup.array().of(
-            Yup.string().required("required"),
-        )
+        title: Yup.string().required("required"),
+        status: Yup.string().required("required"),
+        subTasks: Yup.array().of(
+            Yup.object().shape({
+              description: Yup.string().required("Subtask description is required"),
+            })
+          ),
     })
-
-
-
-    // const boards = useAppSelector((state: RootState) => state.boards.boards)
-    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    // const boardNameTag = boards[currentBoard] && boards[currentBoard].name
-    // const boardColumnsx = boards?.find(element => element.name === boardNameTag)?.columns;
-
-    // console.log('ts', task.subtasks)
-
-
-    // const [status, setStatus] = useState(boardColumnsx && boardColumnsx[0].name);
-    const [status, setStatus] = useState('');
 
 
 
@@ -47,43 +38,38 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
             <h1 className="text-lg font-bold mb-6">Edit Task</h1>
             <Formik
                 initialValues={{
-
-                    task: {
-                        title:task.title ,
-                        description: task.description,
-                        subtasks:task.subtasks,
-                        status:'',
-                    },
-                   
+                    title: task?.title,
+                    description: task?.description,
+                    subTasks: task?.subTasks,
+                    status:task?.status
 
                 }}
-                // validationSchema={validate}
+                validationSchema={validate}
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true)
 
-                    //make async call
-                    // values.columnName = values.task.status
-                    // dispatch(editTask(values))
+                    dispatch(editTask({ noteId: task?._id, taskData: values }))
+                    dispatch(getBoard({ id: board?._id }))
                     setSubmitting(false)
                     setShowUpdateBoardModal(false)
                     setShowMenu(false)
                 }}
             >
-                {({ values, isSubmitting, handleSubmit }) => (
-                    <Form onSubmit={handleSubmit}>
-                        <TextInput label='Title' name={'task.title'} type="input" placeholder='eg: Take Coffee Break' />
-                        <TextArea label="Description" name={'task.description'} type="text" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." />
+                {(props) => (
+                    <Form onSubmit={props.handleSubmit}>
+                        <TextInput label='Title' name={'title'} type="input" placeholder='eg: Take Coffee Break' />
+                        <TextArea label="Description" name={'description'} type="text" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." />
 
                         <label className="body-md text-sm font-bold capitalize text-mediumGrey dark:text-white mt-6 block">
                             subtasks
                         </label>
 
-                        <FieldArray name="task.subtasks"
+                        <FieldArray name="subTasks"
                             render={arrayHelpers => (
                                 <div>
-                                    {values.task.subtasks.map((_, i:number) => (
+                                    {props.values?.subTasks?.map((_: any, i: number) => (
                                         <div key={i} className="flex">
-                                            <TextInput label='' name={`task.subtasks.${i}.title`} type="text" placeholder="e.g. Archived" />
+                                            <TextInput label='' name={`subTasks.${i}.description`} type="text" placeholder="e.g. Archived" />
 
                                             <button onClick={() => arrayHelpers.remove(i)}
                                                 className="text-mediumGrey hover:text-mainRed ml-4"
@@ -99,21 +85,23 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
                                     ))}
                                     <br />
 
-                                    <button
-                                        type='button'
-                                        onClick={() => arrayHelpers.push({ title: "", isCompleted: false })}
-                                        className={'bg-[#635FC71A] rounded-full w-full py-[7px] text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
-                                    >
-                                        {'+ Add New Subtask'}
-                                    </button>
+                                    {props.values?.subTasks?.length <= 5 &&
+                                        <button
+                                            type='button'
+                                            onClick={() => arrayHelpers.push({ description: "" })}
+                                            className={'bg-[#635FC71A] rounded-full w-full py-[7px] text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
+                                        >
+                                            {'+ Add New Subtask'}
+                                        </button>
+                                    }
                                 </div>
                             )}
                         />
 
-                        {/* <StatustDropdown currentStatus={task.status} boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br /> */}
+                        <StatusDropdown status={status && status} setStatus={props.setFieldValue} label={'Status'} /> <br />
 
-                        <Button type="submit" disabled={isSubmitting} text={'Save Changes'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
-                        {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                        <Button type="submit" disabled={props.isSubmitting} text={'Save Changes'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
+                        {/* <pre>{JSON.stringify(props.values, null, 2)}</pre> */}
                     </Form>
                 )}
             </Formik>

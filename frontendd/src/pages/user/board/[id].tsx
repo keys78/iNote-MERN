@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import { useAppDispatch, useAppSelector } from '@/network/hooks';
 import { getBoard } from '@/features/private/boards/boardSlice';
-import BoardColumn from '@/components/Board/BoardColumn';
 import Task from '@/components/Board/Task';
 
 const BoardDetails = () => {
@@ -13,10 +12,21 @@ const BoardDetails = () => {
 
 
   const { board } = useAppSelector((state) => state.board);
+  const prevBoardRef = useRef(board);
 
   useEffect(() => {
-    dispatch(getBoard({ id: query }))
-  }, [dispatch, query])
+    dispatch(getBoard({ id: query }));
+  }, [dispatch, query]);
+
+
+
+
+
+
+
+
+
+  console.log('malafsffw')
 
 
 

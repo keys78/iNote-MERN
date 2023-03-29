@@ -26,7 +26,7 @@ const UpdateBoardModal = ({ setShowUpdateBoardModal }: props) => {
             <Formik
                 validationSchema={validate}
                 initialValues={{
-                    title: board.title
+                    title: board?.title
                 }}
                 enableReinitialize={true}
 
@@ -35,8 +35,8 @@ const UpdateBoardModal = ({ setShowUpdateBoardModal }: props) => {
                     setSubmitting(true)
                     dispatch(editBoard({ id: board?._id, boardData: values }))
                     setSubmitting(false)
-                    dispatch(getUser())
-                    dispatch(getBoard({id: board?._id}))
+                    // dispatch(getUser())
+                    // dispatch(getBoard({id: board?._id}))
                     resetForm()
                     { setShowUpdateBoardModal(false) }
                 }}

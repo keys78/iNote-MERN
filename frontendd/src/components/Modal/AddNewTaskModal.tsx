@@ -18,10 +18,14 @@ const AddNewTaskModal = () => {
 
 
     const validate = Yup.object({
-        name: Yup.string().required("required"),
-        subtasks: Yup.array().of(
-            Yup.string().required("required"),
-        )
+        title: Yup.string().required("required"),
+        description: Yup.string().required("required"),
+        status: Yup.string().required("required"),
+        subTasks: Yup.array().of(
+            Yup.object().shape({
+                description: Yup.string().required("Subtask description is required"),
+            })
+        ),
     })
 
 
@@ -54,7 +58,7 @@ const AddNewTaskModal = () => {
                     subTasks: [],
                 }}
 
-                // validationSchema={validate}
+                validationSchema={validate}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
                     setSubmitting(true)
 
@@ -96,13 +100,15 @@ const AddNewTaskModal = () => {
                                     ))}
                                     <br />
 
-                                    <button
-                                        type='button'
-                                        onClick={() => arrayHelpers.push({ description: "" })}
-                                        className={'bg-[#635FC71A] rounded-full w-full py-[7px] mb-3 text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
-                                    >
-                                        {'+ Add New Subtask'}
-                                    </button>
+                                    {props.values?.subTasks?.length <= 4 &&
+                                        <button
+                                            type='button'
+                                            onClick={() => arrayHelpers.push({ description: "" })}
+                                            className={'bg-[#635FC71A] rounded-full w-full py-[7px] mb-3 text-mainPurple transition duration-200 text-base hover:bg-mainPurpleHover font-sans'}
+                                        >
+                                            {'+ Add New Subtask'}
+                                        </button>
+                                    }
                                 </div>
                             )}
                         />

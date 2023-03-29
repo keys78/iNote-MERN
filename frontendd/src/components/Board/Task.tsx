@@ -1,8 +1,9 @@
 import Modal from '../Modal'
 import TaskDetailsModal from '../Modal/TaskDetailsModal'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import EmptyBoard from './EmptyBoard'
 import { CircleWavyCheck } from 'phosphor-react'
+import { useAppDispatch, useAppSelector } from '@/network/hooks'
 
 
 interface IProps {
@@ -11,8 +12,6 @@ interface IProps {
 
 const Task = ({ task }: IProps) => {
     const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
-    const [status, setStatus] = useState('');
-    const [activeIndex, setActiveIndex] = useState(0);
 
     const getGroupName = (status: any) => {
         switch (status) {
