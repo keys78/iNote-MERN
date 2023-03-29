@@ -29,7 +29,7 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
 
   return (
     <div className='relative'>
-      <button className="h-8 w-8" onClick={() => setShowMenu(!showMenu)}>
+      <button className="h-8 w-8 -mr-4" onClick={() => setShowMenu(!showMenu)}>
         <Image src="/assets/icon-vertical-ellipsis.svg" alt="vertical ellipsis" height={16} width={4} />
       </button>
       {showMenu &&
@@ -68,7 +68,7 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
                 Edit Task
               </button>
               <Modal showModal={showUpdateBoardModal} setShowModal={() => setShowUpdateBoardModal(!showUpdateBoardModal)}>
-                {/* <UpdateTaskModal task={task} setShowUpdateBoardModal={setShowUpdateBoardModal} setShowMenu={setShowMenu} /> */}
+                <UpdateTaskModal task={task} setShowUpdateBoardModal={setShowUpdateBoardModal} setShowMenu={setShowMenu} />
               </Modal>
               <button
                 className="text-mainRed  text-[13px]"

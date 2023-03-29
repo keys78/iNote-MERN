@@ -1,7 +1,7 @@
 import { useField, FieldAttributes, Field, ErrorMessage } from 'formik';
 import React from 'react'
 
-type myInputProps = { label: string } & FieldAttributes<{}>;
+type myInputProps = { label?: string } & FieldAttributes<{}>;
 
 const TextInput: React.FC<myInputProps> = ({ label, ...props }) => {
     const [field, meta] = useField(props);

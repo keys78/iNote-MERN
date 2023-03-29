@@ -11,6 +11,6 @@ router.post("/create-note/:boardId", NotesController.createNote);
 
 router.patch("/update-note/:noteId", NotesController.updateNote);
 
-router.delete("/delete-note/:noteId", NotesController.deleteNote);
+router.delete("/delete-note/:boardId/:noteId", NotesController.deleteNote);
 
 export default router;

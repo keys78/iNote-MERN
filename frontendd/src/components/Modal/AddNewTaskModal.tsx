@@ -9,10 +9,12 @@ import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { useState } from 'react'
 import Select from './Select'
 import { addTask, getBoard } from '@/features/private/boards/boardSlice'
+import StatusDropdown from '../shared/StatusDropdown'
 
 const AddNewTaskModal = () => {
     const dispatch = useAppDispatch()
     const { board } = useAppSelector((state) => state.board)
+    const [showSelect, setShowSelect] = useState(false);
 
 
     const validate = Yup.object({
@@ -23,31 +25,33 @@ const AddNewTaskModal = () => {
     })
 
 
-    // const boards = useAppSelector((state: RootState) => state.boards.boards)
-    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    // const boardNameTag = boards[currentBoard] && boards[currentBoard].name
-    // const boardColumnsx = boards?.find(element => element.name === boardNameTag)?.columns;
+    const arr = board?.notes?.map((val: any) => val.status)
+    const status = [...new Set(arr)];
+    console.log('statye', status)
 
-    const [status, setStatus] = useState('');
+    const [isStatus, setStatus] = useState()
+
+
+    // const kapa = (val) => {
+    //     setStatus(val)
+    //     console.log('logogogod', isStatus)
+    // }
+
+
+
+    // const handleBlur = () => {
+    //     // handle blur logic here
+    //   };
 
     return (
         <div>
             <h1 className="text-lg font-bold mb-6">+ Add New Task</h1>
             <Formik
                 initialValues={{
-
-                    // task: {
-                    //     title: "",
-                    //     description: "",
-                    //     subtasks: [],
-                    //     status: '',
-                    // }
                     title: '',
                     description: '',
                     status: '',
                     subTasks: [],
-
-
                 }}
 
                 // validationSchema={validate}
@@ -61,22 +65,22 @@ const AddNewTaskModal = () => {
                     resetForm()
                 }}
             >
-                {({ values, isSubmitting, handleSubmit }) => (
-                    <Form onSubmit={handleSubmit}>
+                {/* {({ values,  isSubmitting, handleSubmit }) => ( */}
+                {(props) => (
+                    <Form onSubmit={props.handleSubmit}>
                         <TextInput label='Title' name={'title'} type="input" placeholder='eg: Take Coffee Break' />
                         <TextArea label="Description" name={'description'} type="text" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little." />
-                        <TextInput label="Status" name={'status'} type="text" placeholder="e.g. todo" />
 
                         <label className="body-md text-sm font-bold capitalize text-mediumGrey dark:text-white mt-6 block">
                             subtasks
                         </label>
 
-                        <FieldArray name="task.subtasks"
+                        <FieldArray name="subTasks"
                             render={arrayHelpers => (
                                 <div>
-                                    {values?.subTasks?.map((_, i) => (
+                                    {props.values?.subTasks?.map((_, i) => (
                                         <div key={i} className="flex">
-                                            <TextInput label='' name={`task.subtasks.${i}.title`} type="text" placeholder="e.g. Archived" />
+                                            <TextInput label='' name={`subTasks.${i}.description`} type="text" placeholder="e.g. Archived" />
 
                                             <button onClick={() => arrayHelpers.remove(i)}
                                                 className="text-mediumGrey hover:text-mainRed ml-4"
@@ -103,11 +107,10 @@ const AddNewTaskModal = () => {
                             )}
                         />
 
-                        {/* <StatustDropdown boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br /> */}
+                        <StatusDropdown status={status && status} setStatus={props?.setFieldValue} label={'Status'} /> <br />
 
-                        {/* <Button type="submit" disabled={isSubmitting} width={"w-full"} padding={'py-[7px]'} color={'text-white'} >Save Changes</Button> */}
                         <Button text="Save Changes" type='submit' width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
-                        <pre>{JSON.stringify(values, null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(props.values, null, 2)}</pre> */}
                     </Form>
                 )}
             </Formik>
@@ -116,4 +119,45 @@ const AddNewTaskModal = () => {
 }
 
 export default AddNewTaskModal;
-// isCompleted: false 
+
+
+
+
+// import React, { useState } from 'react';
+// import { useFormik } from 'formik';
+
+// const statusOptions = ['todo', 'in progress', 'done'];
+
+// function MyForm() {
+//   const [selectedStatus, setSelectedStatus] = useState('');
+
+//   const formik = useFormik({
+//     initialValues: {
+//       status: '',
+//     },
+//     onSubmit: (values) => {
+//       console.log(values);
+//     },
+//   });
+
+//   const handleStatusChange = (event) => {
+//     setSelectedStatus(event.target.value);
+//     formik.setFieldValue('status', event.target.value);
+//   };
+
+//   return (
+//     <form onSubmit={formik.handleSubmit}>
+//       <select
+//         className='w-full py-2 border border-black'
+//         value={selectedStatus}
+//         onChange={handleStatusChange}
+//       >
+//         {statusOptions.map((option) => (
+//           <option key={option} value={option}>
+//             {option}
+//           </option>
+//         ))}
+//       </select>
+//       <input
+//         type='text'
+

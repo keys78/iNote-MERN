@@ -10,6 +10,7 @@
 // import EditButton from '@components/shared/EditButton';
 
 import React from 'react'
+import EditButton from '../shared/EditButton';
 import SubTaskItem from './SubTaskItem';
 
 interface IProps {
@@ -19,16 +20,17 @@ interface IProps {
   // j: number
   // boardNameTag: string,
   // setShowDetails: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDetails: any
 }
 
-const TaskDetailsModal = ({ item }: IProps) => {
+const TaskDetailsModal = ({ item, setShowDetails }: IProps) => {
 
   console.log('hekwo-details', item?.subTasks)
   return (
     <>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h1 className="text-[18px] font-bold">{item.title}</h1>
-        {/* <EditButton setShowDetails={setShowDetails} task={data} type='' className={'-bottom-22 -left-44 border '} currentBoard='' /> */}
+        <EditButton setShowDetails={setShowDetails} task={item} type='' className={'-bottom-22 -left-44 border '} currentBoard='' />
       </div>
       <p className="text-[13px] text-mediumGrey">
         {item.description ? item.description : 'no description'}

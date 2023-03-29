@@ -138,6 +138,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
 
 
 export const deleteNote: RequestHandler = async (req, res, next) => {
+    const boardId = req.params.boardId;
     const noteId = req.params.noteId;
 
     try {
@@ -153,7 +154,7 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
         }
 
         await NoteModel.findByIdAndDelete({ _id: noteId })
-        await BoardModel.updateOne({ _id: "640e17e77a55d6340df43ff1" }, { $pull: { notes: noteId } });
+        await BoardModel.updateOne({ _id: boardId }, { $pull: { notes: noteId } });
 
         res.status(200).json({ message: "note deleted successfully" });
 

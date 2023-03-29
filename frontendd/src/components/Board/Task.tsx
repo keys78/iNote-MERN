@@ -2,6 +2,7 @@ import Modal from '../Modal'
 import TaskDetailsModal from '../Modal/TaskDetailsModal'
 import React, { useEffect, useState } from 'react'
 import EmptyBoard from './EmptyBoard'
+import { CircleWavyCheck } from 'phosphor-react'
 
 
 interface IProps {
@@ -9,7 +10,7 @@ interface IProps {
 }
 
 const Task = ({ task }: IProps) => {
-    // const [showDetails, setShowDetails] = useState<boolean>(false)
+    const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
     const [status, setStatus] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -41,20 +42,27 @@ const Task = ({ task }: IProps) => {
 
 
 
-    const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
+
 
     const lists = groupByName && Object.keys(groupByName).map((key) => {
         const items = groupByName[key].map((item: any, i: number) => {
             const showModal = showDetails[item._id];
+            const subtaskLength = item?.subTasks?.length
+            const completedTaskCount = item?.subTasks?.filter((val: any) => val.isCompleted).length
+            const isAllSubtasksCompleted = completedTaskCount === subtaskLength
+
             return (
                 <>
                     <li onClick={() => setShowDetails({ ...showDetails, [item._id]: true })} key={i} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
                         <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
-                        <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.description}</h4>
+                        <div className='flex items-center space-x-3'>
+                            <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val.isCompleted).length} of {item.subTasks.length} subtasks</p>
+                            {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
+                        </div>
                     </li>
                     {showModal && (
                         <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
-                            <TaskDetailsModal item={item} />
+                            <TaskDetailsModal item={item} setShowDetails={setShowDetails} />
                         </Modal>
                     )}
                 </>
@@ -73,7 +81,13 @@ const Task = ({ task }: IProps) => {
         );
     });
 
-
+    //     <li onClick={() => setShowDetails(!showDetails)} key={j} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
+    //     <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{data.title}</h4>
+    //     <div className='flex items-center space-x-3'>
+    //         <p className="font-bold text-[12px] text-mediumGrey"> {data.subtasks.filter((val: any) => val.isCompleted).length} of {data.subtasks.length} subtasks</p>
+    //         {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" /> }
+    //     </div>
+    // </li>
 
 
 

@@ -115,10 +115,10 @@ export const deleteBoard = createAsyncThunk<any, string>(
 // add task
 export const addTask = createAsyncThunk<{}, any>(
   'add-task',
-  async ({ id, taskData }, thunkAPI) => {
+  async ({ boardId, taskData }, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      return await boardService.addTask(id, taskData, token)
+      return await boardService.addTask(boardId, taskData, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }

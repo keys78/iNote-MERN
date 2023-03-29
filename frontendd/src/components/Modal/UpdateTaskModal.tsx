@@ -1,19 +1,18 @@
-import TextInput from '@components/shared/TextInput'
+import TextInput from '../shared/TextInput'
 import { Formik, FieldArray, Form } from 'formik'
 import * as Yup from 'yup'
 import React, { useEffect } from 'react'
-import Button from '@components/shared/Button'
-import StatustDropdown from '@components/shared/StatustDropdown'
-import TextArea from '@components/shared/TextArea'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { RootState } from 'app/store'
+import Button from '../shared/Button'
+import StatustDropdown from '../../components/shared/StatusDropdown'
+import TextArea from '../shared/TextArea'
+import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { useState } from 'react'
-import { addTask, editTask } from '../../../features/board/boardSlice'
+// import { addTask, editTask } from '../../../features/board/boardSlice'
 import Select from './Select'
-import { Task } from '@src/types'
+// import { Task } from '@src/types'
 
 interface Props {
-    task: Task,
+    task: any,
     setShowUpdateBoardModal: React.Dispatch<React.SetStateAction<boolean>>
     setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -30,12 +29,12 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
 
 
 
-    const boards = useAppSelector((state: RootState) => state.boards.boards)
-    const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
-    const boardNameTag = boards[currentBoard] && boards[currentBoard].name
-    const boardColumnsx = boards?.find(element => element.name === boardNameTag)?.columns;
+    // const boards = useAppSelector((state: RootState) => state.boards.boards)
+    // const currentBoard = useAppSelector((state: RootState) => state.currentBoard.value)
+    // const boardNameTag = boards[currentBoard] && boards[currentBoard].name
+    // const boardColumnsx = boards?.find(element => element.name === boardNameTag)?.columns;
 
-    console.log('ts', task.subtasks)
+    // console.log('ts', task.subtasks)
 
 
     // const [status, setStatus] = useState(boardColumnsx && boardColumnsx[0].name);
@@ -55,9 +54,7 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
                         subtasks:task.subtasks,
                         status:'',
                     },
-                    boardName: boardNameTag,
-                    prevTaskTitle: task.title,
-                    columnName:task.status
+                   
 
                 }}
                 // validationSchema={validate}
@@ -65,8 +62,8 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
                     setSubmitting(true)
 
                     //make async call
-                    values.columnName = values.task.status
-                    dispatch(editTask(values))
+                    // values.columnName = values.task.status
+                    // dispatch(editTask(values))
                     setSubmitting(false)
                     setShowUpdateBoardModal(false)
                     setShowMenu(false)
@@ -84,7 +81,7 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
                         <FieldArray name="task.subtasks"
                             render={arrayHelpers => (
                                 <div>
-                                    {values.task.subtasks.map((_, i) => (
+                                    {values.task.subtasks.map((_, i:number) => (
                                         <div key={i} className="flex">
                                             <TextInput label='' name={`task.subtasks.${i}.title`} type="text" placeholder="e.g. Archived" />
 
@@ -113,9 +110,9 @@ const AddNewTaskModal = ({task, setShowUpdateBoardModal, setShowMenu}: Props) =>
                             )}
                         />
 
-                        <StatustDropdown currentStatus={task.status} boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br />
+                        {/* <StatustDropdown currentStatus={task.status} boardColumns={boardColumnsx} status={status}  setStatus={setStatus}/> <br /> <br /> */}
 
-                        <Button type="submit" disabled={isSubmitting} children={'Save Changes'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
+                        <Button type="submit" disabled={isSubmitting} text={'Save Changes'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                     </Form>
                 )}
