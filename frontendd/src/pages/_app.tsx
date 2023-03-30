@@ -23,7 +23,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return getLayout(
     <>
       <Provider store={store}>
-        <ToastContainer />
+        <ToastContainer toastStyle={{ border:'1px solid #635FC7' }} />
         <ThemeProvider attribute='class'>
           {getLayout(<Component {...pageProps} />)}
         </ThemeProvider>

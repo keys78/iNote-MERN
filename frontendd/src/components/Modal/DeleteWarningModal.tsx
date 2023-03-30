@@ -1,11 +1,11 @@
 import { deleteBoard, deleteTask, getBoard } from '@/features/private/boards/boardSlice'
+import { getUser } from '@/features/private/user/userSlice'
+import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
 // import { Task } from '@src/types'
-// import { RootState } from 'app/store'
 
 
 interface deleteWarningProps {
-    currentBoard: string
     currentTask: any
     type: string
     setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,14 +13,16 @@ interface deleteWarningProps {
     setShowDeleteBoardModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DeleteWarningModal = ({ type, currentBoard, setShowDetails, currentTask, setShowMenu, setShowDeleteBoardModal }: deleteWarningProps) => {
+const DeleteWarningModal = ({ type, setShowDetails, currentTask, setShowMenu, setShowDeleteBoardModal }: deleteWarningProps) => {
     const { board } = useAppSelector((state) => state.board);
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const { user } = useAppSelector(state => state?.user)
 
 
     const deleteBoardAction = () => {
-        dispatch(deleteBoard(board?._id))
-        dispatch(getBoard(board?._id))
+        dispatch(deleteBoard({ id: board?._id, router: router, user: user }))
+        dispatch(getUser())
         setShowDeleteBoardModal(false)
     }
 

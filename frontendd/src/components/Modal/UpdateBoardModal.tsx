@@ -30,15 +30,24 @@ const UpdateBoardModal = ({ setShowUpdateBoardModal }: props) => {
                 }}
                 enableReinitialize={true}
 
-
-                onSubmit={(values, { setSubmitting, resetForm }) => {
+                onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true)
+
+                    if (values.title === board?.title) {
+                        // If there are no changes, simply close the modal and return
+                        setSubmitting(false);
+                        setShowUpdateBoardModal(false);
+                        return;
+                    }
+
                     dispatch(editBoard({ id: board?._id, boardData: values }))
+                    dispatch(getUser())
+                    setTimeout(() => {
+                        dispatch(getBoard({ id: board?._id }))
+                    }, 1000);
                     setSubmitting(false)
-                    // dispatch(getUser())
-                    // dispatch(getBoard({id: board?._id}))
-                    resetForm()
-                    { setShowUpdateBoardModal(false) }
+                    setShowUpdateBoardModal(false)
+                    // setShowMenu(false)
                 }}
             >
                 {({ isSubmitting, handleSubmit }) => (

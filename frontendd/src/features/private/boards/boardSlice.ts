@@ -57,10 +57,10 @@ export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined
 // create board
 export const createNewBoard = createAsyncThunk<{}, any>(
   'create-board',
-  async (boardData, thunkAPI) => {
+  async ({boardData, router}, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      return await boardService.createNewBoard(boardData, token)
+      return await boardService.createNewBoard(boardData, token, router)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }
@@ -83,12 +83,12 @@ export const editBoard = createAsyncThunk<{}, any>(
 )
 
 // delete board
-export const deleteBoard = createAsyncThunk<any, string>(
+export const deleteBoard = createAsyncThunk<any, any>(
   'delete-board',
-  async (id, thunkAPI) => {
+  async ({id, router, user}, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      await boardService.deleteBoard(id, token);
+      await boardService.deleteBoard(id, token, router, user);
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }

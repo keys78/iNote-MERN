@@ -11,7 +11,7 @@ const CreateNewBoardCTA = () => {
                 + Create New Board
             </div>
             <Modal showModal={isCreateBoardModal} setShowModal={setIsCreateBoardModal} >
-                <CreateNewBoard />
+                <CreateNewBoard  showModal={isCreateBoardModal} setShowModal={setIsCreateBoardModal}/>
             </Modal>
         </>
     )

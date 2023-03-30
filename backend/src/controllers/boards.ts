@@ -70,14 +70,14 @@ export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string }> 
     }
 };
 
-interface UpdateBoardParams {
-    boardId: string
-}
+// interface UpdateBoardParams {
+//     boardId: string
+// }
 
-interface UpdateBoardBody {
-    title: string,
-    text: string
-}
+// interface UpdateBoardBody {
+//     title: string,
+//     text: string
+// }
 
 // export const updateBoard: RequestHandler<UpdateBoardParams, unknown, UpdateBoardBody, unknown> = async (req, res, next) => {
 export const updateBoard: RequestHandler = async (req, res, next) => {
@@ -103,7 +103,7 @@ export const updateBoard: RequestHandler = async (req, res, next) => {
 
         board.title = newTitle;
 
-         await board.save();
+        await board.save();
 
         res.status(200).json({ message: "board updated successfully" });
     } catch (error) {
@@ -112,7 +112,10 @@ export const updateBoard: RequestHandler = async (req, res, next) => {
 };
 
 
-export const deleteBoard: RequestHandler = async (req, res, next) => {
+// export const deleteBoard: RequestHandler = async (req, res, next) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const deleteBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+    const userId = req.user?.id;
     const boardId = req.params.boardId;
 
     try {
@@ -127,10 +130,10 @@ export const deleteBoard: RequestHandler = async (req, res, next) => {
             throw createHttpError(404, "Board not found");
         }
 
-        await BoardModel.findByIdAndDelete({ _id: boardId })
-        await UserModel.updateOne({ _id: "640b6ce27d42feb7036c7dce" }, { $pull: { boards: boardId } });
+        const deleteBoard = await BoardModel.findByIdAndDelete({ _id: boardId })
+        await UserModel.updateOne({ _id: userId }, { $pull: { boards: boardId } });
 
-        res.status(200).json({ message: "board deleted successfully" });
+        res.status(200).json({ message: `${deleteBoard?.title} board deleted` });
 
 
     } catch (error) {

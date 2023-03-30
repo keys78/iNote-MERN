@@ -1,34 +1,26 @@
 import TextInput from '../shared/TextInput'
-import { Formik, FieldArray, Form, Field } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Button from '../shared/Button'
 import { createNewBoard } from '../../features/private/boards/boardSlice'
-import { useAppDispatch, useAppSelector } from '../../network/hooks'
+import { useAppDispatch } from '../../network/hooks'
 import { getUser } from '@/features/private/user/userSlice'
+import { useRouter } from 'next/router'
 
 
 
 interface IProps {
     showModal: boolean,
     setShowModal: (val: boolean) => void;
-  }
+}
 
 
-
-const CreateNewBoard = ({ showModal, setShowModal}: IProps) => {
+const CreateNewBoard = ({ showModal, setShowModal }: IProps) => {
     const dispatch = useAppDispatch()
-
-
-    useEffect(() => {
-        dispatch(getUser())
-    }, [])
-
+    const router = useRouter()
     const validate = Yup.object({
         title: Yup.string().required("Board title is required"),
-        // columns: Yup.array().of(
-        // Yup.string().required("Column title is required"),
-        // )
     })
 
 
@@ -45,23 +37,22 @@ const CreateNewBoard = ({ showModal, setShowModal}: IProps) => {
                     setSubmitting(true)
 
                     const data = { ...values, };
-                    dispatch(createNewBoard(data))
+                    dispatch(createNewBoard({boardData: data, router: router}))
                     dispatch(getUser())
                     setSubmitting(false)
                     resetForm()
-                    setShowModal(false)
+                    setShowModal(!showModal)
                     dispatch(getUser())
                 }}
             >
                 {(props) => (
                     <Form onSubmit={props.handleSubmit}>
                         <TextInput label='Board Name' name="title" type="input" placeholder='eg: Web Design' />
-                     
+
                         <br />
 
                         <Button type="submit"
                             text={'Save Changes'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
-                        {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                     </Form>
                 )}
             </Formik>
