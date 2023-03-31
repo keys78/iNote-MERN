@@ -6,18 +6,16 @@ import UpdateBoardModal from '../Modal/UpdateBoardModal';
 import UpdateTaskModal from '../Modal/UpdateTaskModal';
 import useOnClickOutside from './../../hooks/useOnClickOutside'
 // import { Task } from '@src/types';
-import { taskCompleted } from '@reduxjs/toolkit/dist/listenerMiddleware/exceptions';
 
 
 interface editButtonProps {
   task: any
   className: string
-  currentBoard: any
   type: string
   setShowDetails: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const EditButton = ({ type, task, setShowDetails, className, currentBoard }: editButtonProps) => {
+const EditButton = ({ type, task, setShowDetails, className }: editButtonProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showUpdateBoardModal, setShowUpdateBoardModal] = useState<boolean>(false);
   const [showDeleteBoardModal, setShowDeleteBoardModal] = useState<boolean>(false);
@@ -29,7 +27,7 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
 
   return (
     <div className='relative'>
-      <button className="h-8 w-8 -mr-4" onClick={() => setShowMenu(!showMenu)}>
+      <button className="h-8 w-4 py-2 hover:bg-lightGrey hover:rounded-md flex items-center justify-center" onClick={() => setShowMenu(!showMenu)}>
         <Image src="/assets/icon-vertical-ellipsis.svg" alt="vertical ellipsis" height={16} width={4} />
       </button>
       {showMenu &&
@@ -53,7 +51,7 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
               >Delete board
               </button>
               <Modal showModal={showDeleteBoardModal} setShowModal={() => setShowDeleteBoardModal(!showDeleteBoardModal)}>
-                <DeleteWarningModal setShowDetails={setShowDetails} currentTask={task} type='Board' currentBoard={currentBoard} setShowMenu={setShowMenu} setShowDeleteBoardModal={setShowDeleteBoardModal} />
+                <DeleteWarningModal setShowDetails={setShowDetails} currentTask={task} type='Board' setShowMenu={setShowMenu} setShowDeleteBoardModal={setShowDeleteBoardModal} />
               </Modal>
             </>
           </div> 
@@ -79,7 +77,7 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
               >Delete Task
               </button>
               <Modal showModal={showDeleteBoardModal} setShowModal={() => setShowDeleteBoardModal(!showDeleteBoardModal)}>
-                <DeleteWarningModal currentTask={task} type='' setShowDetails={setShowDetails} currentBoard={currentBoard} setShowMenu={setShowMenu} setShowDeleteBoardModal={setShowDeleteBoardModal} />
+                <DeleteWarningModal currentTask={task} type='' setShowDetails={setShowDetails} setShowMenu={setShowMenu} setShowDeleteBoardModal={setShowDeleteBoardModal} />
               </Modal>
             </>
           </div>
@@ -90,12 +88,3 @@ const EditButton = ({ type, task, setShowDetails, className, currentBoard }: edi
 }
 
 export default EditButton;
-
-
-// const EditButton = () => {
-//   return (
-//     <div>EditButton</div>
-//   )
-// }
-
-// export default EditButton

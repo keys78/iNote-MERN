@@ -1,6 +1,6 @@
 import React from 'react'
 import CreateNewBoardCTA from './CreateNewBoardCTA'
-import { useAppSelector, useAppDispatch } from '../../network/hooks'
+import { useAppSelector } from '../../network/hooks'
 import { useRouter } from 'next/router'
 
 
@@ -26,7 +26,7 @@ const BoardNamesTag = () => {
 
     return (
         <div>
-            <div className='font-bold text-sm text-mediumGrey tracking-widest pl-6 pt-7 pb-8 uppercase'>all boards ({user?.boards?.length})</div>
+            <div className='font-bold text-sm text-mediumGrey tracking-widest pl-6 pt-7 pb-8 uppercase'>all boards ({user? user?.boards?.length : 0})</div>
             <div>{boardNameTag}</div>
             <CreateNewBoardCTA />
         </div>

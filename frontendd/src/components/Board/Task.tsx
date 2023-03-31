@@ -3,7 +3,6 @@ import TaskDetailsModal from '../Modal/TaskDetailsModal'
 import React, { useState } from 'react'
 import EmptyBoard from './EmptyBoard'
 import { CircleWavyCheck } from 'phosphor-react'
-import { useAppDispatch, useAppSelector } from '@/network/hooks'
 
 
 interface IProps {
@@ -79,16 +78,6 @@ const Task = ({ task }: IProps) => {
             </div>
         );
     });
-
-    //     <li onClick={() => setShowDetails(!showDetails)} key={j} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
-    //     <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{data.title}</h4>
-    //     <div className='flex items-center space-x-3'>
-    //         <p className="font-bold text-[12px] text-mediumGrey"> {data.subtasks.filter((val: any) => val.isCompleted).length} of {data.subtasks.length} subtasks</p>
-    //         {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" /> }
-    //     </div>
-    // </li>
-
-
 
 
     return (

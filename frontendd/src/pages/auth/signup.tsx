@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";

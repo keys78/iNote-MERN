@@ -8,7 +8,18 @@ module.exports = {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
+    fontFamily: {
+      sans: ["Plus Jakarta Sans", "sans-serif"],
+    },
+    fontSize: {
+      // base: ["0.8125rem", "1.4375rem"],
+      // xl: ["1.5rem", "1.875rem"],
+      // lg: ["1.125rem", "1.4375rem"],
+      // md: ["0.9375rem", "1.1875rem"],
+      // sm: ["0.75rem", "0.9375rem"],
+    },
     extend: {
       colors: {
         black: "#000112",

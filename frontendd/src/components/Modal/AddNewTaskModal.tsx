@@ -1,20 +1,16 @@
 import TextInput from '../shared/TextInput'
-import { Formik, Field, FieldArray, Form } from 'formik'
+import { Formik, FieldArray, Form } from 'formik'
 import * as Yup from 'yup'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Button from '../shared/Button'
-// import StatustDropdown from '../shared/StatustDropdown'
 import TextArea from '../shared/TextArea'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
-import { useState } from 'react'
-import Select from './Select'
 import { addTask, getBoard } from '@/features/private/boards/boardSlice'
 import StatusDropdown from '../shared/StatusDropdown'
 
 const AddNewTaskModal = () => {
     const dispatch = useAppDispatch()
     const { board } = useAppSelector((state) => state.board)
-    const [showSelect, setShowSelect] = useState(false);
 
 
     const validate = Yup.object({
@@ -33,19 +29,6 @@ const AddNewTaskModal = () => {
     const status = [...new Set(arr)];
     console.log('statye', status)
 
-    const [isStatus, setStatus] = useState()
-
-
-    // const kapa = (val) => {
-    //     setStatus(val)
-    //     console.log('logogogod', isStatus)
-    // }
-
-
-
-    // const handleBlur = () => {
-    //     // handle blur logic here
-    //   };
 
     return (
         <div>
@@ -125,45 +108,3 @@ const AddNewTaskModal = () => {
 }
 
 export default AddNewTaskModal;
-
-
-
-
-// import React, { useState } from 'react';
-// import { useFormik } from 'formik';
-
-// const statusOptions = ['todo', 'in progress', 'done'];
-
-// function MyForm() {
-//   const [selectedStatus, setSelectedStatus] = useState('');
-
-//   const formik = useFormik({
-//     initialValues: {
-//       status: '',
-//     },
-//     onSubmit: (values) => {
-//       console.log(values);
-//     },
-//   });
-
-//   const handleStatusChange = (event) => {
-//     setSelectedStatus(event.target.value);
-//     formik.setFieldValue('status', event.target.value);
-//   };
-
-//   return (
-//     <form onSubmit={formik.handleSubmit}>
-//       <select
-//         className='w-full py-2 border border-black'
-//         value={selectedStatus}
-//         onChange={handleStatusChange}
-//       >
-//         {statusOptions.map((option) => (
-//           <option key={option} value={option}>
-//             {option}
-//           </option>
-//         ))}
-//       </select>
-//       <input
-//         type='text'
-

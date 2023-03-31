@@ -1,5 +1,5 @@
-import { getUser } from '@/features/private/user/userSlice'
 import { useAppDispatch, useAppSelector } from '@/network/hooks'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Board from './Board'
 import Header from './Header'
@@ -8,14 +8,17 @@ import SideBar from './SideBar'
 
 const Layout = ({ children }: any) => {
   const [isSidebar, setIsSidebar] = useState<boolean>(false)
-  const dispatch = useAppDispatch()
-  const { isLoading } = useAppSelector((state) => state.user) 
-  const { isLoading: boardLoader } = useAppSelector((state) => state.board) 
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { isLoading, user } = useAppSelector((state) => state.user)
+  const { isLoading: boardLoader } = useAppSelector((state) => state.board)
 
-
+  
   useEffect(() => {
-    dispatch(getUser())
-  }, [dispatch])
+    if (user?.boards?.length === 0) {
+      router.replace('/user/dashboard')
+    }
+  }, [dispatch, router, user?.boards?.length])
 
   return (
     <section className='w-full'>

@@ -1,6 +1,10 @@
 import ShowSidebar from "./ShowSideBar";
-import { useAppSelector } from '../../network/hooks'
+import { useAppSelector, useAppDispatch } from '../../network/hooks'
+import CreateNewBoard from "../Modal/CreateNewBoard";
 import NoBoard from "./NoBoard";
+import { useEffect } from "react";
+import { getUser } from "@/features/private/user/userSlice";
+import { useRouter } from "next/router";
 import Task from "./Task";
 
 interface props {
@@ -9,15 +13,17 @@ interface props {
 }
 
 
+
 const Board = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
   const user: any = useAppSelector((state) => state.user);
+
   const boards = user?.boards
 
 
   return (
     <>
       <ShowSidebar setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
-      <div className="bg-red-500 w-full dark:bg-veryDarkGrey">
+      <div className="bg-lightGrey w-full dark:bg-veryDarkGrey">
         {boards?.length !== 0 ? <Task task={boards} /> : <NoBoard />}
       </div>
     </>

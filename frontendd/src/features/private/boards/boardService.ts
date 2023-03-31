@@ -31,7 +31,7 @@ const createNewBoard = async (boardData: unknown, token: IToken, router: any) =>
     },
   }
   const { data } = await axios.post(PRIVATE_API_URL + `create-board`, boardData, config)
-  
+
   router.push(`/user/board/${data?._id}`)
 
   toast.success(data?.message, toastOptions);
@@ -52,7 +52,7 @@ const editBoard = async (id: any, boardData: unknown, token: IToken) => {
 }
 
 // delete board
-const deleteBoard = async (id: string, token: IToken, router: any, user:any) => {
+const deleteBoard = async (id: string, token: IToken, router: any, user: any) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +61,9 @@ const deleteBoard = async (id: string, token: IToken, router: any, user:any) => 
   }
   const { data } = await axios.delete(PRIVATE_API_URL + `delete-board/${id}`, config)
 
-  router.push(`${user?.boards[0]._id}`)
+  // if (user?.boards?.length > 0) {
+    router.push(`${user?.boards[0]?._id}`)
+  // }
 
   toast.success(data?.message, toastOptions);
   return data

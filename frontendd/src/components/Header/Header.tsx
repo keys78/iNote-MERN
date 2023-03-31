@@ -10,6 +10,7 @@ import { useAppSelector } from '../../network/hooks'
 import UpdateBoardModal from '../Modal/UpdateBoardModal'
 import Modal from '../Modal'
 import AddNewTaskModal from '../Modal/AddNewTaskModal'
+import UserActions from '../User/UserActions'
 // import { useWindowSize } from 'usehooks-ts'
 
 
@@ -24,9 +25,6 @@ const Header = () => {
   const { user } = useAppSelector(state => state.user)
 
 
-  // const currentBoard = useAppSelector((state: RootState) => state?.currentBoard)
-  // const boardTitle: any = data?.length && (data)[currentBoard.value].name
-
 
   return (
     <>
@@ -36,15 +34,32 @@ const Header = () => {
         </div>
 
         <div className='flex items-center justify-between w-[100%] px-6'>
-          <h1>{board ? board?.title : 'No boards found'}</h1>
-          <div className='flex items-center space-x-4'>
-            <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
-            <EditButton
-              className={'-bottom-28 -left-44 border '}
-              type="Board" task={undefined} currentBoard={undefined} setShowDetails={function (value: React.SetStateAction<boolean>): void {
-                throw new Error('Function not implemented.')
-              }} />
-          </div>
+          <h1>{board ? board?.title : 'No Board Found'}</h1>
+          {user?.boards?.length > 0 &&
+            <div className='flex items-center space-x-4'>
+              <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsAddNewTask(!isAddNewTask)} />
+              <EditButton
+                className={'-bottom-28 -left-44 border bg-red-500 '}
+                type="Board" task={undefined} setShowDetails={function (value: React.SetStateAction<boolean>): void {
+                  throw new Error('Function not implemented.')
+                }} />
+            </div>
+          }
+          {/* <div className='relative'>
+            <div className='flex items-center cursor-pointer'>
+              <div className='uppercase border-2 border-bg-lightGrey text-mainPurple px-2 py-1 rounded-full'>
+                {user?.username?.substring(0, 2)}
+              </div>&nbsp;
+              <div>V</div>
+            </div>
+            <div className='rounded-[6px] shadow-sm  absolute right-0 top-10 bg-white w-[150px] border'>
+              <ul>
+                <li className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Profile</li>
+                <li className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Rate Us</li>
+              </ul>
+            </div>
+          </div> */}
+          <UserActions />
         </div>
 
         <Modal showModal={isAddNewTask} setShowModal={setIsAddNewTask}>

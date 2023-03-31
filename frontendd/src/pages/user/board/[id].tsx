@@ -15,6 +15,7 @@ const BoardDetails = () => {
 
   useEffect(() => {
     dispatch(getBoard({ id: query }));
+    
   }, [dispatch, query])
 
 

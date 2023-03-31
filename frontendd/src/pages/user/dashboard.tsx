@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { getUser, resetUser } from '../../features/private/user/userSlice'
 import { useAppDispatch, useAppSelector } from "@/network/hooks"
 import { withAuth } from '@/middlewares/middleware'
-import Header from '@/components/Header'
-import SideBar from '@/components/SideBar'
 import Board from '../../components/Board/Board'
 import Layout from '@/components/Layout'
 
@@ -32,4 +30,5 @@ const Dashboard = () => {
   )
 }
 
-export default withAuth(Dashboard);
+// export default withAuth(Dashboard);
+export default Dashboard;

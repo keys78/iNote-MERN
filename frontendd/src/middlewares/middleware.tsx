@@ -18,15 +18,15 @@ export function withAuth<P extends {}>(Component: NextPage<P>) {
     return <Component {...props} />;
   };
 
-  Auth.getInitialProps = async (ctx: NextPageContext) => {
-    let pageProps: any = {};
+  // Auth.getInitialProps = async (ctx: NextPageContext) => {
+  //   let pageProps: any = {};
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
+  //   if (Component.getInitialProps) {
+  //     pageProps = await Component.getInitialProps(ctx);
+  //   }
 
-    return { ...pageProps };
-  };
+  //   return { ...pageProps };
+  // };
 
   // Auth.getInitialProps = async (ctx: NextPageContext) => {
   //   let pageProps: any = {};

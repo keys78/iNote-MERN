@@ -2,10 +2,10 @@
 // import MobileBoardMenu from '@components/Modal/MobileBoardMenu';
 import { resetUser } from '@/features/private/user/userSlice';
 import { useAppSelector, useAppDispatch } from '@/network/hooks';
+import { Power, SignOut } from 'phosphor-react';
 import React, { useState } from 'react'
 import useWindowSize from '../../hooks/useWindowSize';
 import BoardNamesTag from './BoardNamesTag'
-import CreateNewBoardCTA from './CreateNewBoardCTA';
 import SideBardToggle from './HideSideBar'
 import ToggleThemeSwitch from './ToggleThemeSwitch'
 
@@ -25,7 +25,7 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
       }
 
 
-    // const { width } = useWindowSize();
+    const { width } = useWindowSize();
     const [showMobileNav, setShowMobileNav] = useState<boolean>(true)
 
     return (
@@ -52,14 +52,16 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
                 <div className='flex flex-col justify-between h-[calc(90vh-120px)]'>
                     <BoardNamesTag />
                     <div>
+                    <div onClick={logout} className='rounded flex p-4 w-4/5 mx-6 space-x-6 justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
+                        <button className='hover:bg-lightGreyLine flex items-center justify-center border rounded-md p-3 space-x-2 max-w-[220px] w-full'>
+                        <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
+                            <span className='font-normal text-darkGreyLine'>Logout</span>
+                        </button>
+                    </div>
                         <ToggleThemeSwitch />
                         <SideBardToggle setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
                     </div>
-                    <div className='flex items-center justify-center'>
-                        <button onClick={logout}>
-                            Logout
-                        </button>
-                    </div>
+                    
                 </div>
             </section>
 
