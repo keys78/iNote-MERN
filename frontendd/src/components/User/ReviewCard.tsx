@@ -9,9 +9,6 @@ import '@splidejs/react-splide/css';
 
 
 
-
-
-
 const ReviewCard = () => {
     const sampleData = [
         { username: 'Volcano', role: 'user', photo: 'https://source.unsplash.com/random/300x200', star: 3, comment: 'lorem, ipsum dolor sit amet consectetur ' },

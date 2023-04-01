@@ -1,5 +1,4 @@
 import Modal from "../Modal";
-import AddNewColumnModal from "../Modal/AddNewColumnModal";
 import { useState } from "react";
 
 const AddNewColumn = () => {
@@ -11,7 +10,7 @@ const AddNewColumn = () => {
             + New Column
         </button>
         <Modal showModal={openModal} setShowModal={setOpenModal}>
-           <AddNewColumnModal setOpenModal={setOpenModal} />
+           {/* <AddNewColumnModal setOpenModal={setOpenModal} /> */}
         </Modal>
     </>
   )
