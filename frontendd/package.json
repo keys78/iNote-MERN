@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
+    "@splidejs/react-splide": "^0.7.12",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
@@ -25,7 +26,6 @@
     "react-redux": "^8.0.5",
     "react-star-ratings": "^2.3.0",
     "react-toastify": "^9.1.2",
-    "swiper": "^8.0.7",
     "typescript": "5.0.2",
     "yup": "^1.0.2"
   },
