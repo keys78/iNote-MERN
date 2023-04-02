@@ -16,7 +16,7 @@ interface IProps {
     setIsRating: any
 }
 
-const Ratings = ({setIsRating}:IProps) => {
+const Ratings = ({ setIsRating }: IProps) => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state?.user)
     const { isLoading } = useAppSelector(state => state?.reviews)
@@ -54,7 +54,7 @@ const Ratings = ({setIsRating}:IProps) => {
                     onSubmit={(values, { setSubmitting, resetForm }) => {
                         setSubmitting(true);
                         console.log(values)
-                        dispatch(postReview({ reviewData: values }))
+                        dispatch(postReview({ reviewData: values, userId: user?._id }))
                         dispatch(getUser())
                         setIsRating(false)
                         setSubmitting(false);

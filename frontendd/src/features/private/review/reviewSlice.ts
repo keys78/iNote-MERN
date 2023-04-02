@@ -55,10 +55,10 @@ export const getAllReviews = createAsyncThunk<{},  void >(
 // post review
 export const postReview = createAsyncThunk<{}, any>(
   'post-review',
-  async ({reviewData}, thunkAPI) => {
+  async ({reviewData, userId}, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
-      return await reviewService.postReview(reviewData, token)
+      return await reviewService.postReview(reviewData, userId, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }

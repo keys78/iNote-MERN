@@ -9,6 +9,7 @@ interface User extends mongoose.Document {
     username: string;
     email: string;
     reviewedApp: boolean,
+    verified: boolean,
     password: string;
     board: Types.ObjectId['_id'];
     matchPasswords: (password: string) => Promise<boolean>;
@@ -31,6 +32,7 @@ const userSchema = new Schema({
         ]
     },
     reviewedApp:{ type: Boolean, default: false },
+    verified: { type: Boolean, default: false },
     boards: [
         { type: Schema.Types.ObjectId, ref: 'Board' }
     ],
@@ -40,6 +42,8 @@ const userSchema = new Schema({
         minlength: 6,
         select: false
     },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
 }, { timestamps: true });
 
 userSchema.pre('save', function (next) {

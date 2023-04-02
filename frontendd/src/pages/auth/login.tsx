@@ -71,10 +71,10 @@ const Login = () => {
                         ) => {
                             const data = { ...values, };
                             dispatch(loginUser(data));
-                            resetForm();
-                            if (user) {
-                                router.push('/user/dashboard')
-                            }
+                            // resetForm();
+                            // if (user) {
+                            //     router.push('/user/dashboard')
+                            // }
                         }}
 
 

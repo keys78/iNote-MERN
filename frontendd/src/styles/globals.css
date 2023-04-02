@@ -57,48 +57,20 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
 .fix-marg { margin-top: 0 !important;}
 
 
-
-
-
-
-
-
 .review-card { background: #ffffff; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; border-radius: 8px; margin-left: 20px !important; max-width: 360px; min-width: 360px; min-height: 200px; width: 100%; cursor: pointer; padding: 16px; }
 .review-card > article { text-align: center; font-size: 14px; padding-top: 10px; display: flex; align-items: center; justify-content: center; }
 .review-card > article:first-letter { text-transform: uppercase;}
 .review-card > div { display: flex; align-items: center;}
-.review-card > div > img { height: 80px; width: 80px; max-width: 80px; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ; margin-right: 10px;}
-.review-card > div > div > span { display: flex; align-items: center; justify-content: center;}
+.review-card > div > img { height: 80px; width: 80px; max-width: 80px; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ; margin-right: 10px; 
+  background-image: linear-gradient( 90deg, #eeeeee 0%, #eeeeee 40%, #dddddd 50%, #dddddd 55%, #eeeeee 65%, #eeeeee 100%); background-size: 400%; animation: shimmer 1000ms infinite;
+}
+@keyframes shimmer { from { background-position: 100% 100%;} to { background-position: 0 0;}}
+
+.review-card > div > div > span { display: flex; align-items: center; }
 
 .review-card .user-details > h1 { font-size: 16px; font-weight: bold;}
 .review-card .user-details > h2 { font-size: 13px; text-transform: capitalize; padding-bottom: 3px;}
 .splide__pagination__page { display: none !important;}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

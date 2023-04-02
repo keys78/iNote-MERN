@@ -28,7 +28,7 @@ export const postReview: RequestHandler = async (req, res, next) => {
             comment: comment
         });
 
-        await UserModel.updateOne({ _id: req?.params._id }, { $set: { reviewedApp: true } });
+        await UserModel.updateOne({ _id: req?.params?.id }, { $set: { reviewedApp: true } });
 
 
         res.status(201).json({ message: `Thank you ${newReview?.username}, your review have been saved!` });

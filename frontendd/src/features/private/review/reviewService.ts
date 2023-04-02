@@ -22,14 +22,14 @@ const getAllReviews = async () => {
 }
 
 // create review
-const postReview = async (reviewData: unknown, token: IToken) => {
+const postReview = async (reviewData: unknown, userId:any, token: IToken) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   }
-  const { data } = await axios.post(PRIVATE_API_URL + `post-review`, reviewData, config)
+  const { data } = await axios.post(PRIVATE_API_URL + `post-review/${userId}`, reviewData, config)
 
   toast.success(data?.message, toastOptions);
   return data

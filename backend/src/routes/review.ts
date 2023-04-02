@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/get-all-reviews', ReviewsController.getAllReviews);
 
-router.post('/post-review', protect, ReviewsController.postReview);
+router.post('/post-review/:id', protect, ReviewsController.postReview);
 
 router.patch('/edit-review/:reviewId', protect, ReviewsController.editReview);
 
