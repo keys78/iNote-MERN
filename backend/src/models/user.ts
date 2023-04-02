@@ -8,6 +8,7 @@ interface User extends mongoose.Document {
     role: string;
     username: string;
     email: string;
+    reviewedApp: boolean,
     password: string;
     board: Types.ObjectId['_id'];
     matchPasswords: (password: string) => Promise<boolean>;
@@ -29,6 +30,7 @@ const userSchema = new Schema({
             "Please provide a valid email"
         ]
     },
+    reviewedApp:{ type: Boolean, default: false },
     boards: [
         { type: Schema.Types.ObjectId, ref: 'Board' }
     ],

@@ -26,7 +26,7 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
         const board = await BoardModel.findById(boardId)
             .populate({
                 path: "notes",
-                select: "title description status subTasks",
+                select: "title description status subTasks reviewApp",
             });
 
         if (!board) {
@@ -43,8 +43,6 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
         next(error);
     }
 };
-
-
 
 
 
@@ -70,14 +68,7 @@ export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string }> 
     }
 };
 
-// interface UpdateBoardParams {
-//     boardId: string
-// }
 
-// interface UpdateBoardBody {
-//     title: string,
-//     text: string
-// }
 
 // export const updateBoard: RequestHandler<UpdateBoardParams, unknown, UpdateBoardBody, unknown> = async (req, res, next) => {
 export const updateBoard: RequestHandler = async (req, res, next) => {
@@ -112,7 +103,6 @@ export const updateBoard: RequestHandler = async (req, res, next) => {
 };
 
 
-// export const deleteBoard: RequestHandler = async (req, res, next) => {
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const deleteBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;

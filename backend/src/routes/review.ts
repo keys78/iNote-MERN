@@ -1,0 +1,13 @@
+import express from "express";
+import * as ReviewsController from "../controllers/reviews";
+import { protect } from '../middlewares/authProtect'
+
+const router = express.Router();
+
+router.get('/get-all-reviews', ReviewsController.getAllReviews);
+
+router.post('/post-review', protect, ReviewsController.postReview);
+
+router.patch('/edit-review/:reviewId', protect, ReviewsController.editReview);
+
+export default router;

@@ -30,7 +30,7 @@ const UserActions = () => {
                 <UserProfileModal />
             </Modal>
             <Modal setShowModal={setIsRating} showModal={isRating}>
-                <Ratings />
+                <Ratings setIsRating={setIsRating} />
             </Modal>
         </>
     )

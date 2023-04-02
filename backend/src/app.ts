@@ -8,6 +8,7 @@ import columnsRoutes from "./routes/columns";
 import boardsRoutes from "./routes/boards";
 import usersRoutes from "./routes/private";
 import authRoutes from "./routes/auth";
+import reviewRoutes from "./routes/review";
 
 
 const app = express();
@@ -19,7 +20,7 @@ app.use(express.json());
 
 // authentication 
 app.use('/auth', authRoutes);
-app.use("/private", usersRoutes, boardsRoutes, columnsRoutes, notesRoutes );
+app.use("/private", usersRoutes, boardsRoutes, columnsRoutes, notesRoutes, reviewRoutes );
 
 
 app.use((req, res, next) => {
