@@ -36,7 +36,7 @@ const userSchema = new Schema({
             "Please provide a valid email"
         ]
     },
-    reviewedApp:{ type: Boolean, default: false },
+    reviewedApp: { type: Boolean, default: false },
     verified: { type: Boolean, default: false },
     boards: [
         { type: Schema.Types.ObjectId, ref: 'Board' }
@@ -76,8 +76,12 @@ userSchema.methods.getSignedToken = function () {
 };
 
 userSchema.methods.matchPasswords = async function (password: string) {
+    if (!password) {
+        return false;
+    }
     return await bcrypt.compare(password, this.password);
 }
+
 
 userSchema.methods.getResetPasswordToken = function () {
     const resetToken = crypto.randomBytes(20).toString("hex");

@@ -39,14 +39,6 @@ const resetPassword = async (resetPasswordData: IUserForgotPassword, resetToken:
     return response?.data?.message
 }
 
-const changePassword = async (changePasswordData: IUserForgotPassword, userId: any) => {
-    const response = await axios.put(`${AUTH_API_URL + `auth/changepassword/${userId}`}`, changePasswordData)
-
-    toast.success(response.data.message as string, { autoClose: false });
-    console.log('response', response?.data?.message)
-    return response?.data?.message
-}
-
 
 const logout = () => {
     localStorage.removeItem('authToken')
@@ -57,7 +49,6 @@ const authService = {
     login,
     requestPasswordReset,
     resetPassword,
-    changePassword,
     logout,
 }
 export default authService

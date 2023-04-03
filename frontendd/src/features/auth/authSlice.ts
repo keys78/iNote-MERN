@@ -74,20 +74,7 @@ export const resetPassword = createAsyncThunk<any, any>(
         try {
             return await authService.resetPassword(resetPasswordData, resetToken)
         } catch (error: any) {
-            console.log('mierror',error)
-            errorHandler(error, thunkAPI)
-        }
-    }
-)
-
-// requestPasswordReset
-export const changepassword = createAsyncThunk<any, any>(
-    'auth/change-password',
-    async ({ changePasswordData, userId }, thunkAPI) => {
-        try {
-            return await authService.changePassword(changePasswordData, userId)
-        } catch (error: any) {
-            console.log('mierror',error)
+            console.log('mierror', error)
             errorHandler(error, thunkAPI)
         }
     }
@@ -138,7 +125,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true
                 state.isError = false
                 state.message = action.payload
-                state.token = action.payload.token
+                state.token = action.payload?.token
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false
@@ -169,20 +156,6 @@ export const authSlice = createSlice({
                 state.isError = false
             })
             .addCase(resetPassword.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload || "Something went wrong";
-                state.user = null
-            })
-            .addCase(changepassword.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(changepassword.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.isError = false
-            })
-            .addCase(changepassword.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload || "Something went wrong";

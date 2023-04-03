@@ -1,5 +1,6 @@
 import express from "express";
 import * as UsersController from "../controllers/auth";
+import { protect } from "../middlewares/authProtect";
 
 const authRouter = express.Router();
 
@@ -12,8 +13,5 @@ authRouter.post("/:id/verify/:token", UsersController.verifyEmail);
 authRouter.post("/forgotpassword", UsersController.forgotpassword);
 
 authRouter.put("/reset-password/:resetToken", UsersController.resetPassword);
-
-authRouter.post("/changepassword/:userId", UsersController.changePassword);
-
 
 export default authRouter;

@@ -282,30 +282,6 @@ export const resetPassword: RequestHandler = async (req, res, next) => {
 };
 
 
-export const changePassword: RequestHandler = async (req, res, next) => {
-  const { newPassword, password } = req.body;
-  const { userId } = req.params;
-
-  try {
-    const user = await UserModel.findById({ _id: userId }).select('+password');
-
-    if (!user) {
-      return res.status(400).send({ message: "User not found" });
-    }
-
-    const isMatch = await user.matchPasswords(password);
-    if (!isMatch) {
-      return res.status(400).send({ message: "Please enter correct old password" });
-    }
-    user.password = await newPassword
-    await user.save();
-
-    return res.json({ data: 'password update was successful' });
-  } catch (err) {
-    next(err);
-  }
-};
-
 
 
 const sendToken = async (user, statusCode, res) => {

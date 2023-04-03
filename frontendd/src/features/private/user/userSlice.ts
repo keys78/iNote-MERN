@@ -1,6 +1,7 @@
 import { Auth } from '@/features/auth/authSlice';
-import { IToken, IUser } from '@/types';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { IToken } from '@/types';
+import errorHandler from '@/utils/errorHandler';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import userService from './userService';
 
 
@@ -49,6 +50,19 @@ export const getUser = createAsyncThunk<User, void>(
 )
 
 
+// change Passoword
+export const changePassword = createAsyncThunk<{}, any>(
+  'change-password',
+  async ({ changePasswordData, userId }, thunkAPI) => {
+    const token: IToken = token2 || (thunkAPI.getState() as { auth: Auth }).auth.token;
+    try {
+      return await userService.changePassword(changePasswordData, userId, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
 
 
 export const privateSlice = createSlice({
@@ -77,6 +91,19 @@ export const privateSlice = createSlice({
           }
           // other cases...
         }
+      })
+      .addCase(changePassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.isError = false
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload || "Something went wrong";
       })
 
   },
