@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
-// import { requestPasswordReset } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
 import Loader from '@/components/Loader';
+import { requestPasswordReset } from '@/features/auth/authSlice';
 
 
 export type ForgotPasswordData = {
@@ -50,8 +50,8 @@ const ForgotPassword = () => {
                             { resetForm }: FormikHelpers<ForgotPasswordData>
                         ) => {
                             const data = { ...values, };
-                            // dispatch(requestPasswordReset(data));
-                            // resetForm();
+                            dispatch(requestPasswordReset(data));
+                            resetForm();
                         }}
                     >
                         {(props) => (
@@ -66,7 +66,7 @@ const ForgotPassword = () => {
                                         onBlur={props.handleBlur("email")}
                                         onChange={props.handleChange("email")}
                                     />
-                                    <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
+                                    <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all"}>
                                         {props.touched.email && props.errors.email}
                                     </span>
                                 </div>
@@ -95,3 +95,9 @@ const ForgotPassword = () => {
 }
 
 export default ForgotPassword;
+
+
+
+
+
+

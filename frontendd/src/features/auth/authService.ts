@@ -9,8 +9,7 @@ const AUTH_API_URL = "http://localhost:4000/"
 const signup = async (userData: IUserSignUp) => {
     const response = await axios.post(`${AUTH_API_URL + 'auth/signup'}`, userData)
 
-    toast.success(response.data.message as string, { autoClose: false });
-    console.log(response)
+    toast.success(response?.data?.message as string, { autoClose: false });
     return response
 }
 
@@ -18,18 +17,34 @@ const login = async (userData: IUserLogin) => {
     const { data } = await axios.post(`${AUTH_API_URL + 'auth/login'}`, userData)
 
    
-    if (data.token) {
+    if (data?.token) {
         localStorage.setItem('authToken', JSON.stringify(data.token))
     }
-    console.log('response', data.token)
     return data
 }
 
 const requestPasswordReset = async (userData: IUserForgotPassword) => {
     const response = await axios.post(`${AUTH_API_URL + 'auth/forgotpassword'}`, userData)
 
-    console.log('response', response.data.message)
-    return response.data.message
+    toast.success(response?.data?.data as string, { autoClose: false });
+    return response?.data?.message
+}
+
+
+const resetPassword = async (resetPasswordData: IUserForgotPassword, resetToken: any) => {
+    const response = await axios.put(`${AUTH_API_URL + `auth/reset-password/${resetToken}`}`, resetPasswordData)
+    
+    toast.success(response.data.message as string, { autoClose: false });
+    console.log('response', response?.data?.message)
+    return response?.data?.message
+}
+
+const changePassword = async (changePasswordData: IUserForgotPassword, userId: any) => {
+    const response = await axios.put(`${AUTH_API_URL + `auth/changepassword/${userId}`}`, changePasswordData)
+
+    toast.success(response.data.message as string, { autoClose: false });
+    console.log('response', response?.data?.message)
+    return response?.data?.message
 }
 
 
@@ -41,6 +56,8 @@ const authService = {
     signup,
     login,
     requestPasswordReset,
+    resetPassword,
+    changePassword,
     logout,
 }
 export default authService

@@ -97,7 +97,7 @@ const Signup = () => {
                       onBlur={props.handleBlur("username")}
                       onChange={props.handleChange("username")}
                     />
-                    <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
+                    <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all"}>
                       {props.touched.username && props.errors.username}
                     </span>
                   </div>
@@ -111,7 +111,7 @@ const Signup = () => {
                       onBlur={props.handleBlur("email")}
                       onChange={props.handleChange("email")}
                     />
-                    <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
+                    <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all"}>
                       {props.touched.email && props.errors.email}
                     </span>
                   </div>
@@ -131,7 +131,7 @@ const Signup = () => {
                     </div>
                     <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
                   </div>
-                  <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                  <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                     {props.touched.password && props.errors.password}
                   </span>
 

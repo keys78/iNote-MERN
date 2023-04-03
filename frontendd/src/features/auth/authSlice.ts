@@ -1,4 +1,5 @@
 import { IUser, IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
+import errorHandler from '@/utils/errorHandler';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 import authService from './authService'
@@ -37,14 +38,7 @@ export const signupUser = createAsyncThunk(
         try {
             return await authService.signup(user)
         } catch (error: any) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.error) ||
-                error.message ||
-                error.toString()
-            toast.error(message)
-            return thunkAPI.rejectWithValue(message)
+            errorHandler(error, thunkAPI)
         }
     }
 )
@@ -56,14 +50,7 @@ export const loginUser = createAsyncThunk(
         try {
             return await authService.login(user)
         } catch (error: any) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.error) ||
-                error.message ||
-                error.toString()
-                toast.error(message)
-            return thunkAPI.rejectWithValue(message)
+            errorHandler(error, thunkAPI)
         }
     }
 )
@@ -75,13 +62,33 @@ export const requestPasswordReset = createAsyncThunk(
         try {
             return await authService.requestPasswordReset(user)
         } catch (error: any) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString()
-            return thunkAPI.rejectWithValue(message)
+            errorHandler(error, thunkAPI)
+        }
+    }
+)
+
+// requestPasswordReset
+export const resetPassword = createAsyncThunk<any, any>(
+    'auth/reset-password',
+    async ({ resetPasswordData, resetToken }, thunkAPI) => {
+        try {
+            return await authService.resetPassword(resetPasswordData, resetToken)
+        } catch (error: any) {
+            console.log('mierror',error)
+            errorHandler(error, thunkAPI)
+        }
+    }
+)
+
+// requestPasswordReset
+export const changepassword = createAsyncThunk<any, any>(
+    'auth/change-password',
+    async ({ changePasswordData, userId }, thunkAPI) => {
+        try {
+            return await authService.changePassword(changePasswordData, userId)
+        } catch (error: any) {
+            console.log('mierror',error)
+            errorHandler(error, thunkAPI)
         }
     }
 )
@@ -134,6 +141,48 @@ export const authSlice = createSlice({
                 state.token = action.payload.token
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload || "Something went wrong";
+                state.user = null
+            })
+            .addCase(requestPasswordReset.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(requestPasswordReset.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.isError = false
+            })
+            .addCase(requestPasswordReset.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload || "Something went wrong";
+                state.user = null
+            })
+            .addCase(resetPassword.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.isError = false
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload || "Something went wrong";
+                state.user = null
+            })
+            .addCase(changepassword.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(changepassword.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.isError = false
+            })
+            .addCase(changepassword.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload || "Something went wrong";

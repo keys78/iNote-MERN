@@ -91,7 +91,7 @@ const Login = () => {
                                         onBlur={props.handleBlur("email")}
                                         onChange={props.handleChange("email")}
                                     />
-                                    <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all"}>
+                                    <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all"}>
                                         {props.touched.email && props.errors.email}
                                     </span>
                                 </div>
@@ -111,11 +111,11 @@ const Login = () => {
                                     </div>
                                     <div className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</div>
                                 </div>
-                                <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                                <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                     {props.touched.password && props.errors.password}
                                 </span>
                                 <div className='py-2'>
-                                    <Link href={'/auth/forgot_password'}><span className='text-[#635FC7]'>Forgot password?</span></Link>
+                                    <Link href={'/auth/forgot-password'}><span className='text-[#635FC7]'>Forgot password?</span></Link>
                                 </div>
 
                                 <br />

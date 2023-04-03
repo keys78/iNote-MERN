@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Loader from '@/components/Loader';
+import { resetPassword } from '@/features/auth/authSlice';
+import { useRouter } from 'next/router';
 
 
 export type ConfirmPasswordResetData = {
@@ -17,6 +19,7 @@ const Login = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [inputType, setInputType] = useState<string>('password');
     const { isLoading } = useAppSelector((state) => state.auth);
+    const router = useRouter();
 
     const dispatch = useAppDispatch();
 
@@ -24,10 +27,10 @@ const Login = () => {
     const LoginValidation = yup.object().shape({
         password: yup
             .string()
-            .min(8, "password must be at least at 6 characters")
+            // .min(8, "password must be at least at 6 characters")
             .required("password is required"),
         confirmPassword: yup.string()
-            .oneOf([yup.ref('password'), null as any], 'Passwords must match')
+            .oneOf([yup.ref('password'), null as any], 'passwords must match')
             .nullable() // allow null as a valid value
             .required('confirm password is required')
     });
@@ -66,9 +69,8 @@ const Login = () => {
                             { resetForm }: FormikHelpers<ConfirmPasswordResetData>
                         ) => {
                             const data = { ...values, };
-                            alert(values)
                             console.log(data)
-                            // dispatch(confirmPasswordReset(data));
+                            dispatch(resetPassword({resetPasswordData: data, resetToken:router.query.resetToken }))
                             // resetForm();
                         }}
                     >
@@ -90,7 +92,7 @@ const Login = () => {
                                     </div>
                                     <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span>
                                 </div>
-                                <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                                <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                     {props.touched.password && props.errors.password}
                                 </span>
 
@@ -110,7 +112,7 @@ const Login = () => {
                                     </div>
                                     {/* <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span> */}
                                 </div>
-                                <span className={"text-red-500 text-xs translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
+                                <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                     {props.touched.confirmPassword && props.errors.confirmPassword}
                                 </span>
 

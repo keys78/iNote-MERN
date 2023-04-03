@@ -67,10 +67,14 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
 @keyframes shimmer { from { background-position: 100% 100%;} to { background-position: 0 0;}}
 
 .review-card > div > div > span { display: flex; align-items: center; }
-
+.progress-bar-container { border: 1px solid #4a4db037; border-radius: 999px; min-width: 130px; width: 100%; height: 4px;}
+.progress-bar { background: #4a4db0; border-radius: 999px; white-space: nowrap; height: 4px; margin-top: -1px; margin-left: -1px;}
 .review-card .user-details > h1 { font-size: 16px; font-weight: bold;}
 .review-card .user-details > h2 { font-size: 13px; text-transform: capitalize; padding-bottom: 3px;}
 .splide__pagination__page { display: none !important;}
+
+.rate-card { background: #ffffff; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; margin: 0 auto -40px auto; border-radius: 8px; max-width: 360px; min-width: 360px; width: 100%; cursor: pointer; padding: 16px 15px 10px 16px; }
+
 
 
 

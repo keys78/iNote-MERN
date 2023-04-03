@@ -9,7 +9,7 @@ import ReviewCard from '@/components/User/ReviewCard'
 const Page: NextPageWithLayout = () => {
   return (
     <>
-      <div className='flex items-center justify-center h-[100vh]'>
+      <div className='flex items-center justify-center pt-16'>
         <div>
           <div className='text-center'>
             <Logo />
@@ -26,7 +26,7 @@ const Page: NextPageWithLayout = () => {
               </div>
             </div>
           </div>
-          <br /><br /><br /><br />
+          <br /><br /><br />
           <ReviewCard />
         </div>
       </div>

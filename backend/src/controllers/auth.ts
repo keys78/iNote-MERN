@@ -6,6 +6,7 @@ import TokenModel from '../models/token'
 import sendEmail from '../utils/sendEmail'
 import confirmEmailMessage from '../utils/confirmEmailMessage'
 import crypto from 'crypto'
+import changePasswordMessage from "../utils/changePasswordMessage";
 
 interface createUser {
   username?: string,
@@ -140,7 +141,7 @@ export const login: RequestHandler = async (req, res, next) => {
         userId: user._id,
       });
 
-     
+
       if (unusedToken !== null && unusedToken instanceof TokenModel) {
         await unusedToken.removeToken();
       }
@@ -195,8 +196,6 @@ export const verifyEmail: RequestHandler = async (req, res, next) => {
     if (token) {
       await token.removeToken();
     }
-    
-    
 
     res.status(202).json({
       success: true,
@@ -204,6 +203,106 @@ export const verifyEmail: RequestHandler = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+
+
+export const forgotpassword: RequestHandler = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).send({ message: "Email could not not be sent / account does not exist" });
+    }
+
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/auth/reset-password/${resetToken}`;
+
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Password Reset Request",
+        text: changePasswordMessage(resetUrl)
+      });
+
+      res.status(200).json({ success: true, data: `Check your inbox for the next steps. If you don't receive an email, and it's not in your spam folder this could mean you signed up with a different address.` });
+    } catch (error) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+
+      await user.save();
+
+      return res.status(500).send({ message: "Email could not be sent" });
+    }
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const resetPassword: RequestHandler = async (req, res, next) => {
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.resetToken)
+    .digest("hex");
+
+  try {
+    const user = await UserModel.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+
+    if (!user) {
+      return res.status(400).send({ message: "Invalid Reset Token" });
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Password reset success",
+      token: user.getSignedToken(),
+
+    })
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const changePassword: RequestHandler = async (req, res, next) => {
+  const { newPassword, password } = req.body;
+  const { userId } = req.params;
+
+  try {
+    const user = await UserModel.findById({ _id: userId }).select('+password');
+
+    if (!user) {
+      return res.status(400).send({ message: "User not found" });
+    }
+
+    const isMatch = await user.matchPasswords(password);
+    if (!isMatch) {
+      return res.status(400).send({ message: "Please enter correct old password" });
+    }
+    user.password = await newPassword
+    await user.save();
+
+    return res.json({ data: 'password update was successful' });
+  } catch (err) {
+    next(err);
   }
 };
 

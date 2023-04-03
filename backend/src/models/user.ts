@@ -1,5 +1,6 @@
 import mongoose, { model, Schema, Types } from "mongoose";
 import bcrypt from "bcryptjs";
+import crypto from 'crypto'
 import jwt from "jsonwebtoken"
 import _ from "lodash"
 
@@ -12,7 +13,11 @@ interface User extends mongoose.Document {
     verified: boolean,
     password: string;
     board: Types.ObjectId['_id'];
+    resetPasswordToken: string,
+    resetPasswordExpire: string,
     matchPasswords: (password: string) => Promise<boolean>;
+    getResetPasswordToken: () => string;
+    getSignedToken: () => string;
 }
 
 const userSchema = new Schema({
@@ -61,9 +66,6 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-// userSchema.methods.getSignedToken = function () {
-//     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
-// }
 
 userSchema.methods.getSignedToken = function () {
     const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
@@ -76,5 +78,18 @@ userSchema.methods.getSignedToken = function () {
 userSchema.methods.matchPasswords = async function (password: string) {
     return await bcrypt.compare(password, this.password);
 }
+
+userSchema.methods.getResetPasswordToken = function () {
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    this.resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex");
+
+    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000)
+
+    return resetToken;
+};
 
 export default model<User>("User", userSchema)

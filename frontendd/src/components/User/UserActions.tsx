@@ -1,13 +1,15 @@
 import { useAppSelector } from '@/network/hooks'
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import Modal from '../Modal'
 import Ratings from './Ratings'
+import ChangePassword from './ChangePassword'
 import UserProfileModal from './UserProfileModal'
 
 const UserActions = () => {
     const { user } = useAppSelector(state => state.user)
     const [isUser, setIsUser] = useState<boolean>(false)
     const [isRating, setIsRating] = useState<boolean>(false)
+    const [isChangePasswordModal, setIsChangePasswordModal] = useState<boolean>(false)
 
     return (
         <>
@@ -21,7 +23,8 @@ const UserActions = () => {
                 <div className='rounded-[6px] shadow-sm  absolute right-0 top-10 bg-white w-[150px] border'>
                     <ul>
                         <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Profile</li>
-                        <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Rate Us</li>
+                        <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Change password</li>
+                        <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Rate App</li>
                     </ul>
                 </div>
             </div>
@@ -31,6 +34,9 @@ const UserActions = () => {
             </Modal>
             <Modal setShowModal={setIsRating} showModal={isRating}>
                 <Ratings setIsRating={setIsRating} />
+            </Modal>
+            <Modal setShowModal={setIsChangePasswordModal} showModal={isChangePasswordModal}>
+                <ChangePassword setIsChangePasswordModal={setIsChangePasswordModal} />
             </Modal>
         </>
     )
