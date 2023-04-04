@@ -41,33 +41,12 @@ interface CreateNoteBody {
     title: string;
     description: string;
     status: string,
+    priority: string,
     subTasks?: { description: string }[];
 }
 
-
-// export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (req, res, next) => {
-//     const { title, description } = req.body
-
-//     try {
-//         if (!title) {
-//             throw createHttpError(400, "title is required")
-//         }
-//         const newNote = await NoteModel.create({
-//             title: title,
-//             description: description,
-//             boardId: req?.params.boardId
-//         });
-
-//         await BoardModel.updateOne({ _id: newNote.boardId }, { $push: { notes: newNote._id } });
-
-//         res.status(201).json(newNote);
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
 export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (req, res, next) => {
-    const { title, description, status, subTasks } = req.body;
+    const { title, description, status, priority, subTasks } = req.body;
 
     try {
         if (!title) {
@@ -81,6 +60,7 @@ export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (
             title: title,
             description: description,
             status: status,
+            priority:priority,
             boardId: req?.params.boardId,
             subTasks: subTasks || []
         });
@@ -102,6 +82,7 @@ interface UpdateNoteBody {
     title: string;
     description: string;
     status: string,
+    priority: string,
     subTasks: string[];
 }
 
@@ -110,6 +91,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
     const newTitle = req?.body.title;
     const newText = req?.body.description;
     const newStatus = req?.body.status;
+    const newPriority = req?.body.priority;
     const newSubTasks = req?.body.subTasks;
 
     try {
@@ -131,7 +113,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
         // use spread syntax to update the note object
         const updatedNote = await NoteModel.findByIdAndUpdate(
             noteId,
-            { ...note.toObject(), title: newTitle, description: newText, status: newStatus, subTasks: newSubTasks },
+            { ...note.toObject(), title: newTitle, description: newText, status: newStatus, priority: newPriority, subTasks: newSubTasks },
             { new: true }
         ).exec();
 

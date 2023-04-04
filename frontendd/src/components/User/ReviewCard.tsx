@@ -36,11 +36,12 @@ const ReviewCard = () => {
 
     return (
         <>
+            <br /><br /><span className='hidden sm:block'><br /></span>
             {reviews &&
                 <>
-                    <div className='flex justify-between border rate-card'>
+                    <div className='flex justify-between border rate-card mx-4'>
                         <div>
-                            <div className='pt-3'><span className='font-bold text-[36px] leading-[0px] text-[#4a4db0]'>{starAverage}</span> <br />out of {starRatings?.length}</div>
+                            <div className='pt-3'><span className='font-bold text-[36px] leading-[0px] text-[#4a4db0]'>{starAverage}</span> <br /><span className='whitespace-nowrap'>out of {starRatings?.length}</span></div>
                         </div>
                         <div>
                             {progressData.map(({ rating, progress, count }) => (
@@ -63,11 +64,11 @@ const ReviewCard = () => {
                     <Splide
                         options={{
                             rewind: true,
-                            gap: '2px',
+                            gap: '16px',
                             autoplay: true,
                             pauseOnHover: true,
-                            interval: 5000,
-                            speed: 5000,
+                            interval: 7000,
+                            speed: 7000,
                             perPage: 1,
                             autoHeight: true,
                             autoWidth: true,
@@ -75,7 +76,7 @@ const ReviewCard = () => {
                             isNavigation: false,
                         }}
                         aria-label="iNote reviews"
-                        className='max-w-[510px] h-[0px]'
+                        className='max-w-[100%] review-card-slider h-[0px]'
                     >
                         {reviews?.map((val: any, i: number) =>
                             <SplideSlide key={i}>

@@ -2,7 +2,8 @@ import Modal from '../Modal'
 import TaskDetailsModal from '../Modal/TaskDetailsModal'
 import React, { useState } from 'react'
 import EmptyBoard from './EmptyBoard'
-import { CircleWavyCheck } from 'phosphor-react'
+import { CircleWavyCheck, ProhibitInset, TagChevron } from 'phosphor-react'
+import { priorityArr } from '@/utils/data'
 
 
 interface IProps {
@@ -38,7 +39,10 @@ const Task = ({ task }: IProps) => {
         return acc;
     }, {});
 
-
+      const priorityComponents = (item: any) => priorityArr.map(p => (
+        item?.priority === p.name && <span key={p.name}>{p.icon}</span>
+      ));
+      
 
 
 
@@ -56,11 +60,12 @@ const Task = ({ task }: IProps) => {
                         <div className='flex items-center space-x-3'>
                             <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val.isCompleted).length} of {item.subTasks.length} subtasks</p>
                             {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
+                            {priorityComponents(item)}
                         </div>
                     </li>
                     {showModal && (
                         <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
-                            <TaskDetailsModal item={item} setShowDetails={setShowDetails} />
+                            <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
                         </Modal>
                     )}
                 </>
@@ -95,31 +100,4 @@ const Task = ({ task }: IProps) => {
     )
 }
 
-export default Task
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* <li onClick={() => setShowDetails(!showDetails)} key={j} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
-                <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{task.title}</h4>
-                <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{task.description}</h4>
-                <div className='flex items-center space-x-3'>
-                    <p className="font-bold text-[12px] text-mediumGrey"> {task.subtasks.filter((val: any) => val.isCompleted).length} of {task.subtasks.length} subtasks</p>
-                    {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" /> }
-                </div>
-            </li> */}
-{/* <Modal setShowModal={setShowDetails} showModal={showDetails}>
-                <TaskDetailsModal setShowDetails={setShowDetails} task={task} i={i} j={j} boardNameTag={boardNameTag} completedTaskCount={0}  />
-            </Modal> */}
+export default Task;

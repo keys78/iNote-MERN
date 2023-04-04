@@ -4,7 +4,6 @@ import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
-import Google_logo from '@/components/assets/svg/Google_logo';
 import Loader from '@/components/Loader';
 import { requestPasswordReset } from '@/features/auth/authSlice';
 
@@ -15,9 +14,8 @@ export type ForgotPasswordData = {
 
 const ForgotPassword = () => {
     const dispatch = useAppDispatch();
+    const [buttonDisabled, setButtonDisabled] = useState(false); 
     const { isLoading } = useAppSelector((state) => state.auth);
-
-
 
     const LoginValidation = yup.object().shape({
         email: yup
@@ -27,14 +25,13 @@ const ForgotPassword = () => {
     });
 
 
-
     return (
-        <section className="max-w-[400px] w-full mx-auto my-5">
+        <section className="max-w-[400px] w-full mx-auto my-16">
             {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />
-                <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Reset your password</h1>
-                <article className=" pb-8 text-center">
+                <h1 className='pt-6 pb-1 font-bold sm:text-[24px] text-[18px] text-center'>Reset your password</h1>
+                <article className=" pb-8 text-center sm:text-[16px] text-[14px]">
                     Enter your email address and we will send you instructions to reset your password.
                 </article>
 
@@ -44,7 +41,6 @@ const ForgotPassword = () => {
                         initialValues={{
                             email: "",
                         }}
-
                         onSubmit={async (
                             values: ForgotPasswordData,
                             { resetForm }: FormikHelpers<ForgotPasswordData>
@@ -52,11 +48,14 @@ const ForgotPassword = () => {
                             const data = { ...values, };
                             dispatch(requestPasswordReset(data));
                             resetForm();
+                            setButtonDisabled(true); 
+                            setTimeout(() => {
+                                setButtonDisabled(false);
+                            }, 60000);
                         }}
                     >
                         {(props) => (
                             <form onSubmit={props.handleSubmit}>
-
                                 <div className="input-container">
                                     <label className='opacity-50 pl-2' htmlFor="email">Email</label>
                                     <input
@@ -71,12 +70,12 @@ const ForgotPassword = () => {
                                     </span>
                                 </div>
 
-
                                 <br />
                                 <div className="my-2 lg:block flex justify-center items-center">
                                     <button
                                         type='submit'
                                         className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
+                                        disabled={buttonDisabled}
                                     >
                                         Continue
                                     </button>

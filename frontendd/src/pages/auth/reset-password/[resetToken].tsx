@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
-// import { confirmPasswordReset } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Loader from '@/components/Loader';
@@ -28,6 +27,10 @@ const Login = () => {
         password: yup
             .string()
             // .min(8, "password must be at least at 6 characters")
+            // .matches(
+            //     /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+            //     "Passwords Must contain letters, numbers and special characters"
+            //   )
             .required("password is required"),
         confirmPassword: yup.string()
             .oneOf([yup.ref('password'), null as any], 'passwords must match')
@@ -47,12 +50,12 @@ const Login = () => {
 
 
     return (
-        <section className="max-w-[400px] w-full mx-auto my-5">
+        <section className="max-w-[400px] w-full mx-auto my-16">
             {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />
-                <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Confirm password reset</h1>
-                <article className=" pb-8 text-center">
+                <h1 className='pt-6 pb-1 font-bold sm:text-[24px] text-[18px] text-center'>Confirm password reset</h1>
+                <article className=" pb-8 text-center sm:text-[16px] text-[14px]">
                     Please enter your new password and confirm the password reset.
                 </article>
 
@@ -70,8 +73,8 @@ const Login = () => {
                         ) => {
                             const data = { ...values, };
                             console.log(data)
-                            dispatch(resetPassword({resetPasswordData: data, resetToken:router.query.resetToken }))
-                            // resetForm();
+                            dispatch(resetPassword({resetPasswordData: data, resetToken:router.query.resetToken })) 
+                            resetForm();
                         }}
                     >
                         {(props) => (
@@ -110,7 +113,6 @@ const Login = () => {
                                         />
 
                                     </div>
-                                    {/* <span className='cursor-pointer' onClick={() => handleToggle()}>{!isVisible ? 'SHOW' : 'HIDE'}</span> */}
                                 </div>
                                 <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                     {props.touched.confirmPassword && props.errors.confirmPassword}
@@ -122,10 +124,13 @@ const Login = () => {
                                         type='submit'
                                         className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                                     >
-                                        Confirm password reset
+                                        Confirm Password Reset
                                     </button>
                                 </div>
 
+                                <div className='text-center pt-4'>
+                                    <Link href={'/auth/login'}><span className='text-[#635FC7]'>Back to Apps Client</span></Link>
+                                </div>
 
                             </form>
                         )}

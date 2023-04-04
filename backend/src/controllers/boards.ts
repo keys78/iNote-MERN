@@ -26,7 +26,7 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
         const board = await BoardModel.findById(boardId)
             .populate({
                 path: "notes",
-                select: "title description status subTasks reviewApp",
+                select: "title description status priority subTasks",
             });
 
         if (!board) {

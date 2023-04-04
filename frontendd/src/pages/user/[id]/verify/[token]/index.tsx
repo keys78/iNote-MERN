@@ -1,73 +1,51 @@
-/* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import Image from "next/image";
 import { useRouter } from 'next/router'
 import Loader from "../../../../../components/Loader";
+import { useAppDispatch, useAppSelector } from "@/network/hooks";
+import { verifyEmail } from "@/features/auth/authSlice";
 
 const VerifyEmail = () => {
-  const [isValidUrl, setValidUrl] = useState<boolean>(false);
   const router = useRouter();
-  const [isAnimating, setIsAnimating] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const { isLoading, message } = useAppSelector((state) => state.auth)
 
-  const verifyEmailUrl = async () => {
-    try {
-      await axios.post(`http://localhost:3000/user/${router.query.id}/verify/${router.query.token}`);
-      setValidUrl(true);
-    } catch (error) {
-      console.log(error);
-      setValidUrl(false);
-    }
-  };
 
   useEffect(() => {
     if (router.isReady) {
-      verifyEmailUrl();
+      dispatch(verifyEmail({ id: router.query.id, verifyToken: router.query.token }))
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
+  }, [dispatch, router.isReady, router.query.id, router.query.token]);
 
-  useEffect(() => {
-    setTimeout(function () {
-      setIsAnimating(!isAnimating)
-    }, 4500);
-  }, []);
-
-  const successMessage = (
-    <div className="veri-board">
-      <div>
-        {isAnimating && <img className="animated-gif" src="/assets/fp.gif" alt="gif" />}
-        {!isAnimating && (
-          <>
-            <img className="animated-gif" src="/assets/veri_green.jpg" alt="png" />
-            <h1>Email verified successfully </h1>
-            <Link href="/signin"><span className='btn-class-form new-btn' >Login</span></Link>
-          </>
-        )}
-      </div>
-    </div>
-  );
-
-  const notFound = (
-    <div className="veri-false">
-      <div>
-        <img src="/assets/f_o_f.gif" alt="not found" />
-        <h1> 404 | Page Not Found</h1>
-      </div>
-    </div>
-  );
 
   return (
+    router.isReady &&
     <>
-      {router.isReady ?
-        <>
-          {isValidUrl && successMessage}
-          {!isValidUrl && notFound}
-        </> :
-        <Loader />
-      }
+      {isLoading && <Loader />}
+      <div className="flex items-center justify-center mt-[240px]">
+        {message === 'Email Verified Successfully' ? (
+          <div className="veri-board">
+            <span>{'Email Verified Successfully'}</span>
+            <div className='text-center pt-4'>
+              <Link href={'/auth/login'}><span className='text-[#635FC7]'>Login</span></Link>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center">
+            <div>
+              <h1> 404 | Page Not Found</h1>
+              <div className='text-center pt-4'>
+              <Link href={'/'}><span className='text-[#635FC7] underline'>Home</span></Link>
+            </div>
+              <Image src="/assets/f_o_f.gif" height={10} width={150} alt={""}/>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
+
 };
 
 export default VerifyEmail;

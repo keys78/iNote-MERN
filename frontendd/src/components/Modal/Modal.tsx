@@ -15,10 +15,10 @@ const Modal = ({showModal, setShowModal, children}: props) => {
 
     return (
        showModal ? ( 
-       <div className='fixed w-full h-full left-0 top-0 fix-marg flex items-center justify-center z-50 bg-modalBackgroundLayer'>
+       <div className='fixed w-full h-[100vh] left-0 top-0 fix-marg flex items-center justify-center z-50 bg-modalBackgroundLayer'>
             <div
                 ref={modalRef}
-                className='max-w-[480px] w-full bg-white rounded-md text-black p-8' >
+                className='max-w-[480px] w-full bg-white rounded-md text-black p-8 overflow-auto' >
                 {children}
             </div>
         </div>

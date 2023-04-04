@@ -10,7 +10,7 @@ const Page: NextPageWithLayout = () => {
   return (
     <>
       <div className='flex items-center justify-center pt-16'>
-        <div>
+        <div className='flex items-center justify-center flex-col'>
           <div className='text-center'>
             <Logo />
             <h1 className='pt-4 pb-3'>Welcome to iNote</h1>
@@ -26,7 +26,6 @@ const Page: NextPageWithLayout = () => {
               </div>
             </div>
           </div>
-          <br /><br /><br />
           <ReviewCard />
         </div>
       </div>

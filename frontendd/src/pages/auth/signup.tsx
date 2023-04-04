@@ -53,12 +53,12 @@ const Signup = () => {
 
 
   return (
-    <section className="max-w-[400px] w-full mx-auto my-5">
+    <section className="max-w-[400px] w-full mx-auto my-8">
       {isLoading && <Loader />}
       <div className='mx-[16px]'>
         <Logo />
         <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Create your account</h1>
-        <article className=" pb-8 text-center">
+        <article className=" pb-8 text-center sm:text-[16px] text-[14px]">
           Please note that the sign-up process requires email verification.
           Your email address will only be used to verify your identity in order to ensure security.
         </article>
@@ -156,10 +156,10 @@ const Signup = () => {
                   <span>OR</span>
                 </div>
 
-                <div className='flex items-center justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                <button disabled={true} className='flex items-center w-full justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
                   <Google_logo />
-                  <span>Sign in with Google</span>
-                </div>
+                  <span>Continue with Google</span>
+                </button>
               </form>
             )}
           </Formik>

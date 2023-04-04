@@ -7,11 +7,11 @@ import TextArea from '../shared/TextArea'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { addTask, getBoard } from '@/features/private/boards/boardSlice'
 import StatusDropdown from '../shared/StatusDropdown'
+import PriorityDropdown from '../shared/PriorityDropdown'
 
 const AddNewTaskModal = () => {
     const dispatch = useAppDispatch()
     const { board } = useAppSelector((state) => state.board)
-
 
     const validate = Yup.object({
         title: Yup.string().required("required"),
@@ -38,6 +38,7 @@ const AddNewTaskModal = () => {
                     title: '',
                     description: '',
                     status: '',
+                    priority:'',
                     subTasks: [],
                 }}
 
@@ -96,13 +97,15 @@ const AddNewTaskModal = () => {
                             )}
                         />
 
-                        <StatusDropdown status={status && status} setStatus={props?.setFieldValue} label={'Status'} /> <br />
+                        <StatusDropdown status={status && status} setStatus={props?.setFieldValue} label={'Status'} />
+                        <PriorityDropdown setStatus={props?.setFieldValue} label={'Priority'} />
 
                         <Button text="Save Changes" type='submit' width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
-                        {/* <pre>{JSON.stringify(props.values, null, 2)}</pre> */}
+                        <pre>{JSON.stringify(props.values, null, 2)}</pre>
                     </Form>
                 )}
             </Formik>
+            <br /><br /><br />
         </div>
     )
 }

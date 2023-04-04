@@ -39,6 +39,15 @@ const resetPassword = async (resetPasswordData: IUserForgotPassword, resetToken:
     return response?.data?.message
 }
 
+const verifyEmail = async (id: string, verifyToken: string) => {
+    const response = await axios.post(`${AUTH_API_URL + `auth/${id}/verify/${verifyToken}`}`)
+    
+    toast.success(response.data.message as string, { autoClose: false });
+    console.log('response', response)
+    return response?.data?.message
+}
+// authRouter.post("/:id/verify/:token", UsersController.verifyEmail);
+
 
 const logout = () => {
     localStorage.removeItem('authToken')
@@ -49,6 +58,7 @@ const authService = {
     login,
     requestPasswordReset,
     resetPassword,
+    verifyEmail,
     logout,
 }
 export default authService

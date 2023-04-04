@@ -51,11 +51,11 @@ const Login = () => {
 
 
     return (
-        <div className="max-w-[400px] w-full mx-auto my-5">
+        <div className="max-w-[400px] w-full mx-auto my-16">
             {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />
-                <h1 className='pt-6 pb-8 font-bold text-xl text-center'>Welcome back</h1>
+                <h1 className='pt-6 pb-8 font-bold sm:text-[24px] text-[18px] text-center'>Welcome back</h1>
 
                 <div>
                     <Formik
@@ -138,10 +138,10 @@ const Login = () => {
                                     <span>OR</span>
                                 </div>
 
-                                <div className='flex items-center justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                                <button disabled={true} className='flex items-center w-full justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
                                     <Google_logo />
                                     <span>Continue with Google</span>
-                                </div>
+                                </button>
                             </form>
                         )}
                     </Formik>

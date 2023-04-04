@@ -75,10 +75,13 @@ userSchema.methods.getSignedToken = function () {
     return token;
 };
 
+// userSchema.methods.matchPasswords = async function (password: string) {
+//     if (!password) {
+//         return false;
+//     }
+//     return await bcrypt.compare(password, this.password);
+// }
 userSchema.methods.matchPasswords = async function (password: string) {
-    if (!password) {
-        return false;
-    }
     return await bcrypt.compare(password, this.password);
 }
 

@@ -1,7 +1,6 @@
-import { IUser, IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
+import { IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import errorHandler from '@/utils/errorHandler';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { toast } from 'react-toastify';
 import authService from './authService'
 
 
@@ -74,7 +73,19 @@ export const resetPassword = createAsyncThunk<any, any>(
         try {
             return await authService.resetPassword(resetPasswordData, resetToken)
         } catch (error: any) {
-            console.log('mierror', error)
+            errorHandler(error, thunkAPI)
+        }
+    }
+)
+
+
+// verify email
+export const verifyEmail = createAsyncThunk<any, any>(
+    'auth/verify-email',
+    async ({ id, verifyToken }, thunkAPI) => {
+        try {
+            return await authService.verifyEmail(id, verifyToken)
+        } catch (error: any) {
             errorHandler(error, thunkAPI)
         }
     }
@@ -156,6 +167,22 @@ export const authSlice = createSlice({
                 state.isError = false
             })
             .addCase(resetPassword.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload || "Something went wrong";
+                state.user = null
+            })
+            .addCase(verifyEmail.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.message = action.payload
+                state.isError = false
+
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload || "Something went wrong";

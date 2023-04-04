@@ -37,10 +37,10 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
             .populate({
                 path: 'boards',
                 select: 'title',
-                populate: {
-                    path: 'notes',
-                    select: 'title description status subTasks '
-                }
+                // populate: {
+                //     path: 'notes',
+                //     select: 'title description status subTasks '
+                // }
             })
             .exec();
 
@@ -51,32 +51,7 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
 }
 
 
-// export const changePassword: RequestHandler = async (req, res, next) => {
-//     const { newPassword, password } = req.body;
-//     const { userId } = req.params;
 
-//     try {
-//         const user = await UsersModel.findById({ _id: userId }).select('+password');
-
-//         if (!user) {
-//             return res.status(400).send({ message: "User not found" });
-//         }
-
-//         const isMatch = await user.matchPasswords(password);
-//         if (!isMatch) {
-//             return res.status(400).send({ message: "Please enter correct old password" });
-//         }
-//         console.log("newPassword:", newPassword);
-//         console.log("password:", password);
-
-//         user.password = newPassword
-//         await user.save();
-
-//         return res.json({ data: 'password update was successful' });
-//     } catch (err) {
-//         next(err);
-//     }
-// };
 export const changePassword: RequestHandler = async (req, res, next) => {
     try {
       const { newPassword, password } = req.body;
@@ -87,7 +62,11 @@ export const changePassword: RequestHandler = async (req, res, next) => {
       if (!user) {
         return res.status(400).send({ message: 'User not found' });
       }
-  
+      
+      if (!req.params.userId) {
+        return res.status(400).send({ message: 'User ID is missing' });
+      }
+      
       const isMatch = await user.matchPasswords(password);
   
       if (!isMatch) {

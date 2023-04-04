@@ -33,7 +33,7 @@ const Ratings = ({ setIsRating }: IProps) => {
     return (
         <div>
             <>{isLoading && <Loader />}</>
-            <h1 className='font-bold text-[22px]'>i-Rate</h1>
+            <h1 className='font-bold text-[18px]'>i-Rate</h1>
             <div>
                 <Image src={'/assets/emotico.webp'} width={400} height={10} alt={''} />
             </div>

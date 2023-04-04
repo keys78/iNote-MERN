@@ -29,15 +29,15 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
         password: yup
             .string()
             // .min(8, "password must be at least at 6 characters")
-            .required("password is required"),
+            .required("old password is required"),
         newPassword: yup
             .string()
             // .min(8, "password must be at least at 6 characters")
-            .required("password is required"),
+            .required("new password is required"),
         confirmPassword: yup.string()
             .oneOf([yup.ref('newPassword'), null as any], 'passwords must match')
             .nullable() // allow null as a valid value
-            .required('confirm password is required')
+            .required('confirm new password is required')
     });
 
     const handleToggle = () => {
@@ -52,7 +52,7 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
 
     return (
         <div>
-            <h1>ChangePassword</h1>
+            <h1 className='pb-6 font-bold'>Change password</h1>
             <div>
                 <Formik
                     validationSchema={LoginValidation}
@@ -76,7 +76,7 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
                     {(props) => (
                         <form onSubmit={props.handleSubmit}>
 
-                            <label className='opacity-50 pl-2' htmlFor="password">Password</label>
+                            <label className='opacity-50 pl-2' htmlFor="password">Old Password</label>
                             <div className='password-input'>
                                 <div>
                                     <input
@@ -92,8 +92,8 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
                             </div>
                             <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                 {props.touched.password && props.errors.password}
-                            </span>
-                            <label className='opacity-50 pl-2' htmlFor="password">New Password</label>
+                            </span> <br />
+                            <label className='opacity-50 pl-2 pt-4' htmlFor="password">New Password</label>
                             <div className='password-input'>
                                 <div>
                                     <input
@@ -113,7 +113,7 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
                             </span>
 
                             <br />
-                            <label className='opacity-50 pl-2' htmlFor="confirm_password">Confrm New Password</label>
+                            <label className='opacity-50 pl-2' htmlFor="confirm_password">Confirm New Password</label>
                             <div className='password-input'>
                                 <div>
                                     <input
