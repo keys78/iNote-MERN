@@ -1,5 +1,5 @@
 
-function formatDate(dateItem: string) {
+export function formatDate(dateItem: string) {
     const dateString = dateItem
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -9,4 +9,6 @@ function formatDate(dateItem: string) {
     return formattedDate
 }
 
-export default formatDate;
+export const characterLimit = (text: string, limit: number) => text?.length > limit ? (text.substr(0, limit - 1).trim() + '...') : text;
+
+

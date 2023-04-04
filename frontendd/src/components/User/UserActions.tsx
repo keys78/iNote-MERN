@@ -27,7 +27,7 @@ const UserActions = () => {
                     <CaretDown size={22} />
                 </div>
                 {showModal &&
-                    <div ref={modalRef} className='rounded-[6px] shadow-sm  absolute right-0 top-10 bg-white w-[150px] border'>
+                    <div ref={modalRef} className='rounded-[6px] shadow-sm  absolute right-0 top-14 bg-white w-[150px] border'>
                         <ul>
                             <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Profile</li>
                             <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Change Password</li>

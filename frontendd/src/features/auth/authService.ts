@@ -46,7 +46,6 @@ const verifyEmail = async (id: string, verifyToken: string) => {
     console.log('response', response)
     return response?.data?.message
 }
-// authRouter.post("/:id/verify/:token", UsersController.verifyEmail);
 
 
 const logout = () => {
