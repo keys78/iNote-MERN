@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/network/hooks'
-import formatDate from '@/utils/general'
+import { formatDate } from '@/utils/general'
 import React from 'react'
 
 const UserProfileModal = () => {

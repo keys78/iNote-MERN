@@ -24,7 +24,6 @@ const changePassword = async (changePasswordData: IUserForgotPassword, userId: a
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log('owo-1111')
   const response = await axios.post(PRIVATE_API_URL + `changepassword/${userId}`, changePasswordData, config)
 
   toast.success(response.data.message as string, { autoClose: false });

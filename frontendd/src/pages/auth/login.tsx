@@ -23,7 +23,6 @@ const Login = () => {
 
     const { isSuccess, isLoading, isError } = useAppSelector((state) => state.auth);
     const user: any = useAppSelector((state) => state.user);
-    console.log(user)
 
 
 

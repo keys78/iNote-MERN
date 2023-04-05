@@ -1,19 +1,19 @@
 import { useAppDispatch, useAppSelector } from '@/network/hooks'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import Board from './Board'
+import ShowSidebar from './Board/ShowSideBar'
 import Header from './Header'
 import Loader from './Loader'
 import SideBar from './SideBar'
 
 const Layout = ({ children }: any) => {
-  const [isSidebar, setIsSidebar] = useState<boolean>(false)
+  const [isSidebar, setIsSidebar] = useState<boolean>(true)
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { isLoading, user } = useAppSelector((state) => state.user)
   const { isLoading: boardLoader } = useAppSelector((state) => state.board)
 
-  
+
   useEffect(() => {
     if (user?.boards?.length === 0) {
       router.replace('/user/dashboard')
@@ -24,9 +24,12 @@ const Layout = ({ children }: any) => {
     <section className='w-full'>
       {isLoading || boardLoader && <Loader />}
       <Header />
-      <div className='flex h-[calc(100vh-85px)] w-full'>
+      <ShowSidebar isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
+      <div className='flex h-[calc(100vh-85px)] sido w-full'>
         <SideBar isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
-        {children}
+        <div className={`maino w-full ${isSidebar ? "pushed" : ""}`}>
+          {children}
+        </div>
       </div>
 
     </section>
@@ -34,4 +37,4 @@ const Layout = ({ children }: any) => {
   )
 }
 
-export default Layout
+export default Layout;

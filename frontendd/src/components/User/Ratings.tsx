@@ -53,7 +53,6 @@ const Ratings = ({ setIsRating }: IProps) => {
                     validationSchema={validationSchema}
                     onSubmit={(values, { setSubmitting, resetForm }) => {
                         setSubmitting(true);
-                        console.log(values)
                         dispatch(postReview({ reviewData: values, userId: user?._id }))
                         dispatch(getUser())
                         setIsRating(false)

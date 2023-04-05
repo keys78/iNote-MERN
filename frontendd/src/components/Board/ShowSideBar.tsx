@@ -1,3 +1,4 @@
+import useWindowSize from '@/hooks/useWindowSize';
 import React from 'react'
 
 interface props {
@@ -6,8 +7,10 @@ interface props {
 }
 
 const ShowSidebar = ({ isSidebar, setIsSidebar }: props) => {
+    const { width } = useWindowSize();
+    
     return (
-        !isSidebar ? (
+        !isSidebar && width > 786 ? (
             <button
                 onClick={() => setIsSidebar(!isSidebar)}
                 className={'fixed bottom-14 cursor-pointer flex items-end -ml-1 mt-4 pl-6 transition w-16 hover:bg-opacity-50 text-mediumGrey bg-mainPurple py-5 rounded-r-3xl'}

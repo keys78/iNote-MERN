@@ -1,8 +1,6 @@
-import TextInput from '../shared/TextInput'
-import { Formik, FieldArray, Form } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import Button from '../shared/Button'
-import TextArea from '../shared/TextArea'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { editTask, getBoard } from '@/features/private/boards/boardSlice'
 import React from 'react'
@@ -26,9 +24,8 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
   const { board } = useAppSelector((state) => state.board)
 
   const arr = board?.notes?.map((val: any) => val.status)
+
   const status = [...new Set(arr)];
-
-
 
   const onChangeSubtaskStatus = (description: string) => {
     const newSubTasks = item?.subTasks.map((subtask: any) => {
@@ -41,7 +38,6 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
       return subtask;
     });
 
-    console.log(newSubTasks);
 
     const newTask = { ...item, subTasks: newSubTasks };
     dispatch(editTask({ noteId: item?._id, taskData: newTask }));
@@ -62,7 +58,7 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
 
 
   return (
-    <>
+    <div>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h1 className="text-[18px] font-bold">{item?.title}</h1>
         <EditButton setShowDetails={setShowDetails} task={item} type='' className={'-bottom-22 -left-44 border '} />
@@ -96,7 +92,6 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
           priority: item?.priority
         }}
         validationSchema={validate}
-
         onSubmit={(values, { setSubmitting }) => {
           const isSameValues =
             values.title === item?.title &&
@@ -114,19 +109,38 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
           dispatch(editTask({ noteId: item?._id, taskData: values }));
           dispatch(getBoard({ id: board?._id }));
           setSubmitting(false);
+          setShowDetails(false);
         }}
       >
-        {(props) => (
-          <Form onSubmit={props.handleSubmit}>
-            <StatusDropdown status={status && status} setStatus={props.setFieldValue} label={'Status'} />
-            <PriorityDropdown setStatus={props.setFieldValue} label={'Priority'} /> <br />
-            <Button type="submit" disabled={props.isSubmitting} text={'Move Task / Update Priority'} width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
-          </Form>
-        )}
+        {(props) => {
+          const isSameValues =
+            props.values.title === item?.title &&
+            props.values.description === item?.description &&
+            isEqual(props.values.subTasks, item?.subTasks) &&
+            props.values.status === item?.status &&
+            props.values.priority === item?.priority;
+
+          return (
+            <Form onSubmit={props.handleSubmit}>
+              <StatusDropdown status={status && status} setStatus={props.setFieldValue} label={'Status'} />
+              <PriorityDropdown setStatus={props.setFieldValue} label={'Priority'} /> <br />
+              <Button
+                type="submit"
+                disabled={isSameValues}
+                text={'Move Task / Update Priority'}
+                disabledClass={`${isSameValues && 'disabled'}`}
+                width={"w-full"}
+                padding={'py-[7px]'}
+                color={'text-white'}
+              />
+            </Form>
+          );
+        }}
       </Formik>
 
-    </>
+
+    </div>
   )
 }
 
-export default TaskDetailsModal
+export default TaskDetailsModal;

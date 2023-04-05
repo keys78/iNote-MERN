@@ -192,7 +192,7 @@ export const verifyEmail: RequestHandler = async (req, res, next) => {
 
     user.verified = true;
     await user.save();
-    console.log("token:", token);
+    
     if (token) {
       await token.removeToken();
     }

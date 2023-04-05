@@ -9,7 +9,6 @@ import Layout from '@/components/Layout'
 
 const Dashboard = () => {
   const { user } = useAppSelector((state) => state.user);
-  // console.log(user)
 
 
   const dispatch = useAppDispatch();

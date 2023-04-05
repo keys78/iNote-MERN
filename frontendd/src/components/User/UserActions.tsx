@@ -4,7 +4,7 @@ import Modal from '../Modal'
 import Ratings from './Ratings'
 import ChangePassword from './ChangePassword'
 import UserProfileModal from './UserProfileModal'
-import { CaretDown } from 'phosphor-react'
+import Image from 'next/image'
 import useOnClickOutside from '@/hooks/useOnClickOutside'
 
 const UserActions = () => {
@@ -24,7 +24,7 @@ const UserActions = () => {
                     <div className='uppercase border-2 border-bg-lightGrey text-mainPurple px-2 py-1 rounded-full'>
                         {user?.username?.substring(0, 2)}
                     </div>&nbsp;
-                    <CaretDown size={22} />
+                    <Image src="/assets/icon-chevron-down.svg" alt="chevron" height={5} width={12} />
                 </div>
                 {showModal &&
                     <div ref={modalRef} className='rounded-[6px] shadow-sm  absolute right-0 top-14 bg-white w-[150px] border'>

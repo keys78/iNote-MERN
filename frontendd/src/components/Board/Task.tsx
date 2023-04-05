@@ -63,11 +63,11 @@ const Task = ({ task }: IProps) => {
                             {priorityComponents(item)}
                         </div>
                     </li>
-                    {showModal && (
+                    {/* {showModal && ( */}
                         <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
                             <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
                         </Modal>
-                    )}
+                    {/* )} */}
                 </>
             );
         });
