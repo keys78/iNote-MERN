@@ -67,7 +67,7 @@ const Header = () => {
           {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{board?.title || 'No Board Found'}</h1> : <span>&nbsp;</span>}
 
           <div className='flex items-center space-x-4'>
-            {user?.boards?.length > 0 && (
+            {user?.boards?.length! > 0 && (
               width > 768 ? (
                 <Button
                   text={"+ Add New Task"}
@@ -83,7 +83,7 @@ const Header = () => {
                 </button>
               )
             )}
-            {user?.boards?.length > 0 && (
+            {user?.boards?.length! > 0 && (
               <EditButton
                 className={'-bottom-28 -left-44 border bg-red-500 '}
                 type="Board"

@@ -8,10 +8,25 @@ import userService from './userService';
 const storedToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
 const token2 = storedToken ? JSON.parse(storedToken) : '';
 
+interface Board {
+  _id: string;
+  title: string;
+}
+
+type Boards = Board[];
+
 type User = {
+  _id: string,
   username: string,
-  email: string
+  email: string,
+  role: string,
+  reviewedApp: boolean,
+  verified: boolean,
+  boards:Boards,
+  createdAt: string,
+  updatedAt: string
 };
+
 
 interface IUserState {
   user: User | null,

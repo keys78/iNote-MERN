@@ -31,7 +31,7 @@ const initialState: Auth = {
 };
 
 // signup user
-export const signupUser = createAsyncThunk(
+export const signupUser = createAsyncThunk<any, any>(
     'auth/signup',
     async (user: IUserSignUp, thunkAPI) => {
         try {
