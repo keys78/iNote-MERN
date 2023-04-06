@@ -13,7 +13,6 @@ import AddNewTaskModal from '../Modal/AddNewTaskModal'
 import UserActions from '../User/UserActions'
 import { useRouter } from 'next/router'
 import useWindowSize from '@/hooks/useWindowSize'
-import Logo from '../Logo'
 import { characterLimit } from '@/utils/general'
 import { AnimatePresence } from 'framer-motion'
 import MobileMenu from '../Modal/MobileMenu'
@@ -31,6 +30,19 @@ const Header = () => {
   const { user } = useAppSelector(state => state.user)
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
+  // console.log('adfcqw', user?.boards)
+
+
+  const boardTitle = () => {
+  const query = router.query.id;
+    const board = user?.boards?.find((board: any) => board._id === query); 
+  
+    if (!board) {
+      return <div>Board not found</div>;
+    }
+  
+    return <div>{board.title}</div>; 
+  };
 
 
   return (
@@ -48,7 +60,7 @@ const Header = () => {
               <div className='flex pl-[16px] w-full' onClick={() => setShowMenu(!showMenu)}>
                 <Image src="/assets/logo-mobile.svg" alt="kanban logo" height={25} width={24} />
                 <button className="flex justify-center items-center">
-                  <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C capitalize whitespace-nowrap">{width < 480 ? (characterLimit(board?.title || 'No Board Found', 9)) : board?.title || 'No Board Found' }</h2>
+                  {/* <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C capitalize whitespace-nowrap">{width < 480 ? (characterLimit(board?.title || 'No Board Found', 9)) : board?.title || 'No Board Found' }</h2> */}
                   {showMenu ? (
                     <Image src="/assets/icon-chevron-up.svg" alt="chevron" height={5} width={12} />
                   ) : (
@@ -57,14 +69,14 @@ const Header = () => {
                 </button>
               </div>
               <Modal general={'mob-adjust'} showModal={showMenu} setShowModal={setShowMenu}>
-                <MobileMenu/>
+                <MobileMenu setShowMenu={setShowMenu}/>
               </Modal>
             </>
           )}
         </AnimatePresence>
 
         <div className='flex items-center justify-between w-[100%] sm:px-6 px-3'>
-          {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{board?.title || 'No Board Found'}</h1> : <span>&nbsp;</span>}
+          {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{boardTitle() || 'No Board Found'}</h1> : <span>&nbsp;</span>}
 
           <div className='flex items-center space-x-4'>
             {user?.boards?.length! > 0 && (

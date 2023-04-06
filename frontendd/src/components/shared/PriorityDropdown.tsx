@@ -16,8 +16,8 @@ const PriorityDropdown = ({ label = "Status", setStatus }: IProps) => {
 
     return (
         <>
-            <h3 className="mt-6 body-md text-mediumGrey dark:text-white">{label}</h3>
-            <div className="relative">
+            <h3 className="mt-6 body-md text-mediumGrey sm:text-[16px] text-[14px] dark:text-white">{label}</h3>
+            <div className="relative z-0">
                 <button
                     onClick={() => setShowMenu(!showMenu)}
                     type="button"
@@ -41,7 +41,7 @@ const PriorityDropdown = ({ label = "Status", setStatus }: IProps) => {
                             animate={showMenu ? "open" : "closed"}
                             exit="closed"
                         >
-                            <div className="py-1" >
+                            <div className="py-1 zedder" >
                                 {priorityArr.map((val: any, i: number) => (
                                     <a
                                         onClick={() => {

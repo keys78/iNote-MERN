@@ -15,17 +15,17 @@ interface props {
 
 
 const Board = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
-  const user: any = useAppSelector((state) => state.user);
+  const { boards }: any = useAppSelector((state) => state.user);
 
-  const boards = user?.boards
+  // const boards = user?.boards
 
 
   return (
     <>
       <ShowSidebar setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
-      <div className="bg-lightGrey w-full dark:bg-veryDarkGrey">
+      {/* <div className="bg-lightGrey w-full dark:bg-veryDarkGrey">
         {boards?.length !== 0 ? <Task task={boards} /> : <NoBoard />}
-      </div>
+      </div> */}
     </>
   )
 }

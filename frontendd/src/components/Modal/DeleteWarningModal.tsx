@@ -1,4 +1,4 @@
-import { deleteBoard, deleteTask, getBoard } from '@/features/private/boards/boardSlice'
+import { deleteBoard, deleteTask, getBoard, resetUser } from '@/features/private/boards/boardSlice'
 import { getUser } from '@/features/private/user/userSlice'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
@@ -23,6 +23,7 @@ const DeleteWarningModal = ({ type, setShowDetails, currentTask, setShowMenu, se
     const deleteBoardAction = () => {
         dispatch(deleteBoard({ id: board?._id, router: router, user: user }))
         dispatch(getUser())
+        // router.push
         setShowDeleteBoardModal(false)
     }
 

@@ -4,6 +4,8 @@ import Layout from '@/components/Layout';
 import { useAppDispatch, useAppSelector } from '@/network/hooks';
 import { getBoard } from '@/features/private/boards/boardSlice';
 import Task from '@/components/Board/Task';
+import { withAuth } from '@/middlewares/middleware';
+import { getUser } from '@/features/private/user/userSlice';
 
 const BoardDetails = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +17,7 @@ const BoardDetails = () => {
 
   useEffect(() => {
     dispatch(getBoard({ id: query }));
-    
+    dispatch(getUser())
   }, [dispatch, query])
 
 
@@ -26,4 +28,5 @@ const BoardDetails = () => {
   )
 }
 
-export default BoardDetails
+// export default withAuth(BoardDetails)
+export default BoardDetails;

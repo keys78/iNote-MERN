@@ -88,7 +88,9 @@ const AddNewTaskModal = ({ task, setShowUpdateBoardModal, setShowMenu }: Props) 
                                     <div>
                                         {props.values?.subTasks?.map((_: any, i: number) => (
                                             <div key={i} className="flex">
+                                                <span className="mb-2 w-full">
                                                 <TextInput label='' name={`subTasks.${i}.description`} type="text" placeholder="e.g. Archived" />
+                                                </span>
 
                                                 <button onClick={() => arrayHelpers.remove(i)}
                                                     className="text-mediumGrey hover:text-mainRed ml-4"
@@ -104,7 +106,7 @@ const AddNewTaskModal = ({ task, setShowUpdateBoardModal, setShowMenu }: Props) 
                                         ))}
                                         <br />
 
-                                        {props.values?.subTasks?.length <= 5 &&
+                                        {props.values?.subTasks?.length <= 4 &&
                                             <button
                                                 type='button'
                                                 onClick={() => arrayHelpers.push({ description: "" })}

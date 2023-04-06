@@ -25,7 +25,7 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
     const dispatch = useAppDispatch();
 
 
-    const LoginValidation = yup.object().shape({
+    const passwordValidation = yup.object().shape({
         password: yup
             .string()
             // .min(8, "password must be at least at 6 characters")
@@ -52,35 +52,32 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
 
     return (
         <div>
-            <h1 className='pb-6 font-bold'>Change password</h1>
+            <h1 className='sm:pb-6 pb-3 sm:text-[20px] text[16px] font-bold'>Change password</h1>
             <div>
                 <Formik
-                    validationSchema={LoginValidation}
+                    validationSchema={passwordValidation}
                     initialValues={{
                         password: "",
                         newPassword: "",
                         confirmPassword: ""
                     }}
-
-                    onSubmit={async (
-                        values: any,
-                        { resetForm }: FormikHelpers<any>
-                    ) => {
+                    onSubmit={(values, { setSubmitting, resetForm }) => {
+                        setSubmitting(true)
                         const data = { ...values, };
-                        console.log(data)
-                        dispatch(changePassword({ resetPasswordData: data, userId: user?._id  }))
-                        // setIsChangePasswordModal(false)
-                        // resetForm();
+                        dispatch(changePassword({ changePasswordData: data, userId: user?._id }))
+                        setSubmitting(false)
+                        setIsChangePasswordModal(false)
+                        resetForm();
                     }}
                 >
                     {(props) => (
                         <form onSubmit={props.handleSubmit}>
 
-                            <label className='opacity-50 pl-2' htmlFor="password">Old Password</label>
-                            <div className='password-input'>
+                            <label className='opacity-50 pl-1 text-[15px] ' htmlFor="password">Old Password</label>
+                            <div className='password-input chp'>
                                 <div>
                                     <input
-                                        className="input-class-p"
+                                        className="input-class-p "
                                         type={'password'}
                                         value={props.values.password}
                                         onBlur={props.handleBlur("password")}
@@ -93,8 +90,8 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
                             <span className={"text-red-500 text-[10px] translate-x-2 animate-pulse transition-all -mt-6 mb-6"}>
                                 {props.touched.password && props.errors.password}
                             </span> <br />
-                            <label className='opacity-50 pl-2 pt-4' htmlFor="password">New Password</label>
-                            <div className='password-input'>
+                            <label className='opacity-50 pl-1 text-[15px] pt-4' htmlFor="password">New Password</label>
+                            <div className='password-input chp'>
                                 <div>
                                     <input
                                         className="input-class-p"
@@ -113,11 +110,11 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
                             </span>
 
                             <br />
-                            <label className='opacity-50 pl-2' htmlFor="confirm_password">Confirm New Password</label>
-                            <div className='password-input'>
+                            <label className='opacity-50 pl-1 text-[15px]' htmlFor="confirm_password">Confirm New Password</label>
+                            <div className='password-input chp'>
                                 <div>
                                     <input
-                                        className="input-class-p"
+                                        className="input-class-p "
                                         type={'password'}
                                         value={props.values.confirmPassword}
                                         onBlur={props.handleBlur("confirmPassword")}

@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
-import { loginUser } from "@/features/auth/authSlice";
+import { loginUser, reset } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
 import Google_logo from '@/components/assets/svg/Google_logo';
@@ -21,10 +21,14 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { isSuccess, isLoading, isError } = useAppSelector((state) => state.auth);
+    const { isSuccess, isLoading, token, message } = useAppSelector((state) => state.auth);
     const user: any = useAppSelector((state) => state.user);
 
 
+    useEffect(() => {
+        if (token && token) { router.push('/user/dashboard') }
+        dispatch(reset())
+    }, [user, isSuccess, message, router, dispatch, token])
 
 
     const LoginValidation = yup.object().shape({
@@ -34,7 +38,7 @@ const Login = () => {
             .required("email is required"),
         password: yup
             .string()
-            // .min(8, "password must be at least at 6 characters")
+            .min(6, "password must be at least at 6 characters")
             .required("password is required"),
     });
 
@@ -47,6 +51,7 @@ const Login = () => {
             setIsVisible(!isVisible)
         }
     }
+
 
 
     return (
@@ -70,10 +75,7 @@ const Login = () => {
                         ) => {
                             const data = { ...values, };
                             dispatch(loginUser(data));
-                            // resetForm();
-                            // if (user) {
-                            //     router.push('/user/dashboard')
-                            // }
+                            resetForm();
                         }}
 
 

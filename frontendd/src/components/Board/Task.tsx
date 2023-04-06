@@ -1,9 +1,12 @@
 import Modal from '../Modal'
 import TaskDetailsModal from '../Modal/TaskDetailsModal'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EmptyBoard from './EmptyBoard'
 import { CircleWavyCheck, ProhibitInset, TagChevron } from 'phosphor-react'
 import { priorityArr } from '@/utils/data'
+import { useAppDispatch, useAppSelector } from '@/network/hooks'
+import NoBoard from './NoBoard'
+import { getUser } from '@/features/private/user/userSlice'
 
 
 interface IProps {
@@ -12,6 +15,14 @@ interface IProps {
 
 const Task = ({ task }: IProps) => {
     const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
+    const { user }: any = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(getUser())
+    }, [dispatch])
+
+
 
     const getGroupName = (status: any) => {
         switch (status) {
@@ -39,10 +50,10 @@ const Task = ({ task }: IProps) => {
         return acc;
     }, {});
 
-      const priorityComponents = (item: any) => priorityArr.map(p => (
+    const priorityComponents = (item: any) => priorityArr.map(p => (
         item?.priority === p.name && <span key={p.name}>{p.icon}</span>
-      ));
-      
+    ));
+
 
 
 
@@ -64,9 +75,9 @@ const Task = ({ task }: IProps) => {
                         </div>
                     </li>
                     {/* {showModal && ( */}
-                        <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
-                            <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
-                        </Modal>
+                    <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
+                        <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
+                    </Modal>
                     {/* )} */}
                 </>
             );
@@ -94,7 +105,12 @@ const Task = ({ task }: IProps) => {
                 >
                     {lists}
                 </div> :
-                <EmptyBoard />
+
+                <>
+                    {user?.boards.length <= 0 && <NoBoard />}
+                    {user?.boards.length > 0 && <EmptyBoard />}
+
+                </>
             }
         </>
     )

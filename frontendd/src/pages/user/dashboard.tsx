@@ -4,18 +4,21 @@ import { useAppDispatch, useAppSelector } from "@/network/hooks"
 import { withAuth } from '@/middlewares/middleware'
 import Board from '../../components/Board/Board'
 import Layout from '@/components/Layout'
+import Task from '@/components/Board/Task'
 
 
 
 const Dashboard = () => {
   const { user } = useAppSelector((state) => state.user);
+  const { board } = useAppSelector((state) => state.board);
 
 
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getUser())
-  }, [dispatch])
+  // const dispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getUser())
+  // }, [dispatch])
 
 
 
@@ -24,7 +27,8 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <Board setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
+      {/* <Board setIsSidebar={setIsSidebar} isSidebar={isSidebar} /> */}
+      <Task task={board?.notes} />
     </Layout>
   )
 }

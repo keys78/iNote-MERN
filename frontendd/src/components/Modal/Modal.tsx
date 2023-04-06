@@ -25,11 +25,11 @@ const Modal = ({ showModal, setShowModal, general, children }: props) => {
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className='fixed w-full h-[100vh] left-0 top-0 fix-marg flex px-4 items-center justify-center z-50 bg-modalBackgroundLayer'>
+                        className='fixed w-full h-full left-0 top-0 fix-marg flex px-4 items-center justify-center z-50 bg-modalBackgroundLayer'>
                         <motion.div
                             ref={modalRef}
                             variants={modalVariant}
-                            className={`${general} max-w-[480px] w-full bg-white rounded-md text-black sm:p-8 p-4 overflow-auto`} >
+                            className={`${general} max-w-[480px] w-full bg-white rounded-md text-black sm:p-8 p-5 overflow-auto`} >
                             {children}
                         </motion.div>
                     </motion.div>

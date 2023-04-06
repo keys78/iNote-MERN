@@ -14,7 +14,7 @@ const StatusDropdown = ({ label = "Status", status, setStatus }: IProps) => {
 
     return (
         <>
-            <h3 className="mt-6 body-md text-mediumGrey dark:text-white">{label}</h3>
+            <h3 className="mt-6 body-md text-mediumGrey sm:text-[16px] text-[14px] dark:text-white">{label}</h3>
             <div className="relative">
                 <button
                     onClick={() => setShowMenu(!showMenu)}
@@ -39,7 +39,7 @@ const StatusDropdown = ({ label = "Status", status, setStatus }: IProps) => {
                         animate={showMenu ? "open" : "closed"}
                         exit="closed"
                     >
-                        <div className="py-1" >
+                        <div className="py-1 zedder" >
                             {status.map((column: any, i: number) => (
                                 <a
                                     onClick={() => {

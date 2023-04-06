@@ -7,8 +7,11 @@ import { resetUser } from "@/features/private/user/userSlice";
 import { Power } from "phosphor-react";
 
 
+interface IProps {
+    setShowMenu: any
+}
 
-const MobileMenu = () => {
+const MobileMenu = ({setShowMenu}: IProps) => {
     const { user } = useAppSelector((state) => state.user)
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -17,6 +20,7 @@ const MobileMenu = () => {
     const handleBoardClick = (id: string) => {
         setActiveBoard(id);
         router.push(`/user/board/${id}`);
+        setShowMenu( false)
     };
 
 
@@ -29,8 +33,8 @@ const MobileMenu = () => {
 
     return (
         <div className="bg-white dark:bg-darkGrey rounded-lg py-6 mobile-adjust">
-            <h3 className="heading-sm ml-6 uppercase">All boards ({user?.boards?.length})</h3>
-            <div className="mt-8 mb-4">
+            <h3 className="font-bold text-sm text-mediumGrey tracking-widest ml-6 uppercase">All boards ({user?.boards?.length})</h3>
+            <div className="mt-4 mb-4">
                 {
                     user?.boards?.map((board: any, i: number) => (
                         <div
@@ -50,7 +54,7 @@ const MobileMenu = () => {
                 }
                 <CreateNewBoardCTA />
             </div>
-            <div onClick={logout} className='rounded flex p-4 w-4/5 mx-6 space-x-6 justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
+            <div onClick={logout} className='rounded flex p-4 w-5/5 mx-6 space-x-6 justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
                 <button onClick={logout} className='hover:bg-lightGreyLine flex items-center justify-center border rounded-md p-3 space-x-2 max-w-[220px] w-full'>
                     <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
                     <span className='font-normal text-darkGreyLine'>Logout</span>

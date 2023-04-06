@@ -26,7 +26,7 @@ const changePassword = async (changePasswordData: IUserForgotPassword, userId: a
   }
   const response = await axios.post(PRIVATE_API_URL + `changepassword/${userId}`, changePasswordData, config)
 
-  toast.success(response.data.message as string, { autoClose: false });
+  toast.success(response.data.message as string, { autoClose: 1000 });
   console.log('response', response)
   return response
 }

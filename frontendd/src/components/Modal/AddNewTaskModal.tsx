@@ -33,7 +33,7 @@ const AddNewTaskModal = () => {
     return (
         <AnimatePresence>
             <div>
-                <h1 className="text-lg font-bold mb-6">+ Add New Task</h1>
+                <h1 className="sm:text-lg text-base font-bold sm:mb-6 mb-3">+ Add New Task</h1>
                 <Formik
                     initialValues={{
                         title: '',
@@ -99,7 +99,7 @@ const AddNewTaskModal = () => {
                             />
 
                             <StatusDropdown status={status && status} setStatus={props?.setFieldValue} label={'Status'} />
-                            <PriorityDropdown setStatus={props?.setFieldValue} label={'Priority'} />
+                            <PriorityDropdown setStatus={props?.setFieldValue} label={'Priority'} /> <br />
 
                             <Button text="Save Changes" type='submit' width={"w-full"} padding={'py-[7px]'} color={'text-white'} />
                             {/* <pre>{JSON.stringify(props.values, null, 2)}</pre> */}

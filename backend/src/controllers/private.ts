@@ -56,17 +56,19 @@ export const changePassword: RequestHandler = async (req, res, next) => {
     try {
       const { newPassword, password } = req.body;
       const { userId } = req.params;
+
+      if (!req.params.userId) {
+        return res.status(400).send({ message: 'User ID is missing' });
+      }
   
       const user = await UsersModel.findById(userId).select('+password');
   
       if (!user) {
         return res.status(400).send({ message: 'User not found' });
       }
-      
-      if (!req.params.userId) {
-        return res.status(400).send({ message: 'User ID is missing' });
-      }
-      
+    
+      console.log('password:', password);
+
       const isMatch = await user.matchPasswords(password);
   
       if (!isMatch) {
@@ -76,7 +78,7 @@ export const changePassword: RequestHandler = async (req, res, next) => {
       user.password = newPassword;
       await user.save();
   
-      return res.json({ data: 'Password update was successful' });
+      return res.json({ message: 'Password change was successful' });
     } catch (err) {
       next(err);
     }

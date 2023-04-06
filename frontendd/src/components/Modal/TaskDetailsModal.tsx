@@ -59,21 +59,20 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <h1 className="text-[18px] font-bold">{item?.title}</h1>
+      <div className="flex items-center justify-between gap-4 sm:mb-6 mb-4">
+        <h1 className="sm:text-[18px]  text-16px font-bold">{item?.title}</h1>
         <EditButton setShowDetails={setShowDetails} task={item} type='' className={'-bottom-22 -left-44 border '} />
       </div>
       <p className="text-[13px] text-mediumGrey">
         {item.description ? item?.description : 'no description'}
       </p>
-      <br />
-      <div className='flex items-center space-x-3'>
+
+      <div className='flex items-center space-x-3 pt-3 pb-2'>
         <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val.isCompleted).length} of {item.subTasks.length} subtasks</p>
         {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
         {priority}
       </div>
 
-      <br />
 
       {
         item?.subTasks?.map((subtask: any, i: number) => {

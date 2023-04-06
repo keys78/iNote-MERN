@@ -10,7 +10,7 @@ const TextInput: React.FC<myInputProps> = ({ label, ...props }) => {
         <div className="flex-grow">
             {label && (
                 <label
-                    className="body-md text-mediumGrey dark:text-white block"
+                    className="body-md sm:text-[16px] text-[14px] text-mediumGrey dark:text-white block"
                     htmlFor={field.name}
                 >
                     {label}
@@ -19,7 +19,7 @@ const TextInput: React.FC<myInputProps> = ({ label, ...props }) => {
             <div className="relative">
 
                 <Field
-                    className={`flex-1 bg-white body-lg w-full px-4 py-2 my-2 block rounded border text-black border-mediumGrey border-opacity-25 placeholder:opacity-25 focus:outline-none focus:border-mainPurple dark:bg-darkGrey dark:text-white ${meta.touched &&
+                    className={`flex-1 bg-white body-lg w-full px-4 py-2 block rounded sm:text-[16px] text-[14px] border text-black border-mediumGrey border-opacity-25 placeholder:opacity-25 focus:outline-none focus:border-mainPurple dark:bg-darkGrey dark:text-white ${meta.touched &&
                         meta.error &&
                         'border-opacity-100 border-mainRed'
                         }`}

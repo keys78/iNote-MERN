@@ -22,7 +22,7 @@ const getBoard = async (id: any, token: IToken) => {
   return data
 }
 
-// create board
+
 const createNewBoard = async (boardData: unknown, token: IToken, router: any) => {
   const config = {
     headers: {
@@ -32,7 +32,8 @@ const createNewBoard = async (boardData: unknown, token: IToken, router: any) =>
   }
   const { data } = await axios.post(PRIVATE_API_URL + `create-board`, boardData, config)
 
-  router.push(`/user/board/${data?._id}`)
+  const boardId = data?._id
+  router.push(`/user/board/${boardId}`)
 
   toast.success(data?.message, toastOptions);
   return data
@@ -60,9 +61,17 @@ const deleteBoard = async (id: string, token: IToken, router: any, user: any) =>
     },
   }
   const { data } = await axios.delete(PRIVATE_API_URL + `delete-board/${id}`, config)
+  if (data) {
+    router.push('/user/dashboard')
+  }
 
-  // if (user?.boards?.length > 0) {
-    router.push(`${user?.boards[0]?._id}`)
+  // router.push(`${user?.boards[0]?._id}`)
+  // if (user?.boards?.length > 1) {
+  //   router.push('/user/dashboard')
+  //   router.replace(`/user/board/${user.boards[0]._id}`)
+  // } else {
+  //   // Redirect the user to a different page if there are no boards left
+  //   router.push('/user/dashboard')
   // }
 
   toast.success(data?.message, toastOptions);

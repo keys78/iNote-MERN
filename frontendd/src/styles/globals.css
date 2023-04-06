@@ -38,6 +38,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 .password-input > input { background-color: transparent; border-radius: 5px; border: 0; box-sizing: border-box; border:1px solid #a19fe2; height: 100%; outline: 0; padding: 4px 20px 0; width: 100%; }
 .password-input > .input-class:focus { border: 1px solid #635FC7;}
 .input-class-p { background-color: transparent; height: 100%; border: 0; outline: 0; padding:0; width: 100%; height: 45px; width: 220px; }
+.chp { height: 40px !important; }
 
 
 /* loader */
@@ -50,6 +51,21 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 @keyframes indeterminate { 0% { left: -35%; right: 100%; } 60% { left: 100%; right: -90%;  } 100% { left: 100%; right: -90% }}
 @-webkit-keyframes indeterminate-short { 0% { left: -200%; right: 100%;  } 60% { left: 107%; right: -8%; } 100% { left: 107%; right: -8%; }}
 @keyframes indeterminate-short { 0% { left: -200%; right: 100%; } 60% { left: 107%; right: -8% } 100% { left: 107%; right: -8%; }}
+
+/* loading screen */
+.loader { height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: -4rem 0 !important;}
+.loader .line { height: 3px; width: 200px; background: #e8e8e8; border-radius: 3px;}
+.loader .inner { width: 100%; height: inherit; background: linear-gradient(to right,#A8A4FF, #635FC7, #A8A4FF); animation: slide 2s ease-in-out infinite; border-radius: 3px;}
+@keyframes slide {
+  0% { transform-origin: left; transform: scalex(0.3); }
+  25% { transform-origin: left; transform: scalex(1); }
+  26% { transform-origin: right; transform: scalex(1); }
+  50% {  transform-origin: right;  transform: scalex(0.3); }
+  75% { transform-origin: right; transform: scalex(1);}
+  76% { transform-origin: left; transform: scalex(1); }
+  100% { transform-origin: left; transform: scalex(0.3);}
+}
+
 
 .divide { margin: 20px 0;}
 .divide > hr { margin-bottom: -12px;}
@@ -79,12 +95,15 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 .mob-adjust { padding: 0 !important;}
 .disabled { cursor: not-allowed }
 
+/* off canvas */
 .sidebar { position: fixed; top: 0; bottom: 0; left: 0; width: 0; transition: width 0.5s; margin-top: 85px;}
 .sidebar.open { width: 300px;}
 .sidebar-content {opacity: 0 !important;transition: opacity 0.5s;white-space: nowrap !important;}
 .sidebar.open .sidebar-content { opacity: 1 !important;}
 .maino { margin-left: 0; transition: margin-left 0.5s;}
 .maino.pushed { margin-left: 300px;}
+
+.zedder { position: relative; z-index: 99999 !important; background: #fff !important}
 
 .active-board {
   @apply bg-opacity-100 text-white;
@@ -127,6 +146,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
   .review-card { margin: 22px 8px 22px 16px !important; max-width: 330px; min-width: 330px; }
   .review-card-slider { max-width: 360px; height: auto !important; padding: 0 !important;}
   .splide__slide { margin: 0 !important; padding: 0 !important;}
+  .gen-btn-class { font-size: 14px !important; }
+  .input-class-p { height: 40px; }
+
+
 }
 
 @media screen and (max-width: 360px) {

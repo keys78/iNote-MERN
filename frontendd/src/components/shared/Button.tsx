@@ -14,7 +14,7 @@ interface ButtonProps {
 
 const Button = ({text, padding, width, color, font_weight, disabled, disabledClass, type, onClick} : ButtonProps) => {
   return (
-    <button onClick={onClick} type={type} disabled={disabled} className={`bg-mainPurple ${padding} ${disabledClass} ${width} ${color} ${font_weight}  rounded-full transition duration-200 text-base hover:bg-mainPurpleHover font-sans`}>
+    <button onClick={onClick} type={type} disabled={disabled} className={`bg-mainPurple ${padding} ${disabledClass} ${width} ${color} ${font_weight} sm:text-[16px] text-[14px]  rounded-full transition duration-200 text-base hover:bg-mainPurpleHover font-sans`}>
         {text}
     </button>
   )

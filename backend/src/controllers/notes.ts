@@ -3,7 +3,6 @@ import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import NoteModel from "../models/note";
 import BoardModel from "../models/board";
-// import ColumnModel from '../models/column'
 
 
 export const getNotes: RequestHandler = async (req, res, next) => {
@@ -22,13 +21,13 @@ export const getNote: RequestHandler = async (req, res, next) => {
     try {
 
         if (!mongoose.isValidObjectId(noteId)) {
-            throw createHttpError(400, "invalid note id")
+            throw createHttpError(400, "invalid task id")
         }
 
         const note = await NoteModel.findById(noteId).exec();
 
         if (!note) {
-            throw createHttpError(404, "Note not found");
+            throw createHttpError(404, "Task not found");
         }
 
         res.status(200).json(note);
@@ -45,6 +44,7 @@ interface CreateNoteBody {
     subTasks?: { description: string }[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (req, res, next) => {
     const { title, description, status, priority, subTasks } = req.body;
 
@@ -101,13 +101,13 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
         }
 
         if (!newTitle) {
-            throw createHttpError(400, "Note must have a title");
+            throw createHttpError(400, "Task must have a title");
         }
 
         const note = await NoteModel.findById(noteId).exec();
 
         if (!note) {
-            throw createHttpError(404, "Note not found");
+            throw createHttpError(404, "Task not found");
         }
 
         // use spread syntax to update the note object
@@ -117,7 +117,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
             { new: true }
         ).exec();
 
-        res.status(200).json({ data: updatedNote, message: "note updated successfully" });
+        res.status(200).json({ data: updatedNote, message: "task updated successfully" });
     } catch (error) {
         next(error);
     }
@@ -145,7 +145,7 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
         await NoteModel.findByIdAndDelete({ _id: noteId })
         await BoardModel.updateOne({ _id: boardId }, { $pull: { notes: noteId } });
 
-        res.status(200).json({ message: "note deleted successfully" });
+        res.status(200).json({ message: "task deleted successfully" });
 
 
     } catch (error) {
