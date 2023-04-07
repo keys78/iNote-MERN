@@ -145,7 +145,7 @@ export const privateSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    resetUser: (state) => initialState,
+    resetBoard: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -249,6 +249,6 @@ export const privateSlice = createSlice({
   },
 })
 
-export const { resetUser } = privateSlice.actions
+export const { resetBoard } = privateSlice.actions
 export default privateSlice.reducer
 

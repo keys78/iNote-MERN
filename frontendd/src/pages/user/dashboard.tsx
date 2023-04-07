@@ -5,6 +5,7 @@ import { withAuth } from '@/middlewares/middleware'
 import Board from '../../components/Board/Board'
 import Layout from '@/components/Layout'
 import Task from '@/components/Board/Task'
+import { resetBoard } from '@/features/private/boards/boardSlice'
 
 
 
@@ -14,11 +15,12 @@ const Dashboard = () => {
 
 
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getUser())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(getUser())
+    dispatch(resetBoard())
+  }, [dispatch])
 
 
 

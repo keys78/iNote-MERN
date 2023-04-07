@@ -3,9 +3,6 @@ import Image from 'next/image'
 import Button from '../shared/Button'
 import EditButton from '../shared/EditButton'
 import { useTheme } from "next-themes"
-// import Modal from '@components/Modal'
-// import AddNewTaskModal from '@components/Modal/AddNewTaskModal'
-// import { RootState } from 'app/store'
 import { useAppSelector } from '../../network/hooks'
 import UpdateBoardModal from '../Modal/UpdateBoardModal'
 import Modal from '../Modal'
@@ -37,8 +34,11 @@ const Header = () => {
   const query = router.query.id;
     const board = user?.boards?.find((board: any) => board._id === query); 
   
+    if (user?.boards.length !== 0 && !board) {
+      return <div>Select board</div>;
+    }
     if (!board) {
-      return <div>Board not found</div>;
+      return <div>No Board Found</div>;
     }
   
     return <div>{board.title}</div>; 

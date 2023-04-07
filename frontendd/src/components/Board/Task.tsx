@@ -2,11 +2,14 @@ import Modal from '../Modal'
 import TaskDetailsModal from '../Modal/TaskDetailsModal'
 import React, { useEffect, useState } from 'react'
 import EmptyBoard from './EmptyBoard'
-import { CircleWavyCheck, ProhibitInset, TagChevron } from 'phosphor-react'
+import { CircleWavyCheck } from 'phosphor-react'
 import { priorityArr } from '@/utils/data'
 import { useAppDispatch, useAppSelector } from '@/network/hooks'
 import NoBoard from './NoBoard'
 import { getUser } from '@/features/private/user/userSlice'
+import { Draggable } from 'react-beautiful-dnd'
+import { useRouter } from 'next/router'
+import DashBoardStats from '../DashBoardStats'
 
 
 interface IProps {
@@ -16,6 +19,7 @@ interface IProps {
 const Task = ({ task }: IProps) => {
     const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
     const { user }: any = useAppSelector((state) => state.user);
+    const router = useRouter();
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -54,6 +58,57 @@ const Task = ({ task }: IProps) => {
         item?.priority === p.name && <span key={p.name}>{p.icon}</span>
     ));
 
+    const DashBoardStat = () => {
+        const query = router.query.id;
+        const board = user?.boards?.find((board: any) => board._id === query);
+
+        if (user?.boards.length !== 0 && !board) {
+            return <DashBoardStats />;
+        }
+
+    }
+    const EmptyBoardy = () => {
+        const query = router.query.id;
+        const board = user?.boards?.find((board: any) => board._id === query);
+
+        if (user?.boards.length !== 0 && board) {
+            return <EmptyBoard />
+        }
+
+    }
+
+    // const user = {
+    //     name: 'hellp',
+    //     boards: [
+    //         {
+    //             boardTitle: 'a',
+    //             tasks: [
+    //                 { tasktitle: 'todo',  priority: 'critical', 
+    //                 subTasks:[
+    //                     {isCompleted: false, title:'eat garri'}
+    //                 ] },
+    //                 { tasktitle: 'todo',  priority: 'medium', 
+    //                 subTasks:[
+    //                     {isCompleted: false, title:'eat garri'}
+    //                 ] },
+    //             ]
+    //         },
+    //         {
+    //             boardTitle: 'b',
+    //             tasks: [
+    //                 { tasktitle: 'todo',  priority: 'trivial', 
+    //                 subTasks:[
+    //                     {isCompleted: false, title:'bobo'}
+    //                 ] },
+    //                 { tasktitle: 'todo',  priority: 'blocker', 
+    //                 subTasks:[
+    //                     {isCompleted: false, title:'eat garri'}
+    //                 ] },
+    //             ]
+    //         },
+           
+    //     ]
+    // }
 
 
 
@@ -105,10 +160,10 @@ const Task = ({ task }: IProps) => {
                 >
                     {lists}
                 </div> :
-
                 <>
                     {user?.boards.length <= 0 && <NoBoard />}
-                    {user?.boards.length > 0 && <EmptyBoard />}
+                    {user?.boards.length > 0 && EmptyBoardy()}
+                    {user?.boards.length > 0 && DashBoardStat()}
 
                 </>
             }

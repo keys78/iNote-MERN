@@ -66,7 +66,7 @@ const ChangePassword = ({ setIsChangePasswordModal }: IProps) => {
                         const data = { ...values, };
                         dispatch(changePassword({ changePasswordData: data, userId: user?._id }))
                         setSubmitting(false)
-                        setIsChangePasswordModal(false)
+                        // setIsChangePasswordModal(false)
                         resetForm();
                     }}
                 >
