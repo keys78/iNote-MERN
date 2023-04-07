@@ -77,38 +77,6 @@ const Task = ({ task }: IProps) => {
 
     }
 
-    // const user = {
-    //     name: 'hellp',
-    //     boards: [
-    //         {
-    //             boardTitle: 'a',
-    //             tasks: [
-    //                 { tasktitle: 'todo',  priority: 'critical', 
-    //                 subTasks:[
-    //                     {isCompleted: false, title:'eat garri'}
-    //                 ] },
-    //                 { tasktitle: 'todo',  priority: 'medium', 
-    //                 subTasks:[
-    //                     {isCompleted: false, title:'eat garri'}
-    //                 ] },
-    //             ]
-    //         },
-    //         {
-    //             boardTitle: 'b',
-    //             tasks: [
-    //                 { tasktitle: 'todo',  priority: 'trivial', 
-    //                 subTasks:[
-    //                     {isCompleted: false, title:'bobo'}
-    //                 ] },
-    //                 { tasktitle: 'todo',  priority: 'blocker', 
-    //                 subTasks:[
-    //                     {isCompleted: false, title:'eat garri'}
-    //                 ] },
-    //             ]
-    //         },
-           
-    //     ]
-    // }
 
 
 
