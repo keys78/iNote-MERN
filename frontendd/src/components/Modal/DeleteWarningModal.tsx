@@ -1,4 +1,4 @@
-import { deleteBoard, deleteTask, getBoard, resetUser } from '@/features/private/boards/boardSlice'
+import { deleteBoard, deleteTask, getBoard } from '@/features/private/boards/boardSlice'
 import { getUser } from '@/features/private/user/userSlice'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'

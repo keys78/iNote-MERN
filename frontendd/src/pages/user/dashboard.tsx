@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { getUser, resetUser } from '../../features/private/user/userSlice'
+import { getUser } from '../../features/private/user/userSlice'
 import { useAppDispatch, useAppSelector } from "@/network/hooks"
 import { withAuth } from '@/middlewares/middleware'
-import Board from '../../components/Board/Board'
 import Layout from '@/components/Layout'
 import Task from '@/components/Board/Task'
 import { resetBoard } from '@/features/private/boards/boardSlice'
@@ -29,7 +28,6 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      {/* <Board setIsSidebar={setIsSidebar} isSidebar={isSidebar} /> */}
       <Task task={board?.notes} />
     </Layout>
   )
