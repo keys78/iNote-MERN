@@ -2,7 +2,8 @@ import { IToken } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-const PRIVATE_API_URL = 'http://localhost:4000/private/' //local
+// const PRIVATE_API_URL = 'http://localhost:4000/private/' //local
+const PRIVATE_API_URL = 'https://inote-be-api.onrender.com/private/' //local
 const toastOptions = {
   autoClose: 2000,
   hideProgressBar: true,

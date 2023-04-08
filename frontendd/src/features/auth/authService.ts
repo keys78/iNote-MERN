@@ -1,8 +1,8 @@
 import { IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-// const AUTH_API_URL = process.env.REACT_APP_AUTH_API_URL
-const AUTH_API_URL = "http://localhost:4000/"
+// const AUTH_API_URL = "http://localhost:4000/" dev
+const AUTH_API_URL = "https://inote-be-api.onrender.com/"  //prod
 
 
 
