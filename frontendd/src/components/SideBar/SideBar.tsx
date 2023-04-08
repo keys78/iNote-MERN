@@ -1,3 +1,4 @@
+import { resetBoard } from '@/features/private/boards/boardSlice';
 import { resetUser } from '@/features/private/user/userSlice';
 import { useAppSelector, useAppDispatch } from '@/network/hooks';
 import { Power } from 'phosphor-react';
@@ -22,6 +23,7 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
         localStorage.removeItem('authToken');
         window.location.href = '/auth/login';
         dispatch(resetUser())
+        dispatch(resetBoard())
     }
 
 

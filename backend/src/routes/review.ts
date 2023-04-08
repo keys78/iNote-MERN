@@ -10,4 +10,6 @@ router.post('/post-review/:id', protect, ReviewsController.postReview);
 
 router.patch('/edit-review/:reviewId', protect, ReviewsController.editReview);
 
+router.patch('/like-review/:reviewId', ReviewsController.likeReview);
+
 export default router;

@@ -48,3 +48,26 @@ export const sideBarVariant = {
         },
     },
 };
+
+
+export const loveButonVariant = {
+    liked: {
+      scale: [1, 1.3, 1],
+      transition: {
+        duration: 0.1,
+      },
+    },
+    unliked: {
+        scale: [1, 1.3, 1],
+      transition: {
+        duration: 0.1,
+      },
+    },
+  };
+
+//   initial={{ y: 300, opacity: 0 }}
+//   animate={{ y: 0, opacity: 1 }}
+//   exit={{ y: 300, opacity: 0 }}
+//   whileHover={{ scale: 0.97 }}
+//   transiton={{ type: 'spring', duration: 0.2 }}
+  

@@ -8,6 +8,8 @@ import '@splidejs/react-splide/css/core';
 import '@splidejs/react-splide/css';
 import { useAppDispatch, useAppSelector } from '@/network/hooks';
 import { getAllReviews } from '@/features/private/review/reviewSlice';
+import ReviewUpdate from './LoveButton';
+
 
 
 
@@ -52,8 +54,7 @@ const ReviewCard = () => {
                                         ))}
                                     </div>
                                     <div className="progress-bar-container">
-                                        <div className="progress-bar" style={{ width: `${progress}%` }}>
-                                        </div>
+                                        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
                                     </div>
                                 </div>
 
@@ -79,23 +80,31 @@ const ReviewCard = () => {
                         className='max-w-[100%] review-card-slider h-[0px]'
                     >
                         {reviews?.map((val: any, i: number) =>
-                            <SplideSlide key={i}>
-                                <div className='review-card my-6' key={i}>
-                                    <div>
-                                        <img src={'https://source.unsplash.com/random/300x200'} alt='' />
-                                        <div className='user-details'>
-                                            <h1>{val?.username}</h1>
-                                            <h2>{val?.role}</h2>
-                                            <span>
-                                                {Array.from({ length: val?.starRating }, (_, i) => (
-                                                    <Star key={i} size={20} color="#4a4db0" weight="fill" />
-                                                ))}
-                                            </span>
+                            <>
+
+                                <SplideSlide key={i}>
+
+                                    <div className='review-card my-6' key={i}>
+                                        <span className='float-right clear-right'>
+                                            <ReviewUpdate val={val} reviewId={val?._id} />
+
+                                        </span>
+                                        <div>
+                                            <img src={'https://source.unsplash.com/random/300x200'} alt='' />
+                                            <div className='user-details'>
+                                                <h1>{val?.username}</h1>
+                                                <h2>{val?.role}</h2>
+                                                <span>
+                                                    {Array.from({ length: val?.starRating }, (_, i) => (
+                                                        <Star key={i} size={20} color="#4a4db0" weight="fill" />
+                                                    ))}
+                                                </span>
+                                            </div>
                                         </div>
+                                        <article>{val?.comment}</article>
                                     </div>
-                                    <article>{val?.comment}</article>
-                                </div>
-                            </SplideSlide>
+                                </SplideSlide>
+                            </>
                         )}
                     </Splide>
                 </>

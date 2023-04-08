@@ -1,69 +1,79 @@
 import { useAppSelector } from '@/network/hooks';
-import React from 'react'
-import { Pie } from 'react-chartjs-2';
+import React from 'react';
+import { Pie, Doughnut } from 'react-chartjs-2';
 
-
-
-
-
-
-const DashBoardStats = () => {
-    const { user } = useAppSelector((state) => state.user);
+const DashBoardStats: React.FC = () => {
+    const { user } = useAppSelector((state: any) => state.user);
 
     // Total number of boards
     const totalBoards = user?.boards.length;
 
     // Total number of tasks
-    const totalTasks = user?.boards?.reduce((total, board) => {
+    const totalTasks = user?.boards?.reduce((total: number, board: any) => {
         return total + board?.notes.length;
     }, 0);
 
     // Total number of subtasks
-    const totalSubtasks = user?.boards?.reduce((total, board) => {
-        return total + board?.notes.reduce((taskTotal: any, task: any) => {
+    const totalSubtasks = user?.boards?.reduce((total: number, board: any) => {
+        return total + board?.notes.reduce((taskTotal: number, task: any) => {
             return taskTotal + task.subTasks.length;
         }, 0);
     }, 0);
 
 
-    // const UserCharts = ({ user }) => {
     const getTaskData = () => {
-        const taskData = {
-            labels: [],
-            datasets: [{
-                data: [],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-            }],
+        const priorityCount: { [key: string]: number } = {
+            critical: 0,
+            medium: 0,
+            blocker: 0,
+            trivial: 0,
+            high: 0,
         };
-        const priorityCount = {};
         let totalCount = 0;
-        user?.boards.forEach(board => {
-            board?.notes.forEach(task => { // changed "notes" to "tasks"
+        user?.boards.forEach((board: any) => {
+            board?.notes.forEach((task: any) => {
                 priorityCount[task.priority] = (priorityCount[task.priority] || 0) + 1;
                 totalCount += 1;
             });
         });
+        const backgroundColors: { [key: string]: string } = {
+            critical: '#e23b5f',
+            medium: '#67ff01',
+            blocker: '#ff0000',
+            trivial: '#0509fe',
+            high: '#c4ba00',
+        };
+        const taskData = {
+            labels: [] as string[],
+            datasets: [
+                {
+                    data: [] as number[],
+                    backgroundColor: [] as string[],
+                },
+            ],
+        };
         for (const priority in priorityCount) {
             taskData.labels.push(priority);
             taskData.datasets[0].data.push(priorityCount[priority]);
+            taskData.datasets[0].backgroundColor.push(backgroundColors[priority]);
         }
         return taskData;
     };
 
 
+
+
     const getSubtaskData = () => {
         const subtaskData = {
-            labels: [],
+            labels: [] as string[],
             datasets: [{
-                data: [],
-                backgroundColor: ['#FF6384', '#36A2EB'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+                data: [] as number[],
+                backgroundColor: ['#4ddc00', '#0008ea'],
             }],
         };
         let completedCount = 0;
         let totalCount = 0;
-        user?.boards.forEach(board => {
+        user?.boards.forEach((board: any) => {
             board.notes.forEach((task: any) => {
                 task.subTasks.forEach((subtask: any) => {
                     if (subtask.isCompleted) {
@@ -79,43 +89,49 @@ const DashBoardStats = () => {
     };
 
     const options = {
+        responsive: true,
         legend: {
-          position: 'right',
-          labels: {
-            boxWidth: 15,
-            fontStyle: 'bold',
-            fontColor: 'black',
-            textTransform: 'capitalize'
-          }
+            position: 'right',
+            labels: {
+                fontStyle: 'normal',
+                textTransform: 'capitalize',
+            },
         },
-       
-      };
-      
+
+    };
+
 
 
     return (
-        <div>
-            <div>
-                <article>Total Boards:</article>
-                <article>{totalBoards}</article>
-            </div>
-            <div>
-                <article>Total Tasks:</article>
-                <article>{totalTasks}</article>
-            </div>
-            <div>
-                <article>Total Sub-Tasks:</article>
-                <article>{totalSubtasks}</article>
-            </div>
-            <div>
+        <div className='bg-lightGrey dark:bg-veryDarkGrey h-full sm:pt-20 pt-6  px-4'>
+            <div className='stats-count space-x-4'>
                 <div>
-                    <h2>Task Priorities</h2>
-                    <Pie data={getTaskData()}  options={options}/>
-                    <h2>Subtask Completion</h2>
-                    <Pie data={getSubtaskData()} />
+                    <article>{totalBoards}</article>
+                    <article> Board{totalBoards > 1 && 's'}</article>
+                </div>
+                <div>
+                    <article>{totalTasks}</article>
+                    <article> Task{totalTasks > 1 && 's'}</article>
+
+                </div>
+                <div>
+                    <article>{totalSubtasks}</article>
+                    <article> Sub-Task{totalSubtasks > 1 && 's'}</article>
+
                 </div>
             </div>
-
+            <div className='chart-container' >
+                <section className='chart-container-content'>
+                    <div>
+                        <h2>Subtask Completion</h2>
+                        <Pie data={getSubtaskData()} options={options} />
+                    </div>
+                    <div>
+                        <h2>Task Priorities</h2>
+                        <Doughnut data={getTaskData()} options={options} />
+                    </div>
+                </section>
+            </div>
         </div>
     )
 }

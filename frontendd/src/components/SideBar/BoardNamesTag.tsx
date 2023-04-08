@@ -2,24 +2,26 @@ import React, { useState } from 'react'
 import CreateNewBoardCTA from './CreateNewBoardCTA'
 import { useAppSelector } from '../../network/hooks'
 import { useRouter } from 'next/router'
+import { characterLimit } from '@/utils/general'
 
 
 
 const BoardNamesTag = () => {
     const { user } = useAppSelector(state => state.user)
-    const route = useRouter();
+    const router = useRouter();
+
 
     const [activeBoard, setActiveBoard] = useState("");
 
     const handleBoardClick = (id: string) => {
         setActiveBoard(id);
-        route.push(`/user/board/${id}`);
+        router.push(`/user/board/${id}`);
     };
 
     const boardNameTag = user?.boards?.map((val: any, i: any) => (
         <div
             key={i}
-            className={`py-3 text-mediumGrey flex items-center rounded-r-3xl mr-6 text-base font-bold gap-3 pl-6 -ml-1 cursor-pointer hover:bg-lightGrey ease transition duration-500 ${activeBoard === val._id ? "bg-mainPurple text-white hover:bg-mainPurple" : ""
+            className={`py-3 text-mediumGrey flex items-center rounded-r-3xl mr-6 text-base font-bold gap-3 pl-6 -ml-1 cursor-pointer hover:bg-lightGrey ease transition duration-500 ${router?.query?.id === val._id ? "bg-mainPurple text-white hover:bg-mainPurple" : ""
                 }`}
             onClick={() => handleBoardClick(val._id)}
         >
@@ -29,7 +31,7 @@ const BoardNamesTag = () => {
                     fill="currentColor"
                 />
             </svg>
-            {val?.title}
+            {characterLimit(val?.title, 20)}
         </div>
     ));
 

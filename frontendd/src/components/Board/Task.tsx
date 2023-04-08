@@ -10,6 +10,7 @@ import { getUser } from '@/features/private/user/userSlice'
 import { Draggable } from 'react-beautiful-dnd'
 import { useRouter } from 'next/router'
 import DashBoardStats from '../DashBoardStats'
+import { motion } from 'framer-motion'
 
 
 interface IProps {
@@ -89,14 +90,19 @@ const Task = ({ task }: IProps) => {
 
             return (
                 <>
-                    <li onClick={() => setShowDetails({ ...showDetails, [item._id]: true })} key={i} className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
+                    <motion.li 
+                     initial={{ opacity: 0, translateX: -50 }}
+                     animate={{ opacity: 1, translateX: 0 }}
+                     transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96], delay: i * 0.1 }}
+                    onClick={() => setShowDetails({ ...showDetails, [item._id]: true })}
+                        className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
                         <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
                         <div className='flex items-center space-x-3'>
                             <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val.isCompleted).length} of {item.subTasks.length} subtasks</p>
                             {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
                             {priorityComponents(item)}
                         </div>
-                    </li>
+                    </motion.li>
                     {/* {showModal && ( */}
                     <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
                         <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
@@ -123,7 +129,7 @@ const Task = ({ task }: IProps) => {
         <>
             {lists?.length ?
                 <div
-                    className='h-[calc(100vh-85px)] w-full overflow-y-hidden scrollbar-thin scrollbar-thumb-mainPurple 
+                    className='h-full w-full overflow-y-hidden scrollbar-thin scrollbar-thumb-mainPurple 
                     scrollbar-track-transparent flex-1 p-4 gap-[20px] bg-lightGrey dark:bg-veryDarkGrey flex'
                 >
                     {lists}

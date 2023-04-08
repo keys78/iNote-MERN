@@ -4,7 +4,6 @@ import Button from '../shared/Button'
 import EditButton from '../shared/EditButton'
 import { useTheme } from "next-themes"
 import { useAppSelector } from '../../network/hooks'
-import UpdateBoardModal from '../Modal/UpdateBoardModal'
 import Modal from '../Modal'
 import AddNewTaskModal from '../Modal/AddNewTaskModal'
 import UserActions from '../User/UserActions'
@@ -13,6 +12,7 @@ import useWindowSize from '@/hooks/useWindowSize'
 import { characterLimit } from '@/utils/general'
 import { AnimatePresence } from 'framer-motion'
 import MobileMenu from '../Modal/MobileMenu'
+import CountdownTimer from '../shared/CountdownTimer'
 
 
 
@@ -27,27 +27,27 @@ const Header = () => {
   const { user } = useAppSelector(state => state.user)
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
-  // console.log('adfcqw', user?.boards)
 
 
-  const boardTitle = () => {
-  const query = router.query.id;
-    const board = user?.boards?.find((board: any) => board._id === query); 
-  
+  const boardTitle: any = () => {
+    const query = router?.query.id;
+    const board = user?.boards?.find((board: any) => board?._id === query);
+
     if (user?.boards.length !== 0 && !board) {
-      return <div>Select board</div>;
+      return width < 480 ? (characterLimit('Select board', 9)) : 'Select board'
     }
     if (!board) {
-      return <div>No Board Found</div>;
+      return width < 480 ? (characterLimit('No Board Found', 9)) : 'No Board Found'
     }
-  
-    return <div>{board.title}</div>; 
+
+    return width < 480 ? (characterLimit(board?.title, 9)) : board?.title
   };
 
 
   return (
     <>
-      <header className='flex items-center justify-between sm:h-[85px] h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
+      <header className='flex items-center justify-between sm:h-[85px] fixed top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
+      <CountdownTimer />
         <AnimatePresence>
           {width > 768 ? (
             <div className="flex items-center">
@@ -57,10 +57,10 @@ const Header = () => {
             </div>
           ) : (
             <>
-              <div className='flex pl-[16px] w-full' onClick={() => setShowMenu(!showMenu)}>
-                <Image src="/assets/logo-mobile.svg" alt="kanban logo" height={25} width={24} />
-                <button className="flex justify-center items-center">
-                  {/* <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C capitalize whitespace-nowrap">{width < 480 ? (characterLimit(board?.title || 'No Board Found', 9)) : board?.title || 'No Board Found' }</h2> */}
+              <div className='flex pl-[16px] w-full' >
+                <Image src="/assets/logo-mobile.svg" onClick={() => router.push('/user/dashboard')} alt="kanban logo" height={25} width={24} />
+                <button onClick={() => setShowMenu(!showMenu)} className="flex justify-center items-center">
+                  <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C capitalize whitespace-nowrap">{boardTitle()}</h2>
                   {showMenu ? (
                     <Image src="/assets/icon-chevron-up.svg" alt="chevron" height={5} width={12} />
                   ) : (
@@ -69,14 +69,14 @@ const Header = () => {
                 </button>
               </div>
               <Modal general={'mob-adjust'} showModal={showMenu} setShowModal={setShowMenu}>
-                <MobileMenu setShowMenu={setShowMenu}/>
+                <MobileMenu setShowMenu={setShowMenu} />
               </Modal>
             </>
           )}
         </AnimatePresence>
 
         <div className='flex items-center justify-between w-[100%] sm:px-6 px-3'>
-          {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{boardTitle() || 'No Board Found'}</h1> : <span>&nbsp;</span>}
+          {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{boardTitle()}</h1> : <span>&nbsp;</span>}
 
           <div className='flex items-center space-x-4'>
             {user?.boards?.length! > 0 && (

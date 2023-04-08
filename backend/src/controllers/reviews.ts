@@ -67,3 +67,26 @@ export const editReview: RequestHandler = async (req, res, next) => {
     }
 };
 
+
+
+
+export const likeReview: RequestHandler<{ reviewId: string }, {}, { like: number }> = async (req, res, next) => {
+    const reviewId = req.params.reviewId;
+    const likeValue = req.body.like;
+  
+    try {
+      const review = await ReviewModel.findById(reviewId).exec();
+  
+      if (!review) {
+        throw createHttpError(404, 'Review not found');
+      }
+  
+      review.like += likeValue;
+  
+      await review.save();
+  
+      res.status(200).json({ message: `Review ${reviewId} like count updated to ${review.like}` });
+    } catch (error) {
+      next(error);
+    }
+  };
