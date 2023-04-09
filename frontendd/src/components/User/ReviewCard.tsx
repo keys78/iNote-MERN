@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/network/hooks';
 import { getAllReviews } from '@/features/private/review/reviewSlice';
 import ReviewUpdate from './LoveButton';
 import { characterLimit } from '@/utils/general';
-import Image from 'next/image';
+import InAppLoader from '../Loaders/InAppLoader';
 
 
 
@@ -38,7 +38,7 @@ const ReviewCard = () => {
     return (
         <>
             <br /><br /><span className='hidden sm:block'><br /></span>
-            { isLoading && <Image src="/assets/loading_gif2.gif" alt='' height={20} width={20} />}
+            { isLoading && <InAppLoader />}
             {reviews &&
                 <>
                     <div className='flex justify-between border rate-card mx-4 dark:bg-darkGrey dark:border-none dark:shadow-none'>

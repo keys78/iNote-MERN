@@ -21,7 +21,6 @@ export type Auth = {
 
 
 const initialState: Auth = {
-    // token: localStorage.getItem('token'),
     token: '',
     user: null,
     isError: false,
