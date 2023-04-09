@@ -9,6 +9,6 @@ export function formatDate(dateItem: string | undefined) {
     return formattedDate
 }
 
-export const characterLimit = (text: string, limit: number) => text?.length > limit ? (text.substr(0, limit - 1).trim() + '...') : text;
+export const characterLimit = (text: string | undefined, limit: number) => text?.length! > limit ? (text!.substr(0, limit - 1).trim() + '...') : text;
 
 

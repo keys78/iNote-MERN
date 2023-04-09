@@ -55,7 +55,7 @@ const Signup = () => {
   return (
     <section className="max-w-[100%] min-h-[100vh] w-full mx-auto dark:bg-veryDarkGrey">
       {isLoading && <Loader />}
-      <div className='max-w-[400px] mx-auto py-16'>
+      <div className='max-w-[400px] mx-auto py-12'>
         <div className='mx-[16px]'>
           <Logo />
           <h1 className='pt-6 pb-1 font-bold text-xl text-center'>Create your account</h1>
@@ -157,10 +157,10 @@ const Signup = () => {
                     <span className='dark:bg-veryDarkGrey'>OR</span>
                   </div>
 
-                  <button disabled={true} className='flex items-center w-full justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                  <div onClick={() => alert('console not ready - try login')} className='flex items-center w-full justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
                     <Google_logo />
                     <span>Continue with Google</span>
-                  </button>
+                  </div>
                 </form>
               )}
             </Formik>

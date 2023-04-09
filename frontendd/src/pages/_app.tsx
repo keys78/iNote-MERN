@@ -8,6 +8,8 @@ import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import PerfectErrorBoundary from '@/middlewares/ErrorBoundary';
+import { Analytics }from '@vercel/analytics/react'
+;
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -31,6 +33,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <ToastContainer toastStyle={{ border: '1px solid #635FC7' }} />
         <ThemeProvider attribute='class'>
           {getLayout(<Component {...pageProps} suppressFirstRenderError={true} />)}
+          <Analytics />
         </ThemeProvider>
       </Provider>
     </PerfectErrorBoundary>
