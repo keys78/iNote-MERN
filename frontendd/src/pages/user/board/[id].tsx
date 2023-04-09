@@ -13,8 +13,6 @@ const BoardDetails = () => {
   const query = router.query.id;
   const { board } = useAppSelector((state) => state.board);
 
-
-
   useEffect(() => {
     const fetchBoardAndUser = async () => {
       dispatch(getBoard({ id: router.query.id }));

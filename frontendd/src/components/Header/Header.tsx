@@ -21,9 +21,7 @@ import CountdownTimer from '../shared/CountdownTimer'
 const Header = () => {
   const [isAddNewTask, setIsAddNewTask] = useState<boolean>(false)
   const router = useRouter();
-  const { theme } = useTheme();
   const { width } = useWindowSize();
-  const { board } = useAppSelector((state) => state.board);
   const { user } = useAppSelector(state => state.user)
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
@@ -46,7 +44,7 @@ const Header = () => {
 
   return (
     <>
-      <header className='flex items-center justify-between sm:h-[85px] fixed top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
+      <header className='flex items-center justify-between sm:h-[85px] absolute top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
         <CountdownTimer />
         <AnimatePresence>
           {width > 768 ? (
@@ -65,7 +63,6 @@ const Header = () => {
                     <Image alt='chevron-up' src={'/assets/icon-chevron-up.svg'} width="0" height="0" className="w-[13px] h-auto" />
                   ) : (
                     <Image alt='chevron-down' src={'/assets/icon-chevron-down.svg'} width="0" height="0" className="w-[13px] h-auto" />
-
                   )}
                 </button>
               </div>
@@ -80,7 +77,7 @@ const Header = () => {
           {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{boardTitle()}</h1> : <span>&nbsp;</span>}
 
           <div className='flex items-center space-x-4'>
-            {user?.boards?.length! > 0 && (
+            {user?.boards?.length! > 0 && router?.query.id && (
               width > 768 ? (
                 <Button
                   text={"+ Add New Task"}
@@ -96,7 +93,7 @@ const Header = () => {
                 </button>
               )
             )}
-            {user?.boards?.length! > 0 && (
+            {user?.boards?.length! > 0 && router?.query.id && (
               <EditButton
                 className={'-bottom-28 -left-44 '}
                 type="Board"

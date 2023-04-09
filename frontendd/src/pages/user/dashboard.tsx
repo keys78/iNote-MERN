@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getUser())
-    // dispatch(resetBoard())
+    dispatch(resetBoard())
   }, [dispatch])
 
   return (

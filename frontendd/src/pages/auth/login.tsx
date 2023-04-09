@@ -57,7 +57,7 @@ const Login = () => {
     return (
         <div className="max-w-[100%] min-h-[100vh] w-full mx-auto dark:bg-veryDarkGrey">
             {isLoading && <Loader />}
-            <div className='max-w-[400px] mx-auto pt-16'>
+            <div className='max-w-[400px] mx-auto py-16'>
                 <div className='mx-[16px]'>
                     <Logo />
                     <h1 className='pt-6 pb-8 font-bold sm:text-[24px] text-[18px] text-center'>Welcome back</h1>
