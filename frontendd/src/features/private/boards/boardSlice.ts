@@ -237,7 +237,7 @@ export const privateSlice = createSlice({
         state.isLoading = false
         state.isSuccess = true
         if (Array.isArray(state.board)) {
-          state.board = state.board.filter((board: any) => board._id !== action?.payload?._id)
+          state.board = state.board.filter((board: any) => board._id !== action.payload?._id)
         }
         state.message = action?.payload?.message || 'task deleted'
       })

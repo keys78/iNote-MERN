@@ -1,7 +1,8 @@
-import { deleteBoard, deleteTask, getBoard } from '@/features/private/boards/boardSlice'
+import { deleteBoard, deleteTask, getBoard, resetBoard } from '@/features/private/boards/boardSlice'
 import { getUser } from '@/features/private/user/userSlice'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
+import { useEffect } from 'react'
 // import { Task } from '@src/types'
 
 
@@ -18,18 +19,20 @@ const DeleteWarningModal = ({ type, setShowDetails, currentTask, setShowMenu, se
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { user } = useAppSelector(state => state?.user)
+    const query = router.query.id;
+
 
 
     const deleteBoardAction = () => {
         dispatch(deleteBoard({ id: board?._id, router: router, user: user }))
         dispatch(getUser())
-        // router.push
         setShowDeleteBoardModal(false)
     }
 
     const deleteTaskAction = () => {
         dispatch(deleteTask({ boardId: board?._id, noteId: currentTask?._id }))
-        dispatch(getBoard(board?._id))
+        dispatch(resetBoard())
+        dispatch(getBoard({id:query}))
         setShowDetails(false)
     }
 
@@ -37,8 +40,8 @@ const DeleteWarningModal = ({ type, setShowDetails, currentTask, setShowMenu, se
         <div className="space-y-6 w-full mx-auto rounded-md bg-white dark:bg-darkGrey">
             <h1 className="text-mainRed font-bold text-[16px]">Delete this {type === "Board" ? 'board' : 'task'}?</h1>
             {type === 'Board' ?
-                <p className="text-[13px] text-black">Are you sure you want to delete the &apos;{board?.title}&apos; board? This action will remove all columns and tasks and cannot be reversed.</p> :
-                <p className="text-[13px] text-black">Are you sure you want to delete the  &apos;{currentTask?.title}&apos; task and its subtasks? This action cannot be reversed</p>
+                <p className="text-[13px] text-black dark:text-white">Are you sure you want to delete the &apos;{board?.title}&apos; board? This action will remove all columns and tasks and cannot be reversed.</p> :
+                <p className="text-[13px] text-black dark:text-white">Are you sure you want to delete the  &apos;{currentTask?.title}&apos; task and its subtasks? This action cannot be reversed</p>
             }
             <div className="flex gap-4">
 

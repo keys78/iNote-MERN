@@ -10,6 +10,7 @@ import StatusDropdown from '../shared/StatusDropdown'
 import PriorityDropdown from '../shared/PriorityDropdown'
 import { AnimatePresence } from 'framer-motion'
 
+
 const AddNewTaskModal = () => {
     const dispatch = useAppDispatch()
     const { board } = useAppSelector((state) => state.board)
