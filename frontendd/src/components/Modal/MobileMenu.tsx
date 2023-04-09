@@ -29,9 +29,12 @@ const MobileMenu = ({setShowMenu}: IProps) => {
     function logout() {
         localStorage.removeItem('authToken');
         window.location.href = '/auth/login';
-        dispatch(resetUser())
-        dispatch(resetBoard())
-    }
+        setTimeout(() => {
+          dispatch(resetUser());
+          dispatch(resetBoard());
+        }, 3000);
+      }
+      
 
 
     return (
@@ -57,12 +60,13 @@ const MobileMenu = ({setShowMenu}: IProps) => {
                 }
                 <CreateNewBoardCTA />
             </div>
-            <div onClick={logout} className='rounded flex p-4 w-5/5 mx-6 space-x-6 justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
-                <button onClick={logout} className='hover:bg-lightGreyLine flex items-center justify-center border rounded-md p-3 space-x-2 max-w-[220px] w-full'>
-                    <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
-                    <span className='font-normal text-darkGreyLine'>Logout</span>
-                </button>
-            </div>
+         
+            <div onClick={logout} className='rounded flex p-4 w-5/5 mx-6 space-x-6 dark:text-white justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
+                                <button className='hover:bg-lightGreyLine  flex items-center justify-center border rounded-md px-3 py-1 space-x-2 max-w-[220px] w-full'>
+                                    <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
+                                    <span className='font-normal text-mediumGrey'>Logout</span>
+                                </button>
+                            </div>
             <ThemeToggle />
         </div>
     )

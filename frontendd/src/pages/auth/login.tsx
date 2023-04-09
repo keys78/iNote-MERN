@@ -55,7 +55,7 @@ const Login = () => {
 
 
     return (
-        <div className="max-w-[400px] w-full mx-auto my-16">
+        <div className="max-w-[400px] w-full mx-auto my-16 dark:bg-veryDarkGrey h-full">
             {isLoading && <Loader />}
             <div className='mx-[16px]'>
                 <Logo />

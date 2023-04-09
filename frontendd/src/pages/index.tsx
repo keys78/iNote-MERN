@@ -1,17 +1,13 @@
-import { Inter } from 'next/font/google'
 import Button from '@/components/Button'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
-// const inter = Inter({ subsets: ['latin'] })
 import type { NextPageWithLayout } from './_app'
 import ReviewCard from '@/components/User/ReviewCard'
 
 const Page: NextPageWithLayout = () => {
   return (
     <>
-      <div className='flex items-center justify-center pt-16'>
-        <div className='flex items-center justify-center flex-col'>
-          <div className='text-center'>
+        <div className='flex items-center pt-16 flex-col h-[100vh] dark:bg-veryDarkGrey '>
             <Logo />
             <h1 className='pt-4 pb-3'>Welcome to iNote</h1>
             <div>
@@ -25,10 +21,8 @@ const Page: NextPageWithLayout = () => {
                 </Link>
               </div>
             </div>
-          </div>
           <ReviewCard />
         </div>
-      </div>
     </>
   )
 }

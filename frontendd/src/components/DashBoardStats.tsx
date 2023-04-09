@@ -104,7 +104,7 @@ const DashBoardStats: React.FC = () => {
 
     return (
         <div className='bg-lightGrey dark:bg-veryDarkGrey h-full sm:pt-20 pt-6  px-4'>
-            <div className='stats-count space-x-4'>
+            <div className='stats-count space-x-4 dark:bg-darkGrey dark:text-mediumGrey dark:shadow-none'>
                 <div>
                     <article>{totalBoards}</article>
                     <article> Board{totalBoards > 1 && 's'}</article>
@@ -120,8 +120,8 @@ const DashBoardStats: React.FC = () => {
 
                 </div>
             </div>
-            <div className='chart-container' >
-                <section className='chart-container-content'>
+            <div className='chart-container ' >
+                <section className='chart-container-content dark:bg-darkGrey dark:text-mediumGrey dark:shadow-none'>
                     <div>
                         <h2>Subtask Completion</h2>
                         <Pie data={getSubtaskData()} options={options} />

@@ -53,7 +53,7 @@ const Signup = () => {
 
 
   return (
-    <section className="max-w-[400px] w-full mx-auto my-8">
+    <section className="max-w-[400px] w-full mx-auto my-8 dark:bg-veryDarkGrey">
       {isLoading && <Loader />}
       <div className='mx-[16px]'>
         <Logo />

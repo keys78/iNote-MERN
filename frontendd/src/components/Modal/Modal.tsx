@@ -13,7 +13,7 @@ interface props {
 const Modal = ({ showModal, setShowModal, general, children }: props) => {
     const modalRef = useRef(null)
 
-    const handleClickOutside = () => { setShowModal(!showModal) }
+    const handleClickOutside = () => { setShowModal(false) }
     useOnClickOutside(modalRef, handleClickOutside)
 
     return (
@@ -29,7 +29,7 @@ const Modal = ({ showModal, setShowModal, general, children }: props) => {
                         <motion.div
                             ref={modalRef}
                             variants={modalVariant}
-                            className={`${general} max-w-[480px] w-full bg-white rounded-md text-black sm:p-8 p-5 overflow-auto`} >
+                            className={`${general} max-w-[480px] w-full bg-white dark:bg-darkGrey rounded-md text-black dark:text-white sm:p-8 p-5 overflow-auto `} >
                             {children}
                         </motion.div>
                     </motion.div>

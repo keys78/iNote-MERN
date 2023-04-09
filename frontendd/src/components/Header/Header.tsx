@@ -97,7 +97,7 @@ const Header = () => {
             )}
             {user?.boards?.length! > 0 && (
               <EditButton
-                className={'-bottom-28 -left-44 border bg-red-500 '}
+                className={'-bottom-28 -left-44'}
                 type="Board"
                 task={undefined}
                 setShowDetails={function (value: React.SetStateAction<boolean>): void {

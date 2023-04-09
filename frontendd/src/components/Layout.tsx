@@ -25,7 +25,7 @@ const Layout = ({ children }: any) => {
       {isLoading || boardLoader && <Loader />}
       <Header />
       <ShowSidebar isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
-      <div className='flex h-[calc(100vh-85px)] mt-[85px] sido w-full'>
+      <div className='flex h-[calc(100vh-85px)] sm:mt-[85px] mt-[70px] sido w-full'>
         <SideBar isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
         <div className={`maino w-full ${isSidebar ? "pushed" : ""}`}>
           {children}

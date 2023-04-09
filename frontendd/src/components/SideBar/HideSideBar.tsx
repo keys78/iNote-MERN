@@ -18,7 +18,7 @@ const SideBarToggle = ({ isSidebar, setIsSidebar }: props) => {
         <h3 className={`text-base font-bold py-3`}>Hide Sidebar</h3>
       </button>
 
-      <article className='absolute bottom-1 left-5 text-center text-[10px] text-darkGrey' style={{ fontStyle: 'italic' }}>
+      <article className='absolute bottom-1 left-5 text-center text-[10px] text-mediumGrey' style={{ fontStyle: 'italic' }}>
         <a href="https://frontendmentor.io" target={'_blank'}>
           <div className='flex items-center justify-center'>
             <span>design inspi: </span>

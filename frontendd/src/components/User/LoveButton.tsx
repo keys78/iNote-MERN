@@ -41,7 +41,7 @@ function ReviewUpdate({ reviewId, val }: ReviewUpdateProps) {
 
   async function sendLikeToBackend(likeValue: number) {
     try {
-      const response = await fetch(`http://localhost:4000/private/like-review/${reviewId}`, {
+      const response = await fetch(`https://inote-be-api.onrender.com/private/like-review/${reviewId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
