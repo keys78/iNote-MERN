@@ -15,7 +15,7 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-text-fill-color: inherit !important;
-  -webkit-box-shadow: 0 0 0px 1000px #FFFFFF inset;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -69,7 +69,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 
 .divide { margin: 20px 0;}
 .divide > hr { margin-bottom: -12px;}
-.divide > span { background: #fff !important; padding:0 20px;}
+.divide > span { background: #fff; padding:0 20px;}
 .fix-marg { margin-top: 0 !important; margin-left: 0 !important;}
 
 
@@ -92,24 +92,21 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 
 .rate-card { background: #ffffff; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; margin: 0 auto -40px auto; border-radius: 8px; max-width: 360px; min-width: 360px; width: 100%; cursor: pointer; padding: 16px 15px 10px 16px; }
 .tag-chev { transform: rotate(270deg);}
-.mob-adjust { padding: 0 !important;}
+.mob-adjustlay-cover { padding: 0 !important; margin-top: -250px;}
 .disabled { cursor: not-allowed }
 
 /* off canvas */
-.sidebar { position: fixed; top: 0; bottom: 0; left: 0; width: 0; transition: width 0.5s; margin-top: 85px;}
-.sidebar.open { width: 300px;}
+.sidebar { position: fixed; top: 0; bottom: 0; left: 0; width: 0; transition: width 0.5s; margin-top: 85px; }
+.sidebar.open { width: 300px; z-index: 0 !important;}
 .sidebar-content {opacity: 0 !important;transition: opacity 0.5s;white-space: nowrap !important;}
 .sidebar.open .sidebar-content { opacity: 1 !important;}
 .maino { margin-left: 0; transition: margin-left 0.5s;}
 .maino.pushed { margin-left: 300px;}
-
-.zedder { position: relative; z-index: 99999 !important; background: #fff !important}
+.zedder { position: relative; z-index: 99999 !important; }
 
 /* chart */
-
 .chart-container-content {  display: flex; align-items: center; justify-content: center; background: #fff; max-width: 700px; width: 100%; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; }
 .chart-container-content > div > h2 { padding-bottom: 10px; }
-
 .stats-count {  display: flex; align-items: center; justify-content: center; background: #fff; max-width: 700px; width: 100%; margin: 10px auto; padding: 20px; border-radius: 10px; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; }
 .stats-count > div { display: flex; align-items: center; justify-content: center; flex-direction: column; border: 1px solid #4a4db0; border-radius: 4px; width: 140px; }
 .stats-count > div > article:nth-of-type(1) { color: #635FC7; font-size: 30px;  }

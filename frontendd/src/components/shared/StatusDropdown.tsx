@@ -39,7 +39,7 @@ const StatusDropdown = ({ label = "Status", status, setStatus }: IProps) => {
                         animate={showMenu ? "open" : "closed"}
                         exit="closed"
                     >
-                        <div className="py-1 zedder" >
+                        <div className="py-1 zedder bg-white dark:bg-veryDarkGrey" >
                             {status.map((column: any, i: number) => (
                                 <a
                                     onClick={() => {
@@ -62,44 +62,3 @@ const StatusDropdown = ({ label = "Status", status, setStatus }: IProps) => {
     )
 }
 export default StatusDropdown;
-
-
-// {showMenu &&
-//     <motion.div
-//       className="origin-top-right absolute right-0 w-full rounded-md shadow-lg bg-white focus:outline-none dark:bg-veryDarkGrey"
-//       variants={menuVariations as any}
-//       initial="closed"
-//       animate={showMenu ? "open" : "closed"}
-//       exit="closed"
-//     >
-//       <div className="py-1">
-//         {status.map((column: any, i: number) => (
-//           <a
-//             onClick={() => {
-//               setStatus('status', column)
-//               setShowMenu(false)
-//             }}
-//             key={i}
-//             href="#"
-//             className="text-mediumGrey block px-4 py-2 text-sm hover:text-mainPurple hover:bg-mainPurple dark:hover:bg-white hover:bg-opacity-10 dark:hover:bg-opacity-10"
-//           >
-//             {column}
-//           </a>
-//         ))}
-//       </div>
-//     </motion.div>
-//   }
-  
-//   const menuVariations = {
-//     closed: {
-//       opacity: 0,
-//       y: -10,
-//       pointerEvents: 'none',
-//     },
-//     open: {
-//       opacity: 1,
-//       y: 0,
-//       pointerEvents: 'auto',
-//     },
-//   };
-  

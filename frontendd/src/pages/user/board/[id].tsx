@@ -6,7 +6,7 @@ import { getBoard } from '@/features/private/boards/boardSlice';
 import Task from '@/components/Board/Task';
 import { withAuth } from '@/middlewares/middleware';
 import { getUser } from '@/features/private/user/userSlice';
-import LoadingScreen from '@/components/LoadingScreen';
+import LoadingScreen from '@/components/Loaders/LoadingScreen';
 
 const BoardDetails = () => {
   const dispatch = useAppDispatch();

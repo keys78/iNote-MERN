@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CreateNewBoardCTA from './CreateNewBoardCTA'
 import { useAppSelector } from '../../network/hooks'
 import { useRouter } from 'next/router'
@@ -11,19 +11,12 @@ const BoardNamesTag = () => {
     const router = useRouter();
 
 
-    const [activeBoard, setActiveBoard] = useState("");
-
-    const handleBoardClick = (id: string) => {
-        setActiveBoard(id);
-        router.push(`/user/board/${id}`);
-    };
-
     const boardNameTag = user?.boards?.map((val: any, i: any) => (
         <div
             key={i}
             className={`py-3 text-mediumGrey flex items-center rounded-r-3xl mr-6 text-base font-bold gap-3 pl-6 -ml-1 cursor-pointer hover:bg-lightGrey ease transition duration-500 ${router?.query?.id === val._id ? "bg-mainPurple text-white hover:bg-mainPurple" : ""
                 }`}
-            onClick={() => handleBoardClick(val._id)}
+            onClick={() => router.push(`/user/board/${val?._id}`)}
         >
             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
                 <path

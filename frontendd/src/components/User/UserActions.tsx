@@ -29,9 +29,9 @@ const UserActions = () => {
                 {showModal &&
                     <div ref={modalRef} className='rounded-[6px] shadow-sm absolute right-0 top-14 bg-white dark:bg-darkGrey dark:text-whitedark:bg-darkGrey dark:text-white w-[150px]'>
                         <ul>
-                            <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Profile</li>
-                            <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Change Password</li>
-                            <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine cursor-pointer'>Rate App</li>
+                            <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Profile</li>
+                            <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Change Password</li>
+                            <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Rate App</li>
                         </ul>
                     </div>
                 }

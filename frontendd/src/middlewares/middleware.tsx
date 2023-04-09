@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
-import LoadingScreen from '@/components/LoadingScreen';
+import LoadingScreen from '@/components/Loaders/LoadingScreen';
 
 export function withAuth<P extends {}>(Component: NextPage<P>) {
   const Auth = (props: P) => {

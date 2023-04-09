@@ -14,7 +14,6 @@ import Image from 'next/image';
 
 
 
-
 const ReviewCard = () => {
     const dispatch = useAppDispatch();
     const { isLoading, reviews } = useAppSelector( state => state.reviews)
@@ -22,7 +21,6 @@ const ReviewCard = () => {
     useEffect(() => {
         dispatch(getAllReviews())
     }, [dispatch])
-
 
 
     const starRatings = [5, 4, 3, 2, 1]
@@ -37,11 +35,10 @@ const ReviewCard = () => {
     }, 0)
 
 
-
     return (
         <>
             <br /><br /><span className='hidden sm:block'><br /></span>
-            { isLoading && <Image src="/assets/loading_gif.gif" alt='' height={20} width={20} />}
+            { isLoading && <Image src="/assets/loading_gif2.gif" alt='' height={20} width={20} />}
             {reviews &&
                 <>
                     <div className='flex justify-between border rate-card mx-4 dark:bg-darkGrey dark:border-none dark:shadow-none'>

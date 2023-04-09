@@ -46,7 +46,7 @@ const Header = () => {
 
   return (
     <>
-      <header className='flex items-center justify-between sm:h-[85px] fixed top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
+      <header className='flex items-center justify-between sm:h-[85px] absolute top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
       <CountdownTimer />
         <AnimatePresence>
           {width > 768 ? (
@@ -97,7 +97,7 @@ const Header = () => {
             )}
             {user?.boards?.length! > 0 && (
               <EditButton
-                className={'-bottom-28 -left-44'}
+                className={'-bottom-28 -left-44 '}
                 type="Board"
                 task={undefined}
                 setShowDetails={function (value: React.SetStateAction<boolean>): void {

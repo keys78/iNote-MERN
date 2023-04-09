@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from 'next/router'
-import Loader from "../../../../../components/Loader";
+import Loader from "../../../../../components/Loaders/Loader";
 import { useAppDispatch, useAppSelector } from "@/network/hooks";
 import { verifyEmail } from "@/features/auth/authSlice";
 

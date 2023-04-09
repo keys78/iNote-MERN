@@ -41,7 +41,7 @@ const PriorityDropdown = ({ label = "Status", setStatus }: IProps) => {
                             animate={showMenu ? "open" : "closed"}
                             exit="closed"
                         >
-                            <div className="py-1 zedder" >
+                            <div className="py-1 zedder " >
                                 {priorityArr.map((val: any, i: number) => (
                                     <a
                                         onClick={() => {

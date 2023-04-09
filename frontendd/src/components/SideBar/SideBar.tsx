@@ -22,11 +22,11 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
         localStorage.removeItem('authToken');
         window.location.href = '/auth/login';
         setTimeout(() => {
-          dispatch(resetUser());
-          dispatch(resetBoard());
+            dispatch(resetUser());
+            dispatch(resetBoard());
         }, 3000);
-      }
-      
+    }
+
 
 
     return (
@@ -34,8 +34,8 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
             {
                 width > 768 &&
                 <section
-                    className={`sidebar transition-all border-gray-50 border-r bg-white dark:bg-darkGrey dark:text-white dark:border-r-darkGreyLine border-r-lightGreyLine ease 
-                        ${isSidebar ? "open transition-all border-gray-50 border-r bg-white dark:bg-darkGrey dark:text-white dark:border-r-darkGreyLine border-r-lightGreyLine ease"
+                    className={`sidebar z-0 transition-all border-gray-50 border-r bg-white dark:bg-darkGrey dark:text-white dark:border-r-darkGreyLine border-r-lightGreyLine ease 
+                        ${isSidebar ? "open "
                             :
                             ""}`
                     }

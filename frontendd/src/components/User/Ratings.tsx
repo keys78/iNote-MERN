@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '@/network/hooks'
 import { postReview } from '@/features/private/review/reviewSlice'
 import { getUser } from '@/features/private/user/userSlice'
-import Loader from '../Loader'
+import Loader from '../Loaders/Loader'
 
 
 interface IProps {
@@ -35,7 +35,7 @@ const Ratings = ({ setIsRating }: IProps) => {
             <>{isLoading && <Loader />}</>
             <h1 className='font-bold sm:text-[18px] text[16px]'>i-Rate</h1>
             <div>
-                <Image src={'/assets/emotico.webp'} width={400} height={10} alt={''} />
+                <Image src={'/assets/emoticoo.png'} width={400} height={10} alt={''} />
             </div>
             <h2 className='text-center text-[18px] font-semibold'>Your opinion matters to us!</h2>
             <p className='text-center text-sm pt-2 pb-4'>We work super hard to make iNote

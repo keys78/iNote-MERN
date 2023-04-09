@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useAppDispatch, useAppSelector, } from "@/network/hooks";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
-import Loader from '@/components/Loader';
+import Loader from '@/components/Loaders/Loader';
 import { requestPasswordReset } from '@/features/auth/authSlice';
 
 
