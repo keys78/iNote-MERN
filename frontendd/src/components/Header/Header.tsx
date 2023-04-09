@@ -46,8 +46,8 @@ const Header = () => {
 
   return (
     <>
-      <header className='flex items-center justify-between sm:h-[85px] absolute top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
-      <CountdownTimer />
+      <header className='flex items-center justify-between sm:h-[85px] fixed top-0 left-0 w-full h-[70px] bg-white dark:bg-darkGrey dark:text-white dark:border-darkGreyLine border-b-2'>
+        <CountdownTimer />
         <AnimatePresence>
           {width > 768 ? (
             <div className="flex items-center">
@@ -62,9 +62,10 @@ const Header = () => {
                 <button onClick={() => setShowMenu(!showMenu)} className="flex justify-center items-center">
                   <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C capitalize whitespace-nowrap">{boardTitle()}</h2>
                   {showMenu ? (
-                    <Image src="/assets/icon-chevron-up.svg" alt="chevron" height={5} width={12} />
+                    <Image alt='chevron-up' src={'/assets/icon-chevron-up.svg'} width="0" height="0" className="w-[13px] h-auto" />
                   ) : (
-                    <Image src="/assets/icon-chevron-down.svg" alt="chevron" height={5} width={12} />
+                    <Image alt='chevron-down' src={'/assets/icon-chevron-down.svg'} width="0" height="0" className="w-[13px] h-auto" />
+
                   )}
                 </button>
               </div>

@@ -89,11 +89,11 @@ const Task = ({ task }: IProps) => {
 
             return (
                 <>
-                    <motion.li 
-                     initial={{ opacity: 0, translateX: -50 }}
-                     animate={{ opacity: 1, translateX: 0 }}
-                     transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96], delay: i * 0.1 }}
-                    onClick={() => setShowDetails({ ...showDetails, [item._id]: true })}
+                    <motion.li
+                        initial={{ opacity: 0, translateX: -50 }}
+                        animate={{ opacity: 1, translateX: 0 }}
+                        transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96], delay: i * 0.1 }}
+                        onClick={() => setShowDetails({ ...showDetails, [item._id]: true })}
                         className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
                         <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
                         <div className='flex items-center space-x-3'>
@@ -102,11 +102,9 @@ const Task = ({ task }: IProps) => {
                             {priorityComponents(item)}
                         </div>
                     </motion.li>
-                    {/* {showModal && ( */}
                     <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
                         <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
                     </Modal>
-                    {/* )} */}
                 </>
             );
         });
@@ -137,8 +135,6 @@ const Task = ({ task }: IProps) => {
                     {user?.boards.length <= 0 && <NoBoard />}
                     {user?.boards.length > 0 && EmptyBoardy()}
                     {user?.boards.length > 0 && DashBoardStat()}
-                    
-
                 </>
             }
         </>

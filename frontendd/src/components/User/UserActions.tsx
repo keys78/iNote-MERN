@@ -24,7 +24,8 @@ const UserActions = () => {
                     <div className='uppercase border-2 border-bg-lightGrey text-mainPurple px-2 py-1 rounded-full'>
                         {user?.username?.substring(0, 2)}
                     </div>&nbsp;
-                    <Image src="/assets/icon-chevron-down.svg" alt="chevron" height={5} width={12} />
+                    <Image alt='chevron-down' src={'/assets/icon-chevron-down.svg'} width="0" height="0" className="w-[13px] h-auto"/>
+
                 </div>
                 {showModal &&
                     <div ref={modalRef} className='rounded-[6px] shadow-sm absolute right-0 top-14 bg-white dark:bg-darkGrey dark:text-whitedark:bg-darkGrey dark:text-white w-[150px]'>

@@ -6,6 +6,7 @@ import Header from './Header'
 import Loader from './Loaders/Loader'
 import SideBar from './SideBar'
 import InAppLoader from './Loaders/InAppLoader'
+import LoadingScreen from './Loaders/LoadingScreen'
 
 const Layout = ({ children }: any) => {
   const [isSidebar, setIsSidebar] = useState<boolean>(true)
@@ -21,7 +22,7 @@ const Layout = ({ children }: any) => {
     }
   }, [dispatch, router, user?.boards?.length])
 
-  return (
+  return user ? (
     <section className='w-full'>
       {/* {isLoading && <Loader />} */}
       <Header />
@@ -32,10 +33,9 @@ const Layout = ({ children }: any) => {
           {boardLoader ? <InAppLoader /> : children}
         </div>
       </div>
-
     </section>
-
-  )
+  ) : <LoadingScreen />;
+  
 }
 
 export default Layout;

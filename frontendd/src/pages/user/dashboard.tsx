@@ -12,19 +12,12 @@ const Dashboard = () => {
   const { user } = useAppSelector((state) => state.user);
   const { board } = useAppSelector((state) => state.board);
 
-
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUser())
-    dispatch(resetBoard())
+    // dispatch(resetBoard())
   }, [dispatch])
-
-
-
-  const [isSidebar, setIsSidebar] = useState<boolean>(true)
-
 
   return (
     <Layout>
@@ -33,5 +26,5 @@ const Dashboard = () => {
   )
 }
 
-// export default withAuth(Dashboard);
-export default Dashboard;
+export default withAuth(Dashboard);
+// export default Dashboard;
