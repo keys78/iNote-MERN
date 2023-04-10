@@ -7,8 +7,6 @@ import Google_logo from '@/components/assets/svg/Google_logo';
 import { signupUser } from "@/features/auth/authSlice";
 import Logo from "@/components/Logo";
 import Link from 'next/link';
-import { toast } from 'react-toastify';
-import Button from '@/components/Button';
 import Loader from '@/components/Loaders/Loader';
 
 export type SignupData = {
@@ -17,13 +15,12 @@ export type SignupData = {
   password: string;
 };
 
+
 const Signup = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [inputType, setInputType] = useState<string>('password');
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.auth);
-
-
 
 
   const SignUpValidation = yup.object().shape({
@@ -37,7 +34,7 @@ const Signup = () => {
       .required("email is required"),
     password: yup
       .string()
-      // .min(8, "Password must be at least at 6 characters")
+      .min(6, "Password must be at least at 6 characters")
       .required("password is required"),
   });
 
@@ -79,9 +76,7 @@ const Signup = () => {
               ) => {
                 const data = { ...values, };
                 dispatch(signupUser(data));
-                // resetForm();
-
-
+                resetForm();
               }}
 
             >
