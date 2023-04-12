@@ -48,6 +48,9 @@ export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined
       return await boardService.getBoard(id, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
+      if(error.response && error.response.status === 404) {
+        window.location.href = "/user/dashboard"
+      }
     }
   }
 );

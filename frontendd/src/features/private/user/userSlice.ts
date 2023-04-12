@@ -11,8 +11,14 @@ const token2 = storedToken ? JSON.parse(storedToken) : '';
 interface Board {
   _id: string;
   title: string;
-}
 
+}
+interface pairMode {
+  enabled: boolean,
+  isActive: boolean,
+  initials: string,
+  id: string,
+}
 type Boards = Board[];
 
 type User = {
@@ -20,9 +26,10 @@ type User = {
   username: string,
   email: string,
   role: string,
+  boards: Boards,
   reviewedApp: boolean,
   verified: boolean,
-  boards:Boards,
+  pairmode: pairMode,
   createdAt: string,
   updatedAt: string
 };
@@ -33,6 +40,7 @@ interface IUserState {
   isError: boolean,
   isSuccess: boolean,
   isLoading: boolean,
+  isLoadingPairMode: boolean,
   message: {} | string | null;
 }
 
@@ -41,6 +49,7 @@ const initialState: IUserState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isLoadingPairMode: false,
   message: '',
 }
 
@@ -78,6 +87,33 @@ export const changePassword = createAsyncThunk<{}, any>(
   }
 )
 
+// pair invite
+export const sendPairInvite = createAsyncThunk<{}, any>(
+  'pair-invite',
+  async ({ invitePayload }, thunkAPI) => {
+    const token: IToken = token2 || (thunkAPI.getState() as { auth: Auth }).auth.token;
+    try {
+      return await userService.sendPairInvite(invitePayload, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
+
+// toggle pairmode
+export const togglePairMode = createAsyncThunk<any, any>(
+  'toggle-pairmode',
+  async ({ router }, thunkAPI) => {
+    const token: IToken = token2 || (thunkAPI.getState() as { auth: Auth }).auth.token;
+    try {
+      return await userService.togglePairMode(router, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
 
 
 export const privateSlice = createSlice({
@@ -99,13 +135,7 @@ export const privateSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
-        switch (action.type) {
-          case 'SET_MESSAGE': {
-            state.message = action.payload as string
-            return state
-          }
-          // other cases...
-        }
+        state.message = action.payload || "Something went wrong";
       })
       .addCase(changePassword.pending, (state) => {
         state.isLoading = true
@@ -117,6 +147,34 @@ export const privateSlice = createSlice({
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.isLoading = false
+        state.isError = true
+        state.message = action.payload || "Something went wrong";
+      })
+      .addCase(sendPairInvite.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(sendPairInvite.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.isError = false
+      })
+      .addCase(sendPairInvite.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload || "Something went wrong";
+      })
+      .addCase(togglePairMode.pending, (state) => {
+        state.isLoadingPairMode = true
+        state.isSuccess = false
+      })
+      .addCase(togglePairMode.fulfilled, (state, action) => {
+        state.isLoadingPairMode = false
+        state.isSuccess = true
+        state.isError = false
+      })
+      .addCase(togglePairMode.rejected, (state, action) => {
+        state.isLoadingPairMode = false
+        state.isSuccess = false
         state.isError = true
         state.message = action.payload || "Something went wrong";
       })

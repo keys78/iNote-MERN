@@ -10,9 +10,9 @@ const NoBoard = () => {
     const { user } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(getUser())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getUser())
+    // }, [dispatch])
 
     return (
         <>

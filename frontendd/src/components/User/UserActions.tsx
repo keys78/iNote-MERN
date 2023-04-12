@@ -6,6 +6,8 @@ import ChangePassword from './ChangePassword'
 import UserProfileModal from './UserProfileModal'
 import Image from 'next/image'
 import useOnClickOutside from '@/hooks/useOnClickOutside'
+import { useRouter } from 'next/router'
+import PairSystem from './Pair/PairSystem'
 
 const UserActions = () => {
     const { user } = useAppSelector(state => state.user)
@@ -17,19 +19,27 @@ const UserActions = () => {
     const handleClickOutside = () => { setShowModal(!showModal) }
     useOnClickOutside(modalRef, handleClickOutside)
 
+
     return (
         <>
             <div className='relative dark:bg-darkGrey dark:text-white'>
                 <div onClick={() => setShowModal(!showModal)} className='flex items-center cursor-pointer'>
-                    <div className='uppercase border-2 border-bg-lightGrey text-mainPurple px-2 py-1 rounded-full'>
+                    <div className='name-tag uppercase bg-mainPurple text-white'>
                         {user?.username?.substring(0, 2)}
-                    </div>&nbsp;
-                    <Image alt='chevron-down' src={'/assets/icon-chevron-down.svg'} width="0" height="0" className="w-[13px] h-auto"/>
+                    </div>
+                    {user?.pairmode?.isActive &&
+                        <div className='name-tag-two bg-white text-mainPurple uppercase border-2 border-bg-lightGrey '>
+                            {user?.pairmode?.initials?.substring(0, 2)}
+                        </div>
+                    }
+                    &nbsp;
+                    <Image alt='chevron-down' src={'/assets/icon-chevron-down.svg'} width="0" height="0" className="w-[13px] h-auto" />
 
                 </div>
                 {showModal &&
-                    <div ref={modalRef} className='rounded-[6px] shadow-sm absolute right-0 top-14 bg-white dark:bg-darkGrey dark:text-whitedark:bg-darkGrey dark:text-white w-[150px]'>
+                    <div ref={modalRef} className='rounded-[6px]  border z-10 border-lightGreyLine dark:border-darkGreyLine shadow-sm absolute right-0 top-14 bg-white dark:bg-darkGrey dark:text-whitedark:bg-darkGrey dark:text-white w-[300px]'>
                         <ul>
+                            <PairSystem setShowModal={setShowModal}/>
                             <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Profile</li>
                             <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Change Password</li>
                             <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Rate App</li>

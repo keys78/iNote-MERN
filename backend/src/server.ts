@@ -12,7 +12,7 @@ const connectDB = async () => {
 };
 
 connectDB();
-cronjob()
+// cronjob()
 
 
 

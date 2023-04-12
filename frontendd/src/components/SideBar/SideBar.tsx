@@ -32,7 +32,7 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
     return (
         <>
             {
-                width > 768 &&
+                width > 766 &&
                 <section
                     className={`sidebar z-0 transition-all border-gray-50 border-r bg-white dark:bg-darkGrey dark:text-white dark:border-r-darkGreyLine border-r-lightGreyLine ease 
                         ${isSidebar ? "open "
@@ -44,7 +44,7 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
                         <BoardNamesTag />
                         <div>
                             <div onClick={logout} className='rounded flex p-4 w-4/5 mx-6 space-x-6 dark:text-white justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
-                                <button className='hover:bg-lightGreyLine  flex items-center justify-center border rounded-md px-3 py-1 space-x-2 max-w-[220px] w-full'>
+                                <button className='hover:bg-lightGreyLine  flex items-center justify-center dark:border-darkGreyLine border-lightGreyLine rounded-md px-3 py-1 space-x-2 max-w-[220px] w-full'>
                                     <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
                                     <span className='font-normal text-mediumGrey'>Logout</span>
                                 </button>

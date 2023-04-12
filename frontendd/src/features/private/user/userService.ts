@@ -2,8 +2,6 @@ import { IToken, IUserForgotPassword } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-// const PRIVATE_API_URL = 'http://localhost:4000/private/' //local
-const PRIVATE_API_URL = 'https://inote-be-api.onrender.com/private/' //prod
 
 
 // Get user
@@ -14,7 +12,7 @@ const getUser = async (token: IToken) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const { data } = await axios.get(PRIVATE_API_URL + 'user', config)
+  const { data } = await axios.get(process.env.NEXT_PUBLIC_BASE_API_URL + 'private/user', config)
   return data
 }
 
@@ -25,18 +23,54 @@ const changePassword = async (changePasswordData: IUserForgotPassword, userId: a
       Authorization: `Bearer ${token}`,
     },
   }
-  const response = await axios.post(PRIVATE_API_URL + `changepassword/${userId}`, changePasswordData, config)
+  const response = await axios.post(process.env.NEXT_PUBLIC_BASE_API_URL + `private/changepassword/${userId}`, changePasswordData, config)
 
   toast.success(response.data.message as string, { autoClose: 1000 });
-  console.log('response', response)
   return response
 }
+
+
+const sendPairInvite = async (invitePayload: IUserForgotPassword, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.post(process.env.NEXT_PUBLIC_BASE_API_URL + `private/pair-invite`, invitePayload, config)
+
+  toast.success(response.data.message as string, { autoClose: 3000 });
+  return response
+}
+
+const togglePairMode = async (router:any, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(
+    process.env.NEXT_PUBLIC_BASE_API_URL + `private/toggle-pairmode`,
+    {},
+    config
+  );
+
+  if (response.status === 200) {
+    router.replace('/user/dashboard');
+  }
+
+  return response;
+};
+
 
 
 
 const userService = {
   getUser,
-  changePassword
+  changePassword,
+  sendPairInvite,
+  togglePairMode
 }
 
 export default userService

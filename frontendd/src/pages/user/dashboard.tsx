@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { getUser } from '../../features/private/user/userSlice'
 import { useAppDispatch, useAppSelector } from "@/network/hooks"
 import { withAuth } from '@/middlewares/middleware'
@@ -9,15 +9,15 @@ import { resetBoard } from '@/features/private/boards/boardSlice'
 
 
 const Dashboard = () => {
-  const { user } = useAppSelector((state) => state.user);
   const { board } = useAppSelector((state) => state.board);
+  const { user } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUser())
     dispatch(resetBoard())
-  }, [dispatch])
+  }, [dispatch, user?.pairmode.isActive])
 
   return (
     <Layout>
@@ -26,5 +26,5 @@ const Dashboard = () => {
   )
 }
 
-export default withAuth(Dashboard);
-// export default Dashboard;
+export default Dashboard;
+// export default withAuth(Dashboard);

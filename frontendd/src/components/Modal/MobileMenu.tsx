@@ -13,7 +13,7 @@ interface IProps {
     setShowMenu: any
 }
 
-const MobileMenu = ({setShowMenu}: IProps) => {
+const MobileMenu = ({ setShowMenu }: IProps) => {
     const { user } = useAppSelector((state) => state.user)
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const MobileMenu = ({setShowMenu}: IProps) => {
     const handleBoardClick = (id: string) => {
         setActiveBoard(id);
         router.push(`/user/board/${id}`);
-        setShowMenu( false)
+        setShowMenu(false)
     };
 
 
@@ -30,11 +30,11 @@ const MobileMenu = ({setShowMenu}: IProps) => {
         localStorage.removeItem('authToken');
         window.location.href = '/auth/login';
         setTimeout(() => {
-          dispatch(resetUser());
-          dispatch(resetBoard());
+            dispatch(resetUser());
+            dispatch(resetBoard());
         }, 3000);
-      }
-      
+    }
+
 
 
     return (
@@ -60,13 +60,13 @@ const MobileMenu = ({setShowMenu}: IProps) => {
                 }
                 <CreateNewBoardCTA />
             </div>
-         
+
             <div onClick={logout} className='rounded flex p-4 w-5/5 mx-6 space-x-6 dark:text-white justify-center items-center bg-lightGrey dark:bg-veryDarkGrey'>
-                                <button className='hover:bg-lightGreyLine  flex items-center justify-center border rounded-md px-3 py-1 space-x-2 max-w-[220px] w-full'>
-                                    <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
-                                    <span className='font-normal text-mediumGrey'>Logout</span>
-                                </button>
-                            </div>
+                <button className='hover:bg-lightGreyLine  flex items-center justify-center rounded-md px-3 py-1 space-x-2 max-w-[220px] w-full'>
+                    <Power size={22} color="#4a4db0" weight="thin" />&nbsp;&nbsp;&nbsp;
+                    <span className='font-normal text-mediumGrey'>Logout</span>
+                </button>
+            </div>
             <ThemeToggle />
         </div>
     )

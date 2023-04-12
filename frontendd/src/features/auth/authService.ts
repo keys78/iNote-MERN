@@ -1,22 +1,21 @@
 import { IUserLogin, IUserSignUp, IUserForgotPassword } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-// const AUTH_API_URL = "http://localhost:4000/" dev
-const AUTH_API_URL = "https://inote-be-api.onrender.com/"  //prod
+
 
 
 
 const signup = async (userData: IUserSignUp) => {
-    const response = await axios.post(`${AUTH_API_URL + 'auth/signup'}`, userData)
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL + 'auth/signup'}`, userData)
 
     toast.success(response?.data?.message as string, { autoClose: false });
     return response
 }
 
 const login = async (userData: IUserLogin) => {
-    const { data } = await axios.post(`${AUTH_API_URL + 'auth/login'}`, userData)
+    const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL + 'auth/login'}`, userData)
 
-   
+
     if (data?.token) {
         localStorage.setItem('authToken', JSON.stringify(data.token))
     }
@@ -24,7 +23,7 @@ const login = async (userData: IUserLogin) => {
 }
 
 const requestPasswordReset = async (userData: IUserForgotPassword) => {
-    const response = await axios.post(`${AUTH_API_URL + 'auth/forgotpassword'}`, userData)
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL + 'auth/forgotpassword'}`, userData)
 
     toast.success(response?.data?.data as string, { autoClose: false });
     return response?.data?.message
@@ -32,16 +31,24 @@ const requestPasswordReset = async (userData: IUserForgotPassword) => {
 
 
 const resetPassword = async (resetPasswordData: IUserForgotPassword, resetToken: any) => {
-    const response = await axios.put(`${AUTH_API_URL + `auth/reset-password/${resetToken}`}`, resetPasswordData)
-    
+    const response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_API_URL + `auth/reset-password/${resetToken}`}`, resetPasswordData)
+
     toast.success(response.data.message as string, { autoClose: false });
     console.log('response', response?.data?.message)
     return response?.data?.message
 }
 
 const verifyEmail = async (id: string, verifyToken: string) => {
-    const response = await axios.post(`${AUTH_API_URL + `auth/${id}/verify/${verifyToken}`}`)
-    
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL + `auth/${id}/verify/${verifyToken}`}`)
+
+    toast.success(response.data.message as string, { autoClose: false });
+    console.log('response', response)
+    return response?.data?.message
+}
+
+const acceptPairInvite = async (pairToken: string, id: string,) => {
+    const response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_API_URL + `private/accept-pair/${pairToken}/${id}`}`)
+
     toast.success(response.data.message as string, { autoClose: false });
     console.log('response', response)
     return response?.data?.message
@@ -58,6 +65,7 @@ const authService = {
     requestPasswordReset,
     resetPassword,
     verifyEmail,
+    acceptPairInvite,
     logout,
 }
 export default authService

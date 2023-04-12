@@ -103,6 +103,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 .maino { margin-left: 0; transition: margin-left 0.5s;}
 .maino.pushed { margin-left: 300px;}
 .zedder { position: relative; z-index: 99999 !important; }
+.round-set { height: 32px !important; width: 32px !important; display: flex; align-items: center; justify-content: center; text-align: center;}
+
+.name-tag { height: 40px; width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
+.name-tag-two { margin: 0 0 -10px -16px; height: 30px; width: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
 
 /* chart */
 .chart-container-content {  display: flex; align-items: center; justify-content: center; background: #fff; max-width: 700px; width: 100%; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; }

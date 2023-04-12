@@ -2,8 +2,7 @@ import { IToken } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-// const PRIVATE_API_URL = 'http://localhost:4000/private/' //local
-const PRIVATE_API_URL = 'https://inote-be-api.onrender.com/private/' //local
+
 const toastOptions = {
   autoClose: 2000,
   hideProgressBar: true,
@@ -18,7 +17,7 @@ const getAllReviews = async () => {
       "Content-Type": "application/json",
     },
   }
-  const { data } = await axios.get(PRIVATE_API_URL + `get-all-reviews`, config)
+  const { data } = await axios.get(process.env.NEXT_PUBLIC_BASE_API_URL + `private/get-all-reviews`, config)
   return data
 }
 
@@ -30,7 +29,7 @@ const postReview = async (reviewData: unknown, userId:any, token: IToken) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const { data } = await axios.post(PRIVATE_API_URL + `post-review/${userId}`, reviewData, config)
+  const { data } = await axios.post(process.env.NEXT_PUBLIC_BASE_API_URL + `private/post-review/${userId}`, reviewData, config)
 
   toast.success(data?.message, toastOptions);
   return data
@@ -44,7 +43,7 @@ const editReview = async (id: any, reviewData: unknown, token: IToken) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const { data } = await axios.patch(PRIVATE_API_URL + `edit-review/${id}`, reviewData, config)
+  const { data } = await axios.patch(process.env.NEXT_PUBLIC_BASE_API_URL + `private/edit-review/${id}`, reviewData, config)
   toast.success(data?.message, toastOptions);
   return data
 }

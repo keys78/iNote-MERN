@@ -34,7 +34,7 @@ const UpdateBoardModal = ({ setShowUpdateBoardModal }: props) => {
                     setSubmitting(true)
 
                     if (values.title === board?.title) {
-                        // If there are no changes, simply close the modal and return
+                        
                         setSubmitting(false);
                         setShowUpdateBoardModal(false);
                         return;

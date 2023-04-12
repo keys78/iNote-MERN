@@ -22,9 +22,9 @@ const Task = ({ task }: IProps) => {
     const router = useRouter();
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(getUser())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getUser())
+    // }, [dispatch])
 
 
 
@@ -78,8 +78,6 @@ const Task = ({ task }: IProps) => {
     }
 
 
-
-
     const lists = groupByName && Object.keys(groupByName).map((key) => {
         const items = groupByName[key].map((item: any, i: number) => {
             const showModal = showDetails[item._id];
@@ -88,7 +86,7 @@ const Task = ({ task }: IProps) => {
             const isAllSubtasksCompleted = completedTaskCount === subtaskLength
 
             return (
-                <>
+                <React.Fragment key={item._id}>
                     <motion.li
                         initial={{ opacity: 0, translateX: -50 }}
                         animate={{ opacity: 1, translateX: 0 }}
@@ -105,7 +103,7 @@ const Task = ({ task }: IProps) => {
                     <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
                         <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
                     </Modal>
-                </>
+                </React.Fragment>
             );
         });
         return (

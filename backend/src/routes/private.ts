@@ -4,11 +4,15 @@ import { protect } from "../middlewares/authProtect";
 
 const usersRouter = express.Router();
 
-usersRouter.get("/all-users", protect, PrivateController.getAllUsers);
 usersRouter.get("/user", protect, PrivateController.getUser);
+
 usersRouter.post("/changepassword/:userId", protect, PrivateController.changePassword);
 
+usersRouter.post("/pair-invite", protect, PrivateController.sendPairInvite);
 
+usersRouter.put('/accept-pair/:token/:id', PrivateController.acceptPairInvite);
+
+usersRouter.put('/toggle-pairmode', protect, PrivateController.togglePairMode);
 
 export default usersRouter;
 

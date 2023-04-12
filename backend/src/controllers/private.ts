@@ -3,41 +3,77 @@
 import { NextFunction, RequestHandler, Response, Request } from "express";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
-import UsersModel from "../models/user";
-
-
-export const getAllUsers: RequestHandler = async (req, res, next) => {
-
-    try {
-        const users = await UsersModel.find().exec();
-        res.status(200).json(users);
-    } catch (error) {
-        next(error);
-    }
-};
+import UserModel from "../models/user";
+import sendEmail from "../utils/sendEmail";
+import crypto from 'crypto'
+import pairRequestMessage from "../utils/pairRequestMessage";
 
 
 
 interface AuthRequest extends Request {
     user?: {
         id: string;
+        pairmode: {
+            isActive: boolean;
+        }
     };
 }
 
 
 
-export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
+// export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
+//     const id = req.user?.id;
+
+//     try {
+//         if (!mongoose.isValidObjectId(id)) {
+//             throw createHttpError(404, "invalid user id");
+//         }
+
+//         const user = await UserModel.findById(id)
+//             .populate({
+//                 path: 'boards',
+//                 select: 'title',
+//                 match: { pairId: { $exists: false } }, // add this line to exclude boards with pairIds
+//                 populate: {
+//                     path: 'notes',
+//                     select: 'title description status subTasks priority'
+//                 }
+//             })
+//             .exec();
+
+//         res.status(200).json(user);
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+
+
+export const getUser: RequestHandler<{}, any, any, { id?: string, pairmode?: any }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
     const id = req.user?.id;
+    const pairmode = req.user?.pairmode?.isActive;
 
     try {
         if (!mongoose.isValidObjectId(id)) {
             throw createHttpError(404, "invalid user id");
         }
 
-        const user = await UsersModel.findById(id)
+        const boardsQuery: any = {
+            path: 'boards',
+            select: 'title pairId',
+            match: {}
+        };
+
+        if (pairmode) {
+            boardsQuery.match = { pairId: { $ne: null, $exists: true } };
+        } else {
+            boardsQuery.match = { pairId: { $exists: false } };
+        }
+
+        const user = await UserModel.findById(id)
+            .populate(boardsQuery)
             .populate({
                 path: 'boards',
-                select: 'title',
+                match: boardsQuery.match,
                 populate: {
                     path: 'notes',
                     select: 'title description status subTasks priority'
@@ -51,6 +87,10 @@ export const getUser: RequestHandler<{}, any, any, { id?: string }> = async (req
     }
 }
 
+  
+
+
+
 
 
 export const changePassword: RequestHandler = async (req, res, next) => {
@@ -62,7 +102,7 @@ export const changePassword: RequestHandler = async (req, res, next) => {
             return res.status(400).send({ message: 'User ID is missing' });
         }
 
-        const user = await UsersModel.findById(userId).select('+password');
+        const user = await UserModel.findById(userId).select('+password');
 
         if (!user) {
             return res.status(400).send({ message: 'User not found' });
@@ -83,4 +123,129 @@ export const changePassword: RequestHandler = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+};
+
+
+
+
+export const sendPairInvite: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
+
+    const { email } = req.body;
+    const { id: userId } = req.user;
+
+    try {
+        const currentUser = await UserModel.findById(userId);
+
+        if (!currentUser) {
+            return res.status(404).send({ message: "User not found" });
+        }
+
+        const userToPair = await UserModel.findOne({ email });
+
+        if (!userToPair) {
+            return res.status(404).send({ message: "User to pair not found" });
+        }
+
+        if (currentUser.pairmode?.id) {
+            return res.status(400).send({ message: "you are already paired" });
+        }
+
+        if (userToPair.pairmode.id) {
+            return res.status(400).send({ message: "User to pair already paired" });
+        }
+
+        const pairToken = currentUser.generatePairToken();
+
+        await currentUser.save();
+
+        const pairUrl = `${process.env.BASE_URL}pair/${pairToken}/${userToPair._id}`;
+
+        try {
+            await sendEmail({
+                to: userToPair.email,
+                subject: "Pair Request",
+                text: pairRequestMessage(pairUrl, currentUser, userToPair)
+            });
+
+            res.status(200).json({ success: true, message: `Pair invitation sent to ${email}` });
+        } catch (error) {
+            currentUser.pairmode.id = undefined;
+            currentUser.pairmode.token = undefined;
+
+            await currentUser.save();
+
+            return res.status(500).send({ message: "Pair invitation could not be sent" });
+        }
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+export const acceptPairInvite: RequestHandler = async (req, res, next) => {
+    const pairToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+    try {
+        const user = await UserModel.findOne({
+            'pairmode.token': pairToken,
+            'pairmode.tokenExpire': { $gt: new Date() },
+        });
+
+        console.log('user', user)
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid token or token expired' });
+        }
+
+        const pairUser = await UserModel.findOne({
+            _id: req?.params.id
+        });
+
+        if (!pairUser) {
+            return res.status(404).json({ message: 'Pair user not found' });
+        }
+
+        user.pairmode.enabled = true;
+        user.pairmode.token = undefined;
+        user.pairmode.id = pairUser._id;
+        user.pairmode.initials = pairUser.username;
+
+        pairUser.pairmode.enabled = true;
+        pairUser.pairmode.token = undefined;
+        pairUser.pairmode.id = user._id;
+        pairUser.pairmode.initials = user.username;
+
+        await user.save();
+        await pairUser.save();
+
+        res.status(200).json({ message: 'Pair mode activated successfully' });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+export const togglePairMode: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
+    const { id } = req.user;
+
+    try {
+    const user = await UserModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.pairmode.isActive = !user.pairmode.isActive;
+    await user.save();
+
+    res.status(200).json({
+      message: `${user.pairmode.isActive ? 'Switched to pairmode' : 'Switched to personal'} successfully`,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

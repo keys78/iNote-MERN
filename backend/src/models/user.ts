@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import crypto from 'crypto'
 import jwt from "jsonwebtoken"
 import _ from "lodash"
+import dns from 'dns'
 
 
 interface User extends mongoose.Document {
@@ -11,14 +12,33 @@ interface User extends mongoose.Document {
     email: string;
     reviewedApp: boolean,
     verified: boolean,
+    pairmode: {
+        enabled: boolean,
+        isActive: boolean,
+        initials: string,
+        id: string,
+        token: string,
+        tokenExpire: string
+    },
     password: string;
     board: Types.ObjectId['_id'];
     resetPasswordToken: string,
     resetPasswordExpire: string,
     matchPasswords: (password: string) => Promise<boolean>;
+    generatePairToken: () => string;
     getResetPasswordToken: () => string;
     getSignedToken: () => string;
 }
+
+//     email: {
+//         type: String,
+//         required: [true, "Please provide an email"],
+//         unique: true,
+//         // eslint-disable-next-line no-useless-escape
+//         match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+//             "Please provide a valid email"
+//         ]
+
 
 const userSchema = new Schema({
     role: {
@@ -31,10 +51,10 @@ const userSchema = new Schema({
         type: String,
         required: [true, "Please provide an email"],
         unique: true,
-        // eslint-disable-next-line no-useless-escape
-        match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            "Please provide a valid email"
-        ]
+        validate: {
+            validator: validateEmail,
+            message: "Please provide a valid email"
+        }
     },
     reviewedApp: { type: Boolean, default: false },
     verified: { type: Boolean, default: false },
@@ -47,9 +67,39 @@ const userSchema = new Schema({
         minlength: 6,
         select: false
     },
+    pairmode: {
+        enabled: { type: Boolean, default: false },
+        isActive: { type: Boolean, default: false },
+        initials: { type: String, },
+        id: { type: String, default: null },
+        token: String,
+        tokenExpire: Date
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 }, { timestamps: true });
+
+async function validateEmail(email) {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!emailRegex.test(email)) {
+        return false;
+    }
+
+    const [username, domain] = email.split('@');
+
+    // Check if the domain is valid using the DNS module
+    return new Promise((resolve, reject) => {
+        dns.resolveMx(domain, (err, addresses) => {
+            if (err || addresses.length === 0) {
+                reject(err || new Error('No MX records found for the domain.'));
+            } else {
+                resolve(true);
+            }
+        });
+    });
+}
+
 
 userSchema.pre('save', function (next) {
     this.username = _.capitalize(this.username)
@@ -75,12 +125,6 @@ userSchema.methods.getSignedToken = function () {
     return token;
 };
 
-// userSchema.methods.matchPasswords = async function (password: string) {
-//     if (!password) {
-//         return false;
-//     }
-//     return await bcrypt.compare(password, this.password);
-// }
 userSchema.methods.matchPasswords = async function (password: string) {
     return await bcrypt.compare(password, this.password);
 }
@@ -94,9 +138,23 @@ userSchema.methods.getResetPasswordToken = function () {
         .update(resetToken)
         .digest("hex");
 
-    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000)
+    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000) // 10 min from init
 
     return resetToken;
 };
+
+userSchema.methods.generatePairToken = function () {
+    const pairToken = crypto.randomBytes(20).toString("hex");
+
+    this.pairmode.token = crypto
+        .createHash("sha256")
+        .update(pairToken)
+        .digest("hex");
+
+    this.pairmode.tokenExpire = Date.now() + 3600 * 1000; // 1 hour from init
+
+    return pairToken;
+};
+
 
 export default model<User>("User", userSchema)

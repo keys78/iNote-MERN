@@ -90,6 +90,18 @@ export const verifyEmail = createAsyncThunk<any, any>(
     }
 )
 
+// accept pair invite
+export const acceptPairInvite = createAsyncThunk<any, any>(
+    'private/accept-pair',
+    async ({ pairToken, id }, thunkAPI) => {
+        try {
+            return await authService.acceptPairInvite(pairToken, id)
+        } catch (error: any) {
+            errorHandler(error, thunkAPI)
+        }
+    }
+)
+
 
 
 
@@ -186,6 +198,21 @@ export const authSlice = createSlice({
                 state.isError = true
                 state.message = action.payload || "Something went wrong";
                 state.user = null
+            })
+            .addCase(acceptPairInvite.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(acceptPairInvite.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.message = action.payload
+                state.isError = false
+
+            })
+            .addCase(acceptPairInvite.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload || "Something went wrong";
             })
     },
 })

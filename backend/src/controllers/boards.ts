@@ -6,14 +6,18 @@ import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 
 
+
 interface AuthRequest extends Request {
     user?: {
         id: string;
+        pairmode: {
+            isActive: boolean;
+            id: string,
+        }
     };
 }
 
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;
     const boardId = req.params.boardId;
@@ -34,7 +38,7 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
         }
 
         // Check if the user is authorized to access the board
-        if (board.userId.toString() !== userId) {
+        if (board.userId.toString() !== userId && board.pairId?.toString() !== userId) {
             throw createHttpError(403, "unauthorized to access board");
         }
 
@@ -46,27 +50,114 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
 
 
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+
+export const getAllPairBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;
-    const { title } = req.body
+
+    try {
+        const user = await UserModel.findById(userId)
+
+        if (!user.pairmode) {
+            return res.status(404).json({ message: "sorry you are not on pairmode" });
+        }
+
+        const boards = await BoardModel.find({
+            $or: [{ userId }, { pairId: userId }],
+            pairId: { $exists: true }
+        }).populate({
+            path: "notes",
+            select: "title description status priority subTasks",
+        });
+
+        res.status(200).json(boards);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
+
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+
+
+
+// export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string, pairmode?: any }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+//     const userId = req.user?.id
+//     const { title } = req.body
+//     const pairmode = req.user?.pairmode?.isActive;
+
+
+//     try {
+//         if (!title) {
+//             throw createHttpError(400, "title is required")
+//         }
+
+
+//         if (!pairmode) {
+//             const newBoard = await BoardModel.create({
+//                 title: title,
+//                 userId: userId,
+//             });
+//             await UserModel.updateOne({ _id: newBoard.userId }, { $push: { boards: newBoard._id } });
+
+//             return res.status(201).json(newBoard);
+//         }
+
+//         if (pairmode) {
+//             const pairId = req.user?.pairmode?.id;
+//             const newBoard = await BoardModel.create({
+//                 title: title,
+//                 userId: userId,
+//                 pairId: pairId,
+//             });
+//             await UserModel.updateOne({ _id: newBoard.userId }, { $push: { boards: newBoard._id } });
+//             await UserModel.updateOne({ _id: newBoard.pairId }, { $push: { boards: newBoard._id } });
+
+//             return res.status(201).json(newBoard);
+//         }
+
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
+
+
+export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string, pairmode?: any }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+    const userId = req.user?.id;
+    const { title } = req.body;
+    const pairmode = req.user?.pairmode;
 
     try {
         if (!title) {
-            throw createHttpError(400, "title is required")
+            throw createHttpError(400, "title is required");
         }
-        const newBoard = await BoardModel.create({
-            title: title,
-            userId: userId
-        });
 
+        const boardData: any = {
+            title: title,
+            userId: userId,
+        };
+
+        if (pairmode && pairmode.isActive) {
+            boardData.pairId = pairmode.id;
+        }
+
+        const newBoard = await BoardModel.create(boardData);
         await UserModel.updateOne({ _id: newBoard.userId }, { $push: { boards: newBoard._id } });
 
-        res.status(201).json(newBoard);
+        if (newBoard.pairId) {
+            await UserModel.updateOne({ _id: newBoard.pairId }, { $push: { boards: newBoard._id } });
+        }
+
+        return res.status(201).json(newBoard);
     } catch (error) {
         next(error);
     }
 };
+
+
 
 
 

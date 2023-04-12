@@ -11,6 +11,7 @@ const BoardDetails = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { board } = useAppSelector((state) => state.board);
+  const { user } = useAppSelector((state) => state.user);
 
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const BoardDetails = () => {
     if (router.query.id) {
       fetchBoardAndUser();
     }
-  }, [dispatch, router.query.id]);
+  }, [dispatch, router.query.id, user?.pairmode.isActive]);
   
   
  
@@ -33,4 +34,5 @@ const BoardDetails = () => {
   )
 }
 
-export default withAuth(BoardDetails)
+// export default withAuth(BoardDetails)
+export default BoardDetails

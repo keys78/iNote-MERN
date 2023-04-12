@@ -13,7 +13,7 @@ import { AnimatePresence } from 'framer-motion'
 
 const AddNewTaskModal = () => {
     const dispatch = useAppDispatch()
-    const { board } = useAppSelector((state) => state.board)
+    const { board, isSuccess } = useAppSelector((state) => state.board)
 
     const validate = Yup.object({
         title: Yup.string().required("required"),
@@ -50,7 +50,7 @@ const AddNewTaskModal = () => {
 
                         console.log('submit:', values);
                         dispatch(addTask({ boardId: board?._id, taskData: values }))
-                        dispatch(getBoard({ id: board?._id }))
+                        { isSuccess && dispatch(getBoard({ id: board?._id })) }
                         setSubmitting(false)
                         resetForm()
                     }}
