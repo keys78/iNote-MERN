@@ -36,7 +36,7 @@ const pairRequestMessage = (pairUrl: string, currentUser: any, userToPair: any) 
                                             
                                             <div
                                                 style="font-size: 16px; line-height:1.4; letter-spacing: 0px; font-family: 'Roboto', sans-serif; color: #082446;">
-                                                Hi ${currentUser.username}, ${userToPair.username} has invited you to be their pair on their inote account. 
+                                                Hi ${userToPair.username}, ${currentUser.username} has invited you to be their pair on their inote account. 
                                                 To accept the invitation and enable pair mode please visit the following URL:\n\n${pairUrl}\n\nBest regards,\nPairUp
 
                                             </div>

@@ -10,8 +10,11 @@ import StatusDropdown from '../shared/StatusDropdown'
 import PriorityDropdown from '../shared/PriorityDropdown'
 import { AnimatePresence } from 'framer-motion'
 
+interface IProps {
+    setShowModal: any
+}
 
-const AddNewTaskModal = () => {
+const AddNewTaskModal = ({ setShowModal }: IProps) => {
     const dispatch = useAppDispatch()
     const { board, isSuccess } = useAppSelector((state) => state.board)
 
@@ -50,9 +53,12 @@ const AddNewTaskModal = () => {
 
                         console.log('submit:', values);
                         dispatch(addTask({ boardId: board?._id, taskData: values }))
-                        { isSuccess && dispatch(getBoard({ id: board?._id })) }
-                        setSubmitting(false)
+                        dispatch(getBoard({ id: board?._id }))
                         resetForm()
+                        dispatch(getBoard({ id: board?._id }))
+                        dispatch(getBoard({ id: board?._id }))
+                        setShowModal(false)
+                        dispatch(getBoard({ id: board?._id }))
                     }}
                 >
                     {/* {({ values,  isSubmitting, handleSubmit }) => ( */}

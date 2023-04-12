@@ -39,7 +39,7 @@ const sendPairInvite = async (invitePayload: IUserForgotPassword, token: IToken)
   }
   const response = await axios.post(process.env.NEXT_PUBLIC_BASE_API_URL + `private/pair-invite`, invitePayload, config)
 
-  toast.success(response.data.message as string, { autoClose: 3000 });
+  toast.success(response.data.message as string, { autoClose: 6000 });
   return response
 }
 

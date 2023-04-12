@@ -6,22 +6,12 @@ import { useState, useEffect } from "react";
 
 function CountdownTimer() {
     const dispatch = useAppDispatch();
-    const [seconds, setSeconds] = useState(() => {
-        if (typeof window !== "undefined") {
-            const savedSeconds = localStorage.getItem("log_auth");
-            return savedSeconds ? parseInt(savedSeconds) : 20 * 60 * 60;
-        } else {
-            return 20 * 60 * 60;
-        }
-    });
+    const [seconds, setSeconds] = useState(20 * 60 * 60);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setSeconds((prevSeconds) => {
                 const updatedSeconds = prevSeconds - 1;
-                if (typeof window !== "undefined") {
-                    localStorage.setItem("log_auth", updatedSeconds as any);
-                }
                 return updatedSeconds;
             });
         }, 1000);
@@ -35,8 +25,6 @@ function CountdownTimer() {
             window.location.href = '/auth/login';
             dispatch(resetUser())
             dispatch(resetBoard())
-            localStorage.removeItem('log_auth')
-            console.log("User logged out!");
         }
     }, [dispatch, seconds]);
 
@@ -45,10 +33,10 @@ function CountdownTimer() {
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
 
-    // const html = `Time remaining: ${hours}h ${minutes}m ${remainingSeconds}s`;
+    const html = `Time remaining: ${hours}h ${minutes}m ${remainingSeconds}s`;
 
-    // return <div dangerouslySetInnerHTML={{ __html: html }} />;
-    return <span></span>
+    return <div dangerouslySetInnerHTML={{ __html: html }} />;
+    // return <span></span>
 }
 
 export default CountdownTimer;

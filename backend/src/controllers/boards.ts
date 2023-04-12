@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import BoardModel from "../models/board";
 import UserModel from "../models/user";
+import NoteModel from "../models/note";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 
@@ -190,6 +191,37 @@ export const updateBoard: RequestHandler = async (req, res, next) => {
 
 
 // eslint-disable-next-line @typescript-eslint/ban-types
+// export const deleteBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
+//     const userId = req.user?.id;
+//     const boardId = req.params.boardId;
+
+//     try {
+
+//         if (!mongoose.isValidObjectId(boardId)) {
+//             throw createHttpError(400, "Invalid board id");
+//         }
+
+//         const note = await BoardModel.findById(boardId).exec();
+
+//         if (!note) {
+//             throw createHttpError(404, "Board not found");
+//         }
+
+//         const deleteBoard = await BoardModel.findByIdAndDelete({ _id: boardId })
+//         await UserModel.updateOne({ _id: userId }, { $pull: { boards: boardId } });
+
+
+//         if (req.user.pairmode.isActive) {
+//             await UserModel.updateOne({ _id: req.user.pairmode.id }, { $pull: { boards: boardId } });
+//         }
+
+//         res.status(200).json({ message: `${deleteBoard?.title} board deleted` });
+
+
+//     } catch (error) {
+//         next(error);
+//     }
+// };
 export const deleteBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;
     const boardId = req.params.boardId;
@@ -200,22 +232,22 @@ export const deleteBoard: RequestHandler<{}, unknown, unknown, { id?: string }> 
             throw createHttpError(400, "Invalid board id");
         }
 
-        const note = await BoardModel.findById(boardId).exec();
+        const board = await BoardModel.findById(boardId).exec();
 
-        if (!note) {
+        if (!board) {
             throw createHttpError(404, "Board not found");
         }
 
-        const deleteBoard = await BoardModel.findByIdAndDelete({ _id: boardId })
+        await BoardModel.findByIdAndDelete(boardId);
         await UserModel.updateOne({ _id: userId }, { $pull: { boards: boardId } });
-
 
         if (req.user.pairmode.isActive) {
             await UserModel.updateOne({ _id: req.user.pairmode.id }, { $pull: { boards: boardId } });
         }
 
-        res.status(200).json({ message: `${deleteBoard?.title} board deleted` });
+        await NoteModel.deleteMany({ boardId });
 
+        res.status(200).json({ message: `${board.title} board deleted` });
 
     } catch (error) {
         next(error);

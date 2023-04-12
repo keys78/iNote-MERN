@@ -104,6 +104,19 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 .maino.pushed { margin-left: 300px;}
 .zedder { position: relative; z-index: 99999 !important; }
 .round-set { height: 32px !important; width: 32px !important; display: flex; align-items: center; justify-content: center; text-align: center;}
+.refresh-app {
+  animation: refresh-app 2s infinite;
+}
+
+@keyframes refresh-app {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 .name-tag { height: 40px; width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
 .name-tag-two { margin: 0 0 -10px -16px; height: 30px; width: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}

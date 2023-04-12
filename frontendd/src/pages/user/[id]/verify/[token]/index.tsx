@@ -13,16 +13,18 @@ const VerifyEmail = () => {
 
 
   useEffect(() => {
-    if (router.isReady) {
+    if (router.isReady && router.query.token) {
       dispatch(verifyEmail({ id: router.query.id, verifyToken: router.query.token }))
     }
   }, [dispatch, router.isReady, router.query.id, router.query.token]);
 
+  if (!router.isReady || isLoading) {
+    return <Loader />;
+  }
+
 
   return (
-    router.isReady &&
     <>
-      {isLoading && <Loader />}
       <div className="flex items-center justify-center mt-[240px]">
         {message === 'Email Verified Successfully' ? (
           <div className="veri-board">

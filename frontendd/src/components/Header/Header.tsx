@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Button from '../shared/Button'
 import EditButton from '../shared/EditButton'
-import { useTheme } from "next-themes"
-import { useAppSelector } from '../../network/hooks'
+import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import Modal from '../Modal'
 import AddNewTaskModal from '../Modal/AddNewTaskModal'
 import UserActions from '../User/UserActions'
@@ -13,6 +12,9 @@ import { characterLimit } from '@/utils/general'
 import { AnimatePresence } from 'framer-motion'
 import MobileMenu from '../Modal/MobileMenu'
 import CountdownTimer from '../shared/CountdownTimer'
+import { ArrowClockwise } from 'phosphor-react'
+import { getUser } from '@/features/private/user/userSlice'
+import { getBoard } from '@/features/private/boards/boardSlice'
 
 
 
@@ -21,9 +23,11 @@ import CountdownTimer from '../shared/CountdownTimer'
 const Header = () => {
   const [isAddNewTask, setIsAddNewTask] = useState<boolean>(false)
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { width } = useWindowSize();
   const { user } = useAppSelector(state => state.user)
   const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [isClicked, setIsClicked] = useState<boolean>(false)
 
 
 
@@ -40,6 +44,21 @@ const Header = () => {
 
     return width < 480 ? (characterLimit(board?.title, 9)) : board?.title
   };
+
+  const refreshPage = () => {
+    dispatch(getUser())
+    const query = router?.query.id;
+    const board = user?.boards?.find((board: any) => board?._id === query);
+
+    if (board) {
+      dispatch(getBoard({ id: router.query.id }));
+    }
+
+    setIsClicked(true)
+    setTimeout(() => {
+      setIsClicked(false)
+    }, 2000)
+  }
 
 
   return (
@@ -77,6 +96,8 @@ const Header = () => {
           {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{boardTitle()}</h1> : <span>&nbsp;</span>}
 
           <div className='flex items-center space-x-4'>
+            <ArrowClockwise className={`${isClicked && 'refresh-app'} cursor-pointer`} onClick={refreshPage} size={32} color="#635FC7" weight="fill" />
+
             {user?.boards?.length! > 0 && router?.query.id && (
               width > 768 ? (
                 <Button
@@ -110,7 +131,7 @@ const Header = () => {
         </div>
 
         <Modal showModal={isAddNewTask} setShowModal={setIsAddNewTask}>
-          <AddNewTaskModal />
+          <AddNewTaskModal setShowModal={setIsAddNewTask} />
         </Modal>
       </header>
     </>

@@ -11,7 +11,7 @@ const EmptyBoard = () => {
       <Button text={"+ Add New Task"} padding={'py-3 px-4'} width={''} color={'text-white'} font_weight={'font-bold'} onClick={() => setIsModal(true)} />
 
       <Modal showModal={isModal} setShowModal={setIsModal}>
-        <AddNewTaskModal />
+        <AddNewTaskModal setShowModal={setIsModal}/>
       </Modal>
     </div>
   )

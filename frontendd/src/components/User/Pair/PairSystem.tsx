@@ -39,7 +39,7 @@ const PairSystem = ({setShowModal}: IProps) => {
               className='flex items-center justify-between space-x-3 py-2 px-3 border-b border-lightGreyLine dark:border-darkGreyLine text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer w-full text-left'
             >
               <div className='flex items-center space-x-3'>
-                <span>{user?.pairmode?.isActive ? 'Switch to Pair Mode' : 'Switch to Personal'}</span>
+                <span>{user?.pairmode?.isActive ? 'Switch to Personal' : 'Switch to Pair Mode'}</span>
                 <span className='flex'>
                   <div
                     className='uppercase text-[12px] border-2 border-bg-lightGrey dark:text-white text-mainPurple px-1 py-2 rounded-full round-set'
