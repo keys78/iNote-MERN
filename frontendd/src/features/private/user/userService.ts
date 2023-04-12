@@ -43,22 +43,19 @@ const sendPairInvite = async (invitePayload: IUserForgotPassword, token: IToken)
   return response
 }
 
-const togglePairMode = async (router:any, token: IToken) => {
+const togglePairMode = async (router:any, move:boolean, token: IToken) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(
-    process.env.NEXT_PUBLIC_BASE_API_URL + `private/toggle-pairmode`,
-    {},
-    config
-  );
+  const response = await axios.put( process.env.NEXT_PUBLIC_BASE_API_URL + `private/toggle-pairmode`, {}, config );
 
-  if (response.status === 200) {
+  if (response.status === 200 && move === true) {
     router.replace('/user/dashboard');
   }
+
 
   return response;
 };

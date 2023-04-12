@@ -14,13 +14,12 @@ const TogglePairMode = ({ setShowModal }: IProps) => {
     const { user, isLoadingPairMode, isLoading, isSuccess } = useAppSelector(state => state.user);
 
     const togglePair = async () => {
-        await dispatch(togglePairMode({router: router}));
+        await dispatch(togglePairMode({router: router, move: isSuccess}));
     };
 
     useEffect(() => {
         if (isSuccess) {
             dispatch(getUser());
-            // router.replace('/user/dashboard');
             if(isLoading) {
                 setTimeout(() => {
                     setShowModal(false)

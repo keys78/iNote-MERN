@@ -104,10 +104,10 @@ export const sendPairInvite = createAsyncThunk<{}, any>(
 // toggle pairmode
 export const togglePairMode = createAsyncThunk<any, any>(
   'toggle-pairmode',
-  async ({ router }, thunkAPI) => {
+  async ({ router, move }, thunkAPI) => {
     const token: IToken = token2 || (thunkAPI.getState() as { auth: Auth }).auth.token;
     try {
-      return await userService.togglePairMode(router, token)
+      return await userService.togglePairMode(router, move, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }

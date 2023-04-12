@@ -19,6 +19,7 @@ app.use(express.json());
 
 // authentication 
 app.use('/auth', authRoutes);
+
 app.use("/private", usersRoutes, boardsRoutes, columnsRoutes, notesRoutes, reviewRoutes );
 
 

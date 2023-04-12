@@ -50,7 +50,6 @@ export const getSingleBoard: RequestHandler<{}, unknown, unknown, { id?: string 
 
 
 
-
 export const getAllPairBoard: RequestHandler<{}, unknown, unknown, { id?: string }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
     const userId = req.user?.id;
 
@@ -80,9 +79,6 @@ export const getAllPairBoard: RequestHandler<{}, unknown, unknown, { id?: string
 
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-
-
-
 // export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string, pairmode?: any }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
 //     const userId = req.user?.id
 //     const { title } = req.body
@@ -122,7 +118,6 @@ export const getAllPairBoard: RequestHandler<{}, unknown, unknown, { id?: string
 //         next(error);
 //     }
 // };
-
 
 
 export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string, pairmode?: any }> = async (req: AuthRequest, res: Response<unknown>, next: NextFunction) => {
@@ -213,6 +208,11 @@ export const deleteBoard: RequestHandler<{}, unknown, unknown, { id?: string }> 
 
         const deleteBoard = await BoardModel.findByIdAndDelete({ _id: boardId })
         await UserModel.updateOne({ _id: userId }, { $pull: { boards: boardId } });
+
+
+        if (req.user.pairmode.isActive) {
+            await UserModel.updateOne({ _id: req.user.pairmode.id }, { $pull: { boards: boardId } });
+        }
 
         res.status(200).json({ message: `${deleteBoard?.title} board deleted` });
 

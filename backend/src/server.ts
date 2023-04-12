@@ -1,7 +1,6 @@
 import "dotenv/config";
 import app from "./app";
 import mongoose from "mongoose";
-import cronjob from './utils/cronjob'
 
 const connectDB = async () => {
     // await mongoose.connect('mongodb://localhost:27017/noter', {
@@ -12,8 +11,6 @@ const connectDB = async () => {
 };
 
 connectDB();
-// cronjob()
-
 
 
 const PORT = process.env.PORT || 4000

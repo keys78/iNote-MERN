@@ -34,5 +34,5 @@ const BoardDetails = () => {
   )
 }
 
-// export default withAuth(BoardDetails)
-export default BoardDetails
+export default withAuth(BoardDetails)
+// export default BoardDetails

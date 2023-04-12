@@ -34,7 +34,7 @@ const AcceptParRequest = () => {
             <div>
               <h1> 404 | Page Not Found</h1>
               <div className='text-center pt-4'>
-                <Link href={'/auth/login'}><span className='border py-2 px-6 rounded-full bg-mainPurple text-white'>Login</span></Link>
+                <Link href={'/user/dashboard'}><span className='border py-2 px-6 rounded-full bg-mainPurple text-white'>Continue</span></Link>
               </div>
             </div>
           </div>

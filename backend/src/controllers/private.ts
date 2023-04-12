@@ -87,9 +87,6 @@ export const getUser: RequestHandler<{}, any, any, { id?: string, pairmode?: any
     }
 }
 
-  
-
-
 
 
 
@@ -167,7 +164,7 @@ export const sendPairInvite: RequestHandler<{}, any, any, { id?: string }> = asy
                 text: pairRequestMessage(pairUrl, currentUser, userToPair)
             });
 
-            res.status(200).json({ success: true, message: `Pair invitation sent to ${email}` });
+            res.status(200).json({ success: true, message: `Pair invitation sent to ${email}, your options would change when your request is accepted` });
         } catch (error) {
             currentUser.pairmode.id = undefined;
             currentUser.pairmode.token = undefined;
@@ -243,7 +240,7 @@ export const togglePairMode: RequestHandler<{}, any, any, { id?: string }> = asy
     await user.save();
 
     res.status(200).json({
-      message: `${user.pairmode.isActive ? 'Switched to pairmode' : 'Switched to personal'} successfully`,
+      message: `${user.pairmode.isActive ? 'Switched to pair mode' : 'Switched to personal'} successfully`,
     });
   } catch (error) {
     next(error);

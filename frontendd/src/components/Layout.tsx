@@ -22,7 +22,7 @@ const Layout = ({ children }: any) => {
   //   }
   // }, [dispatch, router, user?.boards?.length])
 
-  return user && (
+  return user ? (
     <section className='w-full'>
       {boardLoader && <Loader />}
       <Header />
@@ -35,20 +35,20 @@ const Layout = ({ children }: any) => {
       </div>
     </section>
   )
-  // : (
-  //   isLoading ? <LoadingScreen />
-  //     :
-  //     <>
-  //       <div className='flex items-center justify-center mt-14'>
-  //        <div style={{ marginBottom: '100px', textAlign: 'center'}}>
-  //        {message as string}
-  //        </div>
-  //         <div 
-  //         style={{ textAlign: 'center'}}
-  //         onClick={() => router.push('/')}>{'<='} Go Home</div>
-  //       </div>
-  //     </>
-  // );
+  : (
+    isLoading ? <LoadingScreen />
+      :
+      <>
+        <div className='flex items-center justify-center mt-14'>
+         <div style={{ marginBottom: '100px', textAlign: 'center'}}>
+         {message as string}
+         </div>
+          <div 
+          style={{ textAlign: 'center'}}
+          onClick={() => router.push('/')}>{'<='} Go Home</div>
+        </div>
+      </>
+  );
 
 
 }
