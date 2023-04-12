@@ -20,6 +20,7 @@ const SideBar = ({ isSidebar, setIsSidebar }: props): JSX.Element => {
 
     function logout() {
         localStorage.removeItem('authToken');
+        localStorage.removeItem('countdown_start');
         window.location.href = '/auth/login';
         setTimeout(() => {
             dispatch(resetUser());

@@ -28,6 +28,7 @@ const MobileMenu = ({ setShowMenu }: IProps) => {
 
     function logout() {
         localStorage.removeItem('authToken');
+        localStorage.removeItem('countdown_start');
         window.location.href = '/auth/login';
         setTimeout(() => {
             dispatch(resetUser());

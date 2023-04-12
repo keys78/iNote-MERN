@@ -21,14 +21,19 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { isSuccess, isLoading, token, message } = useAppSelector((state) => state.auth);
-    const user: any = useAppSelector((state) => state.user);
+    const { isSuccess, isLoading, isError, message, token } = useAppSelector((state) => state.auth);
+    const { user } = useAppSelector((state) => state.user);
+
+    const storedToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+    const token2 = storedToken ? JSON.parse(storedToken) : '';
 
 
     useEffect(() => {
-        if (token && token) { router.push('/user/dashboard') }
+        if (token2 || token) {
+            router.push('/user/dashboard')
+        }
         dispatch(reset())
-    }, [user, isSuccess, message, router, dispatch, token])
+    }, [user, isError, isSuccess, message, router, dispatch, token, token2])
 
 
     const LoginValidation = yup.object().shape({
@@ -138,7 +143,7 @@ const Login = () => {
                                         <span className='dark:bg-veryDarkGrey'>OR</span>
                                     </div>
 
-                                    <div onClick={() => alert('console not ready - try login') } className='flex items-center w-full justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
+                                    <div onClick={() => alert('console not ready - try login')} className='flex items-center w-full justify-center rounded-[5px] border border-[#635FC7] py-3 space-x-3 cursor-pointer'>
                                         <Google_logo />
                                         <span>Continue with Google</span>
                                     </div>
