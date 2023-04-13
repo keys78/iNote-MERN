@@ -48,7 +48,7 @@ const PairSystem = ({ setShowModal }: IProps) => {
                     >
                       {user?.username?.substring(0, 2)}
                     </div>
-                    {user?.pairmode?.isActive &&
+                    {!user?.pairmode?.isActive &&
                       <div
                         className='uppercase text-[12px] -ml-1 border-2 border-bg-lightGrey dark:text-white text-mainPurple px-1 py-2 rounded-full round-set'
                       >
