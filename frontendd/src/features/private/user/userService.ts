@@ -65,7 +65,7 @@ const unPairUser = async (router:any, move:boolean, token: IToken) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put( process.env.NEXT_PUBLIC_BASE_API_URL + `private/toggle-pairmode`, {}, config );
+  const response = await axios.put( process.env.NEXT_PUBLIC_BASE_API_URL + `private/unpair-user`, {}, config );
 
   if (response.status === 200 && move === true) {
     router.replace('/user/dashboard');
