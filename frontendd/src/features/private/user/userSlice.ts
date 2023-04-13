@@ -114,6 +114,19 @@ export const togglePairMode = createAsyncThunk<any, any>(
   }
 )
 
+// unpair user
+export const unPairUser = createAsyncThunk<any, any>(
+  'unpair-user',
+  async ({ router, move }, thunkAPI) => {
+    const token: IToken = token2 || (thunkAPI.getState() as { auth: Auth }).auth.token;
+    try {
+      return await userService.unPairUser(router, move, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
 
 
 export const privateSlice = createSlice({

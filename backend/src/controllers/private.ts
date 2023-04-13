@@ -7,6 +7,8 @@ import UserModel from "../models/user";
 import sendEmail from "../utils/sendEmail";
 import crypto from 'crypto'
 import pairRequestMessage from "../utils/pairRequestMessage";
+import BoardModel from '../../src/models/board'
+import NoteModel from '../../src/models/note'
 
 
 
@@ -15,6 +17,7 @@ interface AuthRequest extends Request {
         id: string;
         pairmode: {
             isActive: boolean;
+            id: string,
         }
     };
 }
@@ -192,7 +195,6 @@ export const acceptPairInvite: RequestHandler = async (req, res, next) => {
             'pairmode.tokenExpire': { $gt: new Date() },
         });
 
-        console.log('user', user)
 
         if (!user) {
             return res.status(400).json({ message: 'Invalid token or token expired' });
@@ -224,6 +226,60 @@ export const acceptPairInvite: RequestHandler = async (req, res, next) => {
         next(error);
     }
 };
+
+
+
+export const unPairUser: RequestHandler<{}, any, any, { id?: string }> = async (req: AuthRequest, res: Response<any>, next: NextFunction) => {
+    const { id: userId } = req.user;
+  
+    try {
+      const user = await UserModel.findById(userId);
+  
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+  
+      const pairUser = await UserModel.findById(req?.user?.pairmode?.id);
+  
+      if (!pairUser) {
+        return res.status(404).json({ message: 'Pair user not found' });
+      }
+  
+      const userBoards = await BoardModel.find({ userId: { $in: [user._id, pairUser._id] } });
+  
+      for (const board of userBoards) {
+        await NoteModel.deleteMany({ boardId: board._id });
+      }
+  
+      await BoardModel.deleteMany({ userId: { $in: [user._id, pairUser._id] } });
+  
+      user.pairmode.enabled = false;
+      user.pairmode.isActive = false;
+      user.pairmode.token = undefined;
+      user.pairmode.id = '';
+      user.pairmode.initials = '';
+  
+      pairUser.pairmode.enabled = false;
+      pairUser.pairmode.isActive = false;
+      pairUser.pairmode.token = undefined;
+      pairUser.pairmode.id = '';
+      pairUser.pairmode.initials = '';
+  
+      await user.save();
+      await pairUser.save();
+
+      await sendEmail({
+        to: pairUser.email,
+        subject: "Pair Disconnecct",
+        text: `<div> Hi ${pairUser?.username}, ${user?.username} has disconnected you from pairmode on their inote account.  </div>`
+    });
+  
+      res.status(200).json({ message: 'Pair mode deactivated successfully' });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
 
 

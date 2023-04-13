@@ -14,6 +14,8 @@ usersRouter.put('/accept-pair/:token/:id', PrivateController.acceptPairInvite);
 
 usersRouter.put('/toggle-pairmode', protect, PrivateController.togglePairMode);
 
+usersRouter.put('/unpair-user', protect, PrivateController.unPairUser);
+
 export default usersRouter;
 
 

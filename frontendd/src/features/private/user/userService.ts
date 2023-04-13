@@ -55,8 +55,21 @@ const togglePairMode = async (router:any, move:boolean, token: IToken) => {
   if (response.status === 200 && move === true) {
     router.replace('/user/dashboard');
   }
+  return response;
+};
 
+const unPairUser = async (router:any, move:boolean, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put( process.env.NEXT_PUBLIC_BASE_API_URL + `private/toggle-pairmode`, {}, config );
 
+  if (response.status === 200 && move === true) {
+    router.replace('/user/dashboard');
+  }
   return response;
 };
 
@@ -67,7 +80,8 @@ const userService = {
   getUser,
   changePassword,
   sendPairInvite,
-  togglePairMode
+  togglePairMode,
+  unPairUser
 }
 
 export default userService

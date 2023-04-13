@@ -6,7 +6,6 @@ import ChangePassword from './ChangePassword'
 import UserProfileModal from './UserProfileModal'
 import Image from 'next/image'
 import useOnClickOutside from '@/hooks/useOnClickOutside'
-import { useRouter } from 'next/router'
 import PairSystem from './Pair/PairSystem'
 
 const UserActions = () => {
@@ -28,7 +27,7 @@ const UserActions = () => {
                         {user?.username?.substring(0, 2)}
                     </div>
                     {user?.pairmode?.isActive &&
-                        <div className='name-tag-two bg-white text-mainPurple uppercase border-2 border-bg-lightGrey '>
+                        <div className='name-tag-two bg-white dark:bg-veryDarkGrey dark:text-white text-mainPurple uppercase border-2 dark:border-veryDarkGrey border-bg-lightGrey '>
                             {user?.pairmode?.initials?.substring(0, 2)}
                         </div>
                     }
