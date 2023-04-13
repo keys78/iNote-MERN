@@ -191,6 +191,21 @@ export const privateSlice = createSlice({
         state.isError = true
         state.message = action.payload || "Something went wrong";
       })
+      .addCase(unPairUser.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+      })
+      .addCase(unPairUser.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.isError = false
+      })
+      .addCase(unPairUser.rejected, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = false
+        state.isError = true
+        state.message = action.payload || "Something went wrong";
+      })
 
   },
 })
