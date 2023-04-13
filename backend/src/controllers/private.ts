@@ -7,8 +7,8 @@ import UserModel from "../models/user";
 import sendEmail from "../utils/sendEmail";
 import crypto from 'crypto'
 import pairRequestMessage from "../utils/pairRequestMessage";
-import BoardModel from '../../src/models/board'
-import NoteModel from '../../src/models/note'
+import BoardModel from '../models/board'
+import NoteModel from '../models/note'
 
 
 
