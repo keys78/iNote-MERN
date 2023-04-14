@@ -16,7 +16,7 @@ interface IProps {
 
 const AddNewTaskModal = ({ setShowModal }: IProps) => {
     const dispatch = useAppDispatch()
-    const { board, isSuccess } = useAppSelector((state) => state.board)
+    const { board } = useAppSelector((state) => state.board)
 
     const validate = Yup.object({
         title: Yup.string().required("required"),

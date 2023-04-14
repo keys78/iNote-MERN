@@ -79,7 +79,7 @@ const ReviewCard = () => {
                         className='max-w-[100%] review-card-slider h-[0px] '
                     >
                         {reviews?.map((val: any, i: number) =>
-                            <>
+                            <React.Fragment key={i}>
 
                                 <SplideSlide key={i}>
 
@@ -103,7 +103,7 @@ const ReviewCard = () => {
                                         <article>{val?.comment}</article>
                                     </div>
                                 </SplideSlide>
-                            </>
+                            </React.Fragment>
                         )}
                     </Splide>
                 </>

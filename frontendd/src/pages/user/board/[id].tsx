@@ -26,6 +26,7 @@ const BoardDetails = () => {
   }, [dispatch, router.query.id, user?.pairmode.isActive]);
   
   
+  
  
   return (
     <Layout>

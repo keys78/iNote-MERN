@@ -9,7 +9,6 @@ import usersRoutes from "./routes/private";
 import authRoutes from "./routes/auth";
 import reviewRoutes from "./routes/review";
 
-
 const app = express();
 app.use(cors());
 
