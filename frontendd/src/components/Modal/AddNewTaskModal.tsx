@@ -17,6 +17,7 @@ interface IProps {
 const AddNewTaskModal = ({ setShowModal }: IProps) => {
     const dispatch = useAppDispatch()
     const { board } = useAppSelector((state) => state.board)
+    const { user } = useAppSelector((state) => state.user)
 
     const validate = Yup.object({
         title: Yup.string().required("required"),
@@ -44,6 +45,7 @@ const AddNewTaskModal = ({ setShowModal }: IProps) => {
                         description: '',
                         status: '',
                         priority: '',
+                        createdBy:user?.username,
                         subTasks: [],
                     }}
 

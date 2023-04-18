@@ -15,6 +15,12 @@ const noteSchema = new Schema({
     description: { type: String, required: true },
     status: { type: String, required: true },
     priority: { type: String, required: true },
+    createdBy: {
+        type: String,
+        required: function () {
+            return this.pairmode && this.pairmode.isActive;
+        },
+    },
     subTasks: [subTaskSchema]
 }, { timestamps: true });
 

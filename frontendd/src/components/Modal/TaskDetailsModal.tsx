@@ -7,9 +7,10 @@ import React from 'react'
 import EditButton from '../shared/EditButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import SubTaskItem from './SubTaskItem';
-import { CircleWavyCheck } from 'phosphor-react'
+import { CircleWavyCheck, Clock } from 'phosphor-react'
 import PriorityDropdown from '../shared/PriorityDropdown'
 import { isEqual } from 'lodash'
+import moment from 'moment'
 
 interface IProps {
   item: any;
@@ -22,6 +23,7 @@ interface IProps {
 const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCompleted, priority }: IProps) => {
   const dispatch = useAppDispatch();
   const { board } = useAppSelector((state) => state.board)
+  const { user } = useAppSelector((state) => state.user)
 
   const arr = board?.notes?.map((val: any) => val.status)
 
@@ -58,7 +60,7 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
 
 
   return (
-    <div>
+    <div className='relative'>
       <div className="flex items-center justify-between gap-4 sm:mb-6 mb-4">
         <h1 className="sm:text-[18px]  text-16px font-bold">{item?.title}</h1>
         <EditButton setShowDetails={setShowDetails} task={item} type='' className={'-bottom-22 -left-44 border '} />
@@ -71,8 +73,11 @@ const TaskDetailsModal = ({ item, setShowDetails, subtaskLength, isAllSubtasksCo
         <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val.isCompleted).length} of {item.subTasks.length} subtasks</p>
         {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
         {priority}
+        <div className='flex items-center italic font-bold text-[12px] text-mediumGrey'>
+          <Clock />&nbsp;{moment(item?.createdAt).startOf('seconds').fromNow()}
+        </div>
       </div>
-
+     
 
       {
         item?.subTasks?.map((subtask: any, i: number) => {

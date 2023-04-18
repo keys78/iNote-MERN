@@ -2,7 +2,7 @@ import Modal from '../Modal'
 import TaskDetailsModal from '../Modal/TaskDetailsModal'
 import React, { useEffect, useState } from 'react'
 import EmptyBoard from './EmptyBoard'
-import { CircleWavyCheck } from 'phosphor-react'
+import { CircleWavyCheck, Clock } from 'phosphor-react'
 import { priorityArr } from '@/utils/data'
 import { useAppDispatch, useAppSelector } from '@/network/hooks'
 import NoBoard from './NoBoard'
@@ -10,6 +10,7 @@ import { getUser } from '@/features/private/user/userSlice'
 import { useRouter } from 'next/router'
 import DashBoardStats from '../DashBoardStats'
 import { motion } from 'framer-motion'
+import moment from 'moment'
 
 
 interface IProps {
@@ -92,12 +93,19 @@ const Task = ({ task }: IProps) => {
                         animate={{ opacity: 1, translateX: 0 }}
                         transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96], delay: i * 0.1 }}
                         onClick={() => setShowDetails({ ...showDetails, [item._id]: true })}
-                        className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
+                        className='group select-none shadow-main relative px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
+                        {user?.pairmode?.isActive && item?.createdBy &&
+                            <div className={`${item?.createdBy?.substring(0, 2) === user?.pairmode?.initials?.substring(0, 2) ? 'bg-white text-mainPurple uppercase absolute -top-2 rounded-full text-[12px] p-1 border border-mainPurple' : 'uppercase absolute -top-2 bg-mainPurple text-white rounded-full text-[12px] p-1'}`}>
+                                {item?.createdBy?.substring(0, 2)}
+                            </div>}
                         <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
                         <div className='flex items-center space-x-3'>
-                            <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val.isCompleted).length} of {item.subTasks.length} subtasks</p>
+                            <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val?.isCompleted).length} of {item?.subTasks.length} subtasks</p>
                             {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
                             {priorityComponents(item)}
+                        </div>
+                        <div className='flex items-center italic font-bold text-[12px] text-mediumGrey absolute bottom-4 right-4'>
+                            <Clock />&nbsp;{moment(item?.createdAt).startOf('seconds').fromNow()}
                         </div>
                     </motion.li>
                     <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
@@ -112,9 +120,13 @@ const Task = ({ task }: IProps) => {
                     <span className="inline-block h-3 w-3 rounded-full mr-3"></span>
                     {key} ({items?.length})
                 </h3>
-                <ul className="scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll h-full pb-12 flex flex-col gap-5">
+                {/* <ul className={`${user?.pairmode?.isActive && 'pt-3'}scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll h-full pb-12 flex flex-col gap-5`}>
+                    {items}
+                </ul> */}
+                <ul className={`scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll h-full pb-12 flex flex-col gap-5 ${user?.pairmode?.isActive && 'pt-3'}`}>
                     {items}
                 </ul>
+
             </div>
         );
     });

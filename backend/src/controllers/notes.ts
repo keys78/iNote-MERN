@@ -41,12 +41,13 @@ interface CreateNoteBody {
     description: string;
     status: string,
     priority: string,
-    subTasks?: { description: string }[];
+    createdBy: string,
+    subTasks?: { description: string }[],
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (req, res, next) => {
-    const { title, description, status, priority, subTasks } = req.body;
+    const { title, description, status, priority, subTasks, createdBy } = req.body;
 
     try {
         if (!title) {
@@ -62,7 +63,9 @@ export const createNote: RequestHandler<any, any, CreateNoteBody, any> = async (
             status: status,
             priority:priority,
             boardId: req?.params.boardId,
+            createdBy: createdBy,
             subTasks: subTasks || []
+            
         });
 
         await BoardModel.updateOne({ _id: newNote.boardId }, { $push: { notes: newNote._id } });
