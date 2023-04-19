@@ -43,10 +43,10 @@ const boardSchema = new Schema({
     notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
   });
   
-  boardSchema.pre('save', function (next) {
-    this.title = _.capitalize(this.title);
-    next();
-  });
+  // boardSchema.pre('save', function (next) {
+  //   this.title = _.capitalize(this.title);
+  //   next();
+  // });
   
 
 type Board = InferSchemaType<typeof boardSchema>;

@@ -77,7 +77,7 @@ const Header = () => {
               <div className='flex pl-[16px] w-full' >
                 <Image src="/assets/logo-mobile.svg" onClick={() => router.push('/user/dashboard')} alt="kanban logo" height={25} width={24} />
                 <button onClick={() => setShowMenu(!showMenu)} className="flex justify-center items-center">
-                  <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C capitalize whitespace-nowrap">{boardTitle()}</h2>
+                  <h2 className="ml-3 mr-2 font-semibold text-[16px] text-#20212C whitespace-nowrap">{boardTitle()}</h2>
                   {showMenu ? (
                     <Image alt='chevron-up' src={'/assets/icon-chevron-up.svg'} width="0" height="0" className="w-[13px] h-auto" />
                   ) : (
@@ -93,7 +93,7 @@ const Header = () => {
         </AnimatePresence>
 
         <div className='flex items-center justify-between w-[100%] sm:px-6 px-3'>
-          {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C capitalize'>{boardTitle()}</h1> : <span>&nbsp;</span>}
+          {width > 768 ? <h1 className='font-semibold text-[18px] text-#20212C'>{boardTitle()}</h1> : <span>&nbsp;</span>}
 
           <div className='flex items-center space-x-4'>
             <ArrowClockwise className={`${isClicked && 'refresh-app'} cursor-pointer`} onClick={refreshPage} size={32} color="#635FC7" weight="fill" />

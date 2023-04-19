@@ -7,6 +7,7 @@ import Task from '@/components/Board/Task'
 import { getBoard, resetBoard } from '@/features/private/boards/boardSlice'
 import { useRouter } from 'next/router'
 import { useActive } from '@/hooks/useActive'
+import DashBoardStats from '@/components/DashBoardStats'
 
 
 const Dashboard = () => {
@@ -69,7 +70,8 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <Task task={board?.notes} />
+      {/* <Task task={board?.notes} /> */}
+      <DashBoardStats />
     </Layout>
   )
 }

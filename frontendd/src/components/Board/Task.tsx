@@ -59,15 +59,15 @@ const Task = ({ task }: IProps) => {
         item?.priority === p.name && <span key={p.name}>{p.icon}</span>
     ));
 
-    const DashBoardStat = () => {
-        const query = router.query.id;
-        const board = user?.boards?.find((board: any) => board._id === query);
+    // const DashBoardStat = () => {
+    //     const query = router.query.id;
+    //     const board = user?.boards?.find((board: any) => board._id === query);
 
-        if (user?.boards.length !== 0 && !board) {
-            return <DashBoardStats />;
-        }
+    //     if (user?.boards.length !== 0 && !board) {
+    //         return <DashBoardStats />;
+    //     }
 
-    }
+    // }
     const EmptyBoardy = () => {
         const query = router.query.id;
         const board = user?.boards?.find((board: any) => board._id === query);
@@ -120,9 +120,6 @@ const Task = ({ task }: IProps) => {
                     <span className="inline-block h-3 w-3 rounded-full mr-3"></span>
                     {key} ({items?.length})
                 </h3>
-                {/* <ul className={`${user?.pairmode?.isActive && 'pt-3'}scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll h-full pb-12 flex flex-col gap-5`}>
-                    {items}
-                </ul> */}
                 <ul className={`scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll h-full pb-12 flex flex-col gap-5 ${user?.pairmode?.isActive && 'pt-3'}`}>
                     {items}
                 </ul>
@@ -144,7 +141,7 @@ const Task = ({ task }: IProps) => {
                 <>
                     {user?.boards.length <= 0 && <NoBoard />}
                     {user?.boards.length > 0 && EmptyBoardy()}
-                    {user?.boards.length > 0 && DashBoardStat()}
+                    {/* {user?.boards.length > 0 && DashBoardStat()} */}
                 </>
             }
         </>
