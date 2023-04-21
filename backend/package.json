@@ -41,6 +41,8 @@
     "morgan": "^1.10.0",
     "node-cron": "^3.0.2",
     "nodemailer": "^6.9.1",
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.21",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
   }
 }

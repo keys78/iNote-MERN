@@ -8,6 +8,8 @@ import boardsRoutes from "./routes/boards";
 import usersRoutes from "./routes/private";
 import authRoutes from "./routes/auth";
 import reviewRoutes from "./routes/review";
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc, { Options } from 'swagger-jsdoc';
 
 const app = express();
 app.use(cors());
@@ -19,7 +21,47 @@ app.use(express.json());
 // authentication 
 app.use('/auth', authRoutes);
 
-app.use("/private", usersRoutes, boardsRoutes, columnsRoutes, notesRoutes, reviewRoutes );
+app.use("/private", usersRoutes, boardsRoutes, columnsRoutes, notesRoutes, reviewRoutes);
+
+app.get("/", (req, res) =>
+    res.json({ success: true, message: "inote api is running!" })
+);
+
+
+const options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "iNote Pro API",
+            version: "1.0.0",
+            description: "Test/Production API for inote pro",
+        },
+        servers: [
+            { url: "http://localhost:4000" },
+            { url: "https://inote-be-api.onrender.com/", }
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                }
+            }
+        },
+        security: [{
+            bearerAuth: []
+        }]
+    },
+    apis: ["src/swagger/*.ts"],
+};
+
+
+// Generate Swagger documentation
+const specs = swaggerJsDoc(options);
+
+// Serve Swagger documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 
 app.use((req, res, next) => {

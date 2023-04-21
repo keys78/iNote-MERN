@@ -138,7 +138,7 @@ const Signup = () => {
                       type='submit'
                       className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                     >
-                      Sign in
+                      Sign up
                     </button>
                   </div>
 

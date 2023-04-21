@@ -3,8 +3,8 @@ import app from "./app";
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-    // await mongoose.connect('mongodb://localhost:27017/noter', {
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect('mongodb://localhost:27017/noter', {
+    // await mongoose.connect(process.env.MONGO_URI, {
     });
 
     console.log('MongoDB connected')
