@@ -51,7 +51,36 @@ const options = {
         },
         security: [{
             bearerAuth: []
-        }]
+        }],
+        "tags": [
+            {
+                "name": "Authentication",
+                "x-tagGroups": [
+                    {
+                        "key": "auth",
+                        "order": 1
+                    }
+                ]
+            },
+            {
+                "name": "User",
+                "x-tagGroups": [
+                    {
+                        "key": "user",
+                        "order": 2
+                    }
+                ]
+            },
+            {
+                "name": "Boards",
+                "x-tagGroups": [
+                    {
+                        "key": "boards",
+                        "order": 3
+                    }
+                ]
+            }
+        ],
     },
     apis: ["src/swagger/*.ts"],
 };
