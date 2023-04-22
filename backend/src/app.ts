@@ -79,6 +79,24 @@ const options = {
                         "order": 3
                     }
                 ]
+            },
+            {
+                "name": "Reviews",
+                "x-tagGroups": [
+                    {
+                        "key": "reviews",
+                        "order": 4
+                    }
+                ]
+            },
+            {
+                "name": "Notes",
+                "x-tagGroups": [
+                    {
+                        "key": "notes",
+                        "order": 5
+                    }
+                ]
             }
         ],
     },
