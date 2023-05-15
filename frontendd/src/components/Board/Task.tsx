@@ -88,26 +88,30 @@ const Task = ({ task }: IProps) => {
 
             return (
                 <React.Fragment key={item._id}>
+                    <div className='relative update-space'>
                     <motion.li
                         initial={{ opacity: 0, translateX: -50 }}
                         animate={{ opacity: 1, translateX: 0 }}
                         transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96], delay: i * 0.1 }}
                         onClick={() => setShowDetails({ ...showDetails, [item._id]: true })}
-                        className='group select-none shadow-main relative px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
+                        className='group select-none shadow-main px-4 py-6 rounded-lg cursor-pointer bg-white text-black dark:bg-darkGrey dark:text-white'>
                         {user?.pairmode?.isActive && item?.createdBy &&
                             <div className={`${item?.createdBy?.substring(0, 2) === user?.pairmode?.initials?.substring(0, 2) ? 'bg-white text-mainPurple uppercase absolute -top-2 rounded-full text-[12px] p-1 border border-mainPurple' : 'uppercase absolute -top-2 bg-mainPurple text-white rounded-full text-[12px] p-1'}`}>
                                 {item?.createdBy?.substring(0, 2)}
                             </div>}
-                        <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
-                        <div className='flex items-center space-x-3'>
-                            <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val?.isCompleted).length} of {item?.subTasks.length} subtasks</p>
-                            {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
-                            {priorityComponents(item)}
-                        </div>
-                        <div className='flex items-center italic font-bold text-[12px] text-mediumGrey absolute bottom-4 right-4'>
-                            <Clock />&nbsp;{moment(item?.createdAt).startOf('seconds').fromNow()}
-                        </div>
+                        
+                            <h4 className="font-bold text-[15px] mb-2 group-hover:text-mainPurple">{item.title}</h4>
+                            <div className='flex items-center space-x-3'>
+                                <p className="font-bold text-[12px] text-mediumGrey"> {item.subTasks.filter((val: any) => val?.isCompleted).length} of {item?.subTasks.length} subtasks</p>
+                                {isAllSubtasksCompleted && subtaskLength !== 0 && <CircleWavyCheck size={20} color="#635FC7" weight="thin" />}
+                                {priorityComponents(item)}
+                            </div>
+                            <div className='flex items-center italic font-bold text-[12px] text-mediumGrey absolute bottom-4 right-4'>
+                                <Clock />&nbsp;{moment(item?.createdAt).startOf('seconds').fromNow()}
+                            </div>
+                       
                     </motion.li>
+                    </div>
                     <Modal showModal={showModal} setShowModal={(value) => setShowDetails({ ...showDetails, [item._id]: value })}>
                         <TaskDetailsModal item={item} setShowDetails={setShowDetails} priority={priorityComponents(item)} isAllSubtasksCompleted={isAllSubtasksCompleted} subtaskLength={subtaskLength} />
                     </Modal>
@@ -141,7 +145,6 @@ const Task = ({ task }: IProps) => {
                 <>
                     {user?.boards.length <= 0 && <NoBoard />}
                     {user?.boards.length > 0 && EmptyBoardy()}
-                    {/* {user?.boards.length > 0 && DashBoardStat()} */}
                 </>
             }
         </>

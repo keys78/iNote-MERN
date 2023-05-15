@@ -70,7 +70,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif !important; transition: all 
 .divide { margin: 20px 0;}
 .divide > hr { margin-bottom: -12px;}
 .divide > span { background: #fff; padding:0 20px;}
-.fix-marg { margin-top: 0 !important; margin-left: 0 !important;}
+.fix-marg { margin-top: 0 !important; margin-left: 0 !important; }
+.update-space { z-index: 0 !important; }
+.updatex { z-index: 99999999 !important; }
 
 
 .review-card { background: #ffffff; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; border-radius: 8px; margin-left: 20px !important; max-width: 360px; min-width: 360px; min-height: 200px; width: 100%; cursor: pointer; padding: 16px; }
