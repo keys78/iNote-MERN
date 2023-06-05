@@ -51,7 +51,7 @@ const Signup = () => {
 
   return (
     <section className="max-w-[100%] min-h-[100vh] w-full mx-auto dark:bg-veryDarkGrey">
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <div className='max-w-[400px] mx-auto py-12'>
         <div className='mx-[16px]'>
           <Logo />
@@ -138,7 +138,7 @@ const Signup = () => {
                       type='submit'
                       className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                     >
-                      Sign up
+                      {isLoading ? 'Processing...' : 'Sign up'}
                     </button>
                   </div>
 

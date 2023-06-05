@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
     return (
         <section className="max-w-[400px] w-full mx-auto my-16">
-            {isLoading && <Loader />}
+            {/* {isLoading && <Loader />} */}
             <div className='mx-[16px]'>
                 <Logo />
                 <h1 className='pt-6 pb-1 font-bold sm:text-[24px] text-[18px] text-center'>Reset your password</h1>
@@ -77,7 +77,7 @@ const ForgotPassword = () => {
                                         className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                                         disabled={buttonDisabled}
                                     >
-                                        Continue
+                                        {isLoading ? 'Processing...' : 'Continue'}
                                     </button>
                                 </div>
 

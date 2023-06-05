@@ -73,7 +73,7 @@ const Login = () => {
                         ) => {
                             const data = { ...values, };
                             console.log(data)
-                            dispatch(resetPassword({resetPasswordData: data, resetToken:router.query.resetToken })) 
+                            dispatch(resetPassword({ resetPasswordData: data, resetToken: router.query.resetToken }))
                             resetForm();
                         }}
                     >
@@ -124,7 +124,7 @@ const Login = () => {
                                         type='submit'
                                         className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                                     >
-                                        Confirm Password Reset
+                                        {isLoading ? 'Processing...' : 'Confirm Password Reset'}
                                     </button>
                                 </div>
 
