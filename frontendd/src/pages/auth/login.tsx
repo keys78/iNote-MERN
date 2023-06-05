@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react'
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
@@ -126,10 +128,11 @@ const Login = () => {
                                     <br />
                                     <div className="my-2 lg:block flex justify-center items-center">
                                         <button
+                                            disabled={isLoading}
                                             type='submit'
                                             className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
                                         >
-                                            {isLoading ? 'Processing...' : 'Log in'}
+                                            {!isLoading ? 'Log in' : <img className='h-[24px] w-[24px] mx-auto' src='/assets/loading_gif2.gif'/>}
                                         </button>
                                     </div>
 
