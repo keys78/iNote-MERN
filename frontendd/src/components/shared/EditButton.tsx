@@ -5,6 +5,7 @@ import DeleteWarningModal from '../Modal/DeleteWarningModal';
 import UpdateBoardModal from '../Modal/UpdateBoardModal';
 import UpdateTaskModal from '../Modal/UpdateTaskModal';
 import useOnClickOutside from './../../hooks/useOnClickOutside'
+import TransferTaskModal from '../Modal/TransferTaskModal';
 // import { Task } from '@src/types';
 
 
@@ -19,6 +20,7 @@ const EditButton = ({ type, task, setShowDetails, className }: editButtonProps) 
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showUpdateBoardModal, setShowUpdateBoardModal] = useState<boolean>(false);
   const [showDeleteBoardModal, setShowDeleteBoardModal] = useState<boolean>(false);
+  const [showTransferTaskModal, setShowTransferTaskModal] = useState<boolean>(false);
 
   const menuRef = useRef(null)
 
@@ -54,8 +56,8 @@ const EditButton = ({ type, task, setShowDetails, className }: editButtonProps) 
                 <DeleteWarningModal setShowDetails={setShowDetails} currentTask={task} type='Board' setShowMenu={setShowMenu} setShowDeleteBoardModal={setShowDeleteBoardModal} />
               </Modal>
             </>
-          </div> 
-          
+          </div>
+
           :
 
           // tasks CTA Modals
@@ -70,6 +72,15 @@ const EditButton = ({ type, task, setShowDetails, className }: editButtonProps) 
               </button>
               <Modal showModal={showUpdateBoardModal} setShowModal={() => setShowUpdateBoardModal(!showUpdateBoardModal)}>
                 <UpdateTaskModal task={task} setShowUpdateBoardModal={setShowUpdateBoardModal} setShowMenu={setShowMenu} />
+              </Modal>
+              <button
+                className="text-mediumGrey text-[13px]"
+                onClick={() => setShowTransferTaskModal(!showTransferTaskModal)}
+              >
+                Transfer Task
+              </button>
+              <Modal showModal={showTransferTaskModal} setShowModal={setShowTransferTaskModal}>
+                <TransferTaskModal currentTask={task} setShowTransferTaskModal={setShowTransferTaskModal} />
               </Modal>
               <button
                 className="text-mainRed  text-[13px]"

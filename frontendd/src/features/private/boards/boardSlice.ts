@@ -48,7 +48,7 @@ export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined
       return await boardService.getBoard(id, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
-      if(error.response && error.response.status === 404) {
+      if (error.response && error.response.status === 404) {
         window.location.href = "/user/dashboard"
       }
     }
@@ -60,7 +60,7 @@ export const getBoard = createAsyncThunk<{}, { id: string | string[] | undefined
 // create board
 export const createNewBoard = createAsyncThunk<{}, any>(
   'create-board',
-  async ({boardData, router}, thunkAPI) => {
+  async ({ boardData, router }, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
       return await boardService.createNewBoard(boardData, token, router)
@@ -88,7 +88,7 @@ export const editBoard = createAsyncThunk<{}, any>(
 // delete board
 export const deleteBoard = createAsyncThunk<any, any>(
   'delete-board',
-  async ({id, router, user}, thunkAPI) => {
+  async ({ id, router, user }, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
       await boardService.deleteBoard(id, token, router, user);
@@ -129,13 +129,26 @@ export const editTask = createAsyncThunk<{}, any>(
 )
 
 
-// add task
+// delete task
 export const deleteTask = createAsyncThunk<any, any>(
   'delete-task',
   async ({ boardId, noteId }, thunkAPI) => {
     const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
     try {
       return await boardService.deleteTask(boardId, noteId, token)
+    } catch (error: any) {
+      errorHandler(error, thunkAPI)
+    }
+  }
+)
+
+// transfer task
+export const transferTask = createAsyncThunk<any, any>(
+  'transfer-task',
+  async ({ noteId, boardId }, thunkAPI) => {
+    const token: IToken = (thunkAPI.getState() as { auth: Auth }).auth.token || token2;
+    try {
+      return await boardService.transferTask(noteId, boardId, token)
     } catch (error: any) {
       errorHandler(error, thunkAPI)
     }
@@ -245,6 +258,20 @@ export const privateSlice = createSlice({
         state.message = action?.payload?.message || 'task deleted'
       })
       .addCase(deleteTask.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload || 'unable to delete task'
+      })
+      .addCase(transferTask.pending, (state) => {
+        state.isLoading = true
+      })
+
+      .addCase(transferTask.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action?.payload?.message || 'task deleted'
+      })
+      .addCase(transferTask.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload || 'unable to delete task'

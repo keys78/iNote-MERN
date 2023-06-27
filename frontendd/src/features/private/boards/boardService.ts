@@ -107,6 +107,19 @@ const deleteTask = async (boardId: any, noteId: any, token: IToken) => {
   return data
 }
 
+// delete Task
+const transferTask = async (noteId: any, boardId: any, token: IToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const { data } = await axios.patch(process.env.NEXT_PUBLIC_BASE_API_URL + `private/push-note-to-board/${noteId}/${boardId}`, {}, config)
+  toast.success(data?.message, toastOptions);
+  return data
+}
+
 
 
 
@@ -118,7 +131,8 @@ const userService = {
 
   addTask,
   editTask,
-  deleteTask
+  deleteTask,
+  transferTask
 
 }
 export default userService

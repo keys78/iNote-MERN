@@ -155,3 +155,64 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
         next(error);
     }
 };
+
+
+export const pushNoteToBoard: RequestHandler = async (req, res, next) => {
+    const noteId = req.params.noteId;
+    const newBoardId = req.params.newBoardId;
+  
+    try {
+      if (!mongoose.isValidObjectId(noteId)) {
+        throw createHttpError(400, "Invalid note id");
+      }
+  
+      if (!mongoose.isValidObjectId(newBoardId)) {
+        throw createHttpError(400, "Invalid new board id");
+      }
+  
+      const note = await NoteModel.findById(noteId).exec();
+  
+      if (!note) {
+        throw createHttpError(404, "Note not found");
+      }
+  
+      const oldBoardId: mongoose.Types.ObjectId = note.boardId;
+  
+      if (oldBoardId.equals(newBoardId)) {
+        throw createHttpError(400, "Note is already on the new board");
+      }
+  
+      const newBoard = await BoardModel.findById(newBoardId).exec();
+  
+      if (!newBoard) {
+        throw createHttpError(404, "New board not found");
+      }
+  
+      const updatedNote = await NoteModel.findByIdAndUpdate(
+        noteId,
+        { ...note.toObject(), boardId: newBoardId },
+        { new: true }
+      ).exec();
+  
+      await BoardModel.updateOne(
+        { _id: newBoardId },
+        { $push: { notes: noteId } }
+      );
+  
+      await BoardModel.updateOne(
+        { _id: oldBoardId },
+        { $pull: { notes: noteId } }
+      );
+  
+      res.status(200).json({
+        message: `Note transffered to "${newBoard.title}" successfully`,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+
+  
+
+//   http://localhost:4000/push-note-to-board/646b0cdfc2c514ecef48da43/647da58d5f3be5d39f930830
