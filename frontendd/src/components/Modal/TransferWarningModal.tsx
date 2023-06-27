@@ -1,5 +1,6 @@
 import {  getBoard, transferTask } from '@/features/private/boards/boardSlice'
-import { useAppDispatch, useAppSelector } from '../../network/hooks'
+import { useAppDispatch } from '../../network/hooks'
+import { useRouter } from 'next/router'
 
 
 interface deleteWarningProps {
@@ -10,13 +11,16 @@ interface deleteWarningProps {
 }
 
 const TransferWarningModal = ({ setShowTransferModal, currentTask, currentBoard, setShowWarning}: deleteWarningProps) => {
-    const { board } = useAppSelector((state) => state.board);
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const query = router.query.id;
 
 
     const TransferTaskAction = () => {
         dispatch(transferTask({ noteId: currentTask?._id, boardId: currentBoard?._id }))
-        dispatch(getBoard({ id: board?._id }))
+        setTimeout(() =>{
+            dispatch(getBoard({id:query}))
+        }, 2000)
         setShowTransferModal(false)
     }
 

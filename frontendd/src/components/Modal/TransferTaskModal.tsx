@@ -30,7 +30,7 @@ const TransferTaskModal = ({ setShowTransferTaskModal, currentTask }: props) => 
                     fill="currentColor"
                 />
             </svg>
-            {characterLimit(val?.title, 30)}
+            to: {characterLimit(val?.title, 30)}
         </div>
     ));
 
