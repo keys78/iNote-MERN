@@ -7,9 +7,11 @@ import UserProfileModal from './UserProfileModal'
 import Image from 'next/image'
 import useOnClickOutside from '@/hooks/useOnClickOutside'
 import PairSystem from './Pair/PairSystem'
+import { useRouter } from 'next/router'
 
 const UserActions = () => {
     const { user } = useAppSelector(state => state.user)
+    const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false)
     const [isUser, setIsUser] = useState<boolean>(false)
     const [isRating, setIsRating] = useState<boolean>(false)
@@ -38,7 +40,8 @@ const UserActions = () => {
                 {showModal &&
                     <div ref={modalRef} className='rounded-[6px]  border z-10 border-lightGreyLine dark:border-darkGreyLine shadow-sm absolute right-0 top-14 bg-white dark:bg-darkGrey dark:text-whitedark:bg-darkGrey dark:text-white w-[300px]'>
                         <ul>
-                            <PairSystem setShowModal={setShowModal}/>
+                            <li onClick={() => { router.push('/user/dashboard'); setShowModal(false) }} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Dashboard</li>
+                            <PairSystem setShowModal={setShowModal} />
                             <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Profile</li>
                             <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Change Password</li>
                             <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Rate App</li>

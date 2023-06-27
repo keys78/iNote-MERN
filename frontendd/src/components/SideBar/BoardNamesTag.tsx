@@ -32,7 +32,9 @@ const BoardNamesTag = () => {
     return (
         <div>
             <div className='font-bold text-sm text-mediumGrey tracking-widest pl-6 pt-7 pb-8 uppercase'>all boards ({user ? user?.boards?.length : 0})</div>
-            <div>{boardNameTag}</div>
+            <div className='h-[300px] scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll mb-2'>
+                {boardNameTag}
+                </div>
             <CreateNewBoardCTA />
         </div>
     )
