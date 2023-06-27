@@ -4,11 +4,9 @@ import React, { useEffect, useState } from 'react'
 import EmptyBoard from './EmptyBoard'
 import { CircleWavyCheck, Clock } from 'phosphor-react'
 import { priorityArr } from '@/utils/data'
-import { useAppDispatch, useAppSelector } from '@/network/hooks'
+import { useAppSelector } from '@/network/hooks'
 import NoBoard from './NoBoard'
-import { getUser } from '@/features/private/user/userSlice'
 import { useRouter } from 'next/router'
-import DashBoardStats from '../DashBoardStats'
 import { motion } from 'framer-motion'
 import moment from 'moment'
 
@@ -21,53 +19,74 @@ const Task = ({ task }: IProps) => {
     const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>({});
     const { user }: any = useAppSelector((state) => state.user);
     const router = useRouter();
-    const dispatch = useAppDispatch()
 
-    // useEffect(() => {
-    //     dispatch(getUser())
-    // }, [dispatch])
 
+    // const getGroupName = (status: any) => {
+    //     switch (status) {
+    //         case status:
+    //             return status;
+    //         default:
+    //             break;
+    //     }
+    // };
+
+
+    // const allTasks = task?.map((el: any) => {
+    //     return {
+    //         ...el,
+    //         groupName: getGroupName(el.status)
+    //     }
+    // })
+
+    // const groupByName = allTasks && allTasks.reduce((acc: any, obj: any) => {
+    //     const key = obj.groupName;
+    //     if (!acc[key]) {
+    //         acc[key] = [];
+    //     }
+    //     acc[key].push(obj);
+    //     return acc;
+    // }, {});
 
 
     const getGroupName = (status: any) => {
         switch (status) {
-            case status:
-                return status;
-            default:
-                break;
+          case status:
+            return status;
+          default:
+            break;
         }
-    };
-
-
-    const remed = task?.map((el: any) => {
+      };
+      
+      const allTasks = task?.map((el: any) => {
         return {
-            ...el,
-            groupName: getGroupName(el.status)
-        }
-    })
-
-    const groupByName = remed && remed.reduce((acc: any, obj: any) => {
+          ...el,
+          groupName: getGroupName(el.status),
+        };
+      });
+      
+      const groupByName = allTasks?.reduce((acc: any, obj: any) => {
         const key = obj.groupName;
         if (!acc[key]) {
-            acc[key] = [];
+          acc[key] = [];
         }
         acc[key].push(obj);
         return acc;
-    }, {});
+      }, {});
+      
+      // Modify groupByName to ensure the group names are in order
+      const sortedGroupByName: any = {};
+      if (groupByName) {
+        const keys = Object.keys(groupByName).sort();
+        keys.forEach((key, index) => {
+          sortedGroupByName[key] = groupByName[key];
+          sortedGroupByName[key].position = index + 1;
+        });
+      }
 
     const priorityComponents = (item: any) => priorityArr.map(p => (
         item?.priority === p.name && <span key={p.name}>{p.icon}</span>
     ));
 
-    // const DashBoardStat = () => {
-    //     const query = router.query.id;
-    //     const board = user?.boards?.find((board: any) => board._id === query);
-
-    //     if (user?.boards.length !== 0 && !board) {
-    //         return <DashBoardStats />;
-    //     }
-
-    // }
     const EmptyBoardy = () => {
         const query = router.query.id;
         const board = user?.boards?.find((board: any) => board._id === query);
