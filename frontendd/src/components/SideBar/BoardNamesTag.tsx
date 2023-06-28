@@ -48,7 +48,7 @@ const BoardNamesTag = () => {
             <div className='h-[300px] scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll mb-2'>
                 {boardNameTag}
                 {filteredSearch && filteredSearch.length === 0 && (
-                    <p className='text-xs py-8 text-center font-thin opacity-80'>No boards found with <br /> the provided search term.</p>
+                    <p className='text-xs py-8 text-center font-thin opacity-80'>No boards found</p>
                 )}
 
             </div>
