@@ -38,7 +38,7 @@ const PairSystem = ({ setShowModal }: IProps) => {
           {!router.pathname.includes('pair') && (
             <>
               <div
-                className='flex items-center justify-between space-x-3 py-2 px-3 border-b border-lightGreyLine dark:border-darkGreyLine text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey w-full text-left'
+                className='flex items-center justify-between space-x-3 py-2 px-3  dark:border-darkGreyLine text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey w-full text-left'
               >
                 <div className='flex items-center space-x-3'>
                   <span>{user?.pairmode?.isActive ? 'Switch to Personal' : 'Switch to Pair Mode'}</span>

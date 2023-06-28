@@ -141,10 +141,10 @@ export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string, pa
         }
 
         const newBoard = await BoardModel.create(boardData);
-        await UserModel.updateOne({ _id: newBoard.userId }, { $push: { boards: newBoard._id } });
+        await UserModel.updateOne({ _id: newBoard.userId }, { $push: { boards: { $each: [newBoard._id], $position: 0 } } });
 
         if (newBoard.pairId) {
-            await UserModel.updateOne({ _id: newBoard.pairId }, { $push: { boards: newBoard._id } });
+            await UserModel.updateOne({ _id: newBoard.pairId }, { $push: { boards: { $each: [newBoard._id], $position: 0 } } });
         }
 
         return res.status(201).json(newBoard);
@@ -152,6 +152,7 @@ export const createBoard: RequestHandler<{}, unknown, unknown, { id?: string, pa
         next(error);
     }
 };
+
 
 
 

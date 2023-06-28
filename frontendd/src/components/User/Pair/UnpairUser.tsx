@@ -14,7 +14,7 @@ const UnpairUser = () => {
 
 
     return (
-        <div>
+        <div className='border-b border-lightGreyLine dark:border-darkGreyLine'>
             <article onClick={() => setIsModal(!isModal)} className='flex items-center justify-between py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>
                 <span>Unpair from {characterLimit(user?.pairmode?.initials, 14)}</span>
                 <LinkBreak size={26} color="#635FC7" weight="fill" />

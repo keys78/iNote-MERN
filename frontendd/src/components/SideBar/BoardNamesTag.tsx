@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CreateNewBoardCTA from './CreateNewBoardCTA'
 import { useAppSelector } from '../../network/hooks'
 import { useRouter } from 'next/router'
 import { characterLimit } from '@/utils/general'
+import { MagnifyingGlass } from 'phosphor-react'
+import Search from '../shared/Search'
 
 
 
 const BoardNamesTag = () => {
     const { user } = useAppSelector(state => state.user)
     const router = useRouter();
+    const [filteredSearch, setFilteredSearch] = useState(user?.boards)
 
 
-    const boardNameTag = user?.boards?.map((val: any, i: any) => (
+   
+
+
+
+
+
+
+    const boardNameTag = filteredSearch?.map((val: any, i: any) => (
         <div
             key={i}
             className={`py-3 text-mediumGrey flex items-center rounded-r-3xl mr-6 text-base font-bold gap-3 pl-6 -ml-1 cursor-pointer hover:bg-lightGrey ease transition duration-500 ${router?.query?.id === val._id ? "bg-mainPurple text-white hover:bg-mainPurple" : ""
@@ -31,10 +41,17 @@ const BoardNamesTag = () => {
 
     return (
         <div>
-            <div className='font-bold text-sm text-mediumGrey tracking-widest pl-6 pt-7 pb-8 uppercase'>all boards ({user ? user?.boards?.length : 0})</div>
+            <div className='font-bold text-sm text-mediumGrey tracking-widest pl-6 pt-7 pb-2 uppercase'>all boards ({user ? filteredSearch?.length : 0})</div>
+
+          <Search setFilteredSearch={setFilteredSearch} />
+
             <div className='h-[300px] scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent overflow-y-scroll mb-2'>
                 {boardNameTag}
-                </div>
+                {filteredSearch && filteredSearch.length === 0 && (
+                    <p className='text-xs py-8 text-center font-thin opacity-80'>No boards found with <br /> the provided search term.</p>
+                )}
+
+            </div>
             <CreateNewBoardCTA />
         </div>
     )

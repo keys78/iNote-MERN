@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/network/hooks'
+import { useAppDispatch, useAppSelector } from '@/network/hooks'
 import React, { useRef, useState } from 'react'
 import Modal from '../Modal'
 import Ratings from './Ratings'
@@ -8,10 +8,14 @@ import Image from 'next/image'
 import useOnClickOutside from '@/hooks/useOnClickOutside'
 import PairSystem from './Pair/PairSystem'
 import { useRouter } from 'next/router'
+import { Power } from 'phosphor-react'
+import { resetUser } from '@/features/private/user/userSlice'
+import { resetBoard } from '@/features/private/boards/boardSlice'
 
 const UserActions = () => {
     const { user } = useAppSelector(state => state.user)
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [showModal, setShowModal] = useState<boolean>(false)
     const [isUser, setIsUser] = useState<boolean>(false)
     const [isRating, setIsRating] = useState<boolean>(false)
@@ -19,6 +23,17 @@ const UserActions = () => {
     const modalRef = useRef(null);
     const handleClickOutside = () => { setShowModal(!showModal) }
     useOnClickOutside(modalRef, handleClickOutside)
+
+    function logout() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('countdown_start');
+        window.location.href = '/auth/login';
+        setTimeout(() => {
+            dispatch(resetUser());
+            dispatch(resetBoard());
+        }, 3000);
+    }
+
 
 
     return (
@@ -40,11 +55,17 @@ const UserActions = () => {
                 {showModal &&
                     <div ref={modalRef} className='rounded-[6px]  border z-10 border-lightGreyLine dark:border-darkGreyLine shadow-sm absolute right-0 top-14 bg-white dark:bg-darkGrey dark:text-whitedark:bg-darkGrey dark:text-white w-[300px]'>
                         <ul>
-                            <li onClick={() => { router.push('/user/dashboard'); setShowModal(false) }} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Dashboard</li>
                             <PairSystem setShowModal={setShowModal} />
+                            <li onClick={() => { router.push('/user/dashboard'); setShowModal(false) }} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Dashboard</li>
                             <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Profile</li>
                             <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Change Password</li>
                             <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Rate App</li>
+                            <div onClick={logout} className='cursor-pointer rounded flex py-2 space-x-6 dark:text-white justify-center items-center bg-lightGrey dark:bg-veryDarkGrey mt-8'>
+                                <button className='flex items-left space-x-3'>
+                                    <Power size={22} color="#e50a24" weight="regular" />&nbsp;&nbsp;&nbsp;
+                                    <span className=''>Logout</span>
+                                </button>
+                            </div>
                         </ul>
                     </div>
                 }
