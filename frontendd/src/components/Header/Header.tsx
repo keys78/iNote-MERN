@@ -98,7 +98,7 @@ const Header = () => {
 
           <div className='flex items-center space-x-4'>
             <ArrowClockwise className={`${isClicked && 'refresh-app'} cursor-pointer`} onClick={refreshPage} size={32} color="#635FC7" weight="fill" />
-            <FullscreenComponent />
+            {width > 767  && <FullscreenComponent /> }
             {user?.boards?.length! > 0 && router?.query.id && (
               width > 768 ? (
                 <Button
