@@ -1,6 +1,10 @@
 
 interface IProps {
-    text: string
+    text: string,
+    type?: string
+    width?: string,
+    padding?: string
+    color?: string
 }
 
 const Button = ({ text }:IProps) => {
