@@ -126,14 +126,27 @@ const Login = () => {
                                     </div>
 
                                     <br />
-                                    <div className="my-2 lg:block flex justify-center items-center">
+                                    <div className="my-2 grid grid-cols-6 gap-x-3">
                                         <button
                                             disabled={isLoading}
                                             type='submit'
-                                            className='gen-btn-class w-full py-3 rounded-[5px] text-[18px]'
+                                            className='gen-btn-class w-full py-3 rounded-[5px] text-[18px] col-span-4'
                                         >
-                                            {!isLoading ? 'Log in' : <img className='h-[24px] w-[24px] mx-auto' src='/assets/loading_gif2.gif'/>}
+                                            {!isLoading ? 'Log in' : <img className='h-[24px] w-[24px] mx-auto' src='/assets/loading_gif2.gif' />}
                                         </button>
+                                        <button
+                                            type='button'
+                                            className='gen-btn-class w-full py-3 rounded-[5px] text-[18px] col-span-2'
+                                            onClick={() => {
+                                                props.setValues({
+                                                    email: 'demo@email.com',
+                                                    password: 'Demo123#'
+                                                });
+                                            }}
+                                        >
+                                            DEMO
+                                        </button>
+
                                     </div>
 
                                     <div className='text-center pt-4'>

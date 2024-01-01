@@ -2,13 +2,13 @@ import TextInput from '../shared/TextInput'
 import { Formik, FieldArray, Form } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
-import Button from '../shared/Button'
 import TextArea from '../shared/TextArea'
 import { useAppDispatch, useAppSelector } from '../../network/hooks'
 import { addTask, getBoard } from '@/features/private/boards/boardSlice'
 import StatusDropdown from '../shared/StatusDropdown'
 import PriorityDropdown from '../shared/PriorityDropdown'
 import { AnimatePresence } from 'framer-motion'
+import Button from '../Button'
 
 interface IProps {
     setShowModal: any

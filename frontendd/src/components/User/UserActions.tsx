@@ -58,7 +58,7 @@ const UserActions = () => {
                             <PairSystem setShowModal={setShowModal} />
                             <li onClick={() => { router.push('/user/dashboard'); setShowModal(false) }} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Dashboard</li>
                             <li onClick={() => setIsUser(!isUser)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Profile</li>
-                            <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Change Password</li>
+                            {user?.email !== "demo@email.com" ? <li onClick={() => setIsChangePasswordModal(!isChangePasswordModal)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Change Password</li> : <button className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer w-full text-left cursor-not-allowed'>Change Password</button>}
                             <li onClick={() => setIsRating(!isRating)} className='py-2 px-3 text-[14px] hover:bg-lightGreyLine dark:hover:bg-veryDarkGrey cursor-pointer'>Rate App</li>
                             <div onClick={logout} className='cursor-pointer rounded flex py-2 space-x-6 dark:text-white justify-center items-center bg-lightGrey dark:bg-veryDarkGrey mt-8'>
                                 <button className='flex items-left space-x-3'>
